@@ -1,0 +1,56 @@
+/* src/components/Footer.css */
+.footer-container {
+    background-color: #f9f9f9;
+    padding: 40px 0;
+    border-top: 1px solid #e8e8e8;
+    position: relative;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: flex-start; /* Căn các phần tử về bên trái */
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    gap: 40px; /* Khoảng cách giữa logo và các cột */
+}
+
+.footer-logo {
+    flex: 1;
+    text-align: left; /* Căn logo về bên trái */
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.footer-logo img {
+    width: 220px; /* Điều chỉnh kích thước logo nếu cần */
+}
+
+.footer-column {
+    flex: 1;
+}
+
+.footer-column h3 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.footer-column ul li:hover {
+    color: #1890ff;
+}

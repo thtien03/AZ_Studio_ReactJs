@@ -1,0 +1,16 @@
+.wrapper-default {
+    display: flex;
+    flex-direction: column;
+  
+   
+  }
+  .wrapper-default .container-client {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    padding-top: 141px;
+  }
+
+  .wrapper-default .content {
+    flex: 1;
+  }
