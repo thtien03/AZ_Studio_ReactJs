@@ -1,115 +1,114 @@
 /* Container tổng cho toàn bộ nội dung */
 .container {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Tạo bóng cho container */
-    max-width: 1700px;
-    margin: 20px auto; /* Căn giữa container */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Tạo bóng cho container */
+  max-width: 1700px;
+  margin: 20px auto; /* Căn giữa container */
 }
 
 /* Tiêu đề của phần thông tin liên hệ */
 header h2 {
-    text-align: left;
-    font-size: 35px;
-    color:  #2c2e2f;
-    margin-bottom: 20px;
+  text-align: left;
+  font-size: 32px;
+  color: #1b1c1c;
+  margin-bottom: 20px;
 }
 
-  
 /* Thiết lập bố cục flex cho phần contact và form */
 .contact-section {
-    display: flex;
-    flex-wrap: wrap; /* Đảm bảo bố cục không tràn khi màn hình nhỏ */
-    gap: 30px; /* Khoảng cách giữa các phần tử trong flex */
-    margin-top: 25px;
+  display: flex;
+  flex-wrap: wrap; /* Đảm bảo bố cục không tràn khi màn hình nhỏ */
+  gap: 30px; /* Khoảng cách giữa các phần tử trong flex */
+  margin-top: 25px;
 }
 
 /* Phần thông tin liên hệ */
 .contact-info {
-    flex: 1; /* Chiếm toàn bộ chiều rộng trên màn hình nhỏ hơn */
-    font-size: 18px;
-    line-height: 1.5; /* Tăng khoảng cách giữa các dòng */
+  flex: 1; /* Chiếm toàn bộ chiều rộng trên màn hình nhỏ hơn */
+  font-size: 18px;
+  line-height: 1.5; /* Tăng khoảng cách giữa các dòng */
 }
 
 /* Phần tử chứa từng mục liên hệ (icon và text) */
 .contact-item {
-    display: flex;
-    align-items: center; /* Căn giữa theo chiều dọc giữa icon và text */
-    margin-bottom: 15px;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc giữa icon và text */
+  margin-bottom: 15px;
 }
 
 /* Nền tròn bao quanh biểu tượng */
 .icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; /* Tạo hình tròn */
-    margin-right: 15px; /* Khoảng cách giữa biểu tượng và văn bản */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Tạo hình tròn */
+  margin-right: 15px; /* Khoảng cách giữa biểu tượng và văn bản */
 }
 
 /* Định dạng cho biểu tượng bên trong nền tròn */
 .icon {
-    color: white;
-    font-size: 20px; /* Kích thước của biểu tượng */
+  color: white;
+  font-size: 20px; /* Kích thước của biểu tượng */
 }
 
 /* Form đặt lịch */
 .booking-form {
-    flex: 1; /* Chiếm toàn bộ chiều rộng khi màn hình nhỏ hơn */
-    min-width: 300px; /* Đảm bảo form không quá nhỏ */
+  flex: 1; /* Chiếm toàn bộ chiều rộng khi màn hình nhỏ hơn */
+  min-width: 300px; /* Đảm bảo form không quá nhỏ */
 }
 
 /* Mỗi nhóm input trong form */
 .form-group {
-    margin-bottom: 20px; /* Khoảng cách giữa các nhóm input */
-    width: 80%; /* Chiếm toàn bộ chiều rộng */
+  margin-bottom: 20px; /* Khoảng cách giữa các nhóm input */
+  width: 80%; /* Chiếm toàn bộ chiều rộng */
 }
 
 /* Định dạng cho các trường input và textarea */
 input, textarea {
-    width: 100%; /* Đảm bảo các trường chiếm toàn bộ chiều rộng form */
-    padding: 12px; /* Tạo không gian bên trong input */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: border-color 0.3s; /* Tạo hiệu ứng chuyển đổi màu biên khi focus */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Thêm bóng cho input */
+  width: 100%; /* Đảm bảo các trường chiếm toàn bộ chiều rộng form */
+  padding: 12px; /* Tạo không gian bên trong input */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s; /* Tạo hiệu ứng chuyển đổi màu biên khi focus */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Thêm bóng cho input */
 }
 
 /* Định dạng màu sắc cho placeholder */
 input::placeholder, textarea::placeholder {
-    color: #aaa;
+  color: #aaa;
 }
 
 /* Hiệu ứng khi focus vào input và textarea */
 input:focus, textarea:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Tạo hiệu ứng bóng khi focus */
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Tạo hiệu ứng bóng khi focus */
 }
 
 /* Định dạng cho textarea */
 textarea {
-    height: 100px; /* Chiều cao mặc định cho textarea */
-    resize: vertical; /* Chỉ cho phép thay đổi kích thước theo chiều dọc */
+  height: 100px; /* Chiều cao mặc định cho textarea */
+  resize: vertical; /* Chỉ cho phép thay đổi kích thước theo chiều dọc */
 }
 
 /* Nút submit của form */
 .submit-btn {
-    width: 25%; /* Đặt nút submit rộng bằng form */
-    padding: 12px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s; /* Hiệu ứng khi di chuột qua nút */
+  width:25%; /* Đặt nút submit rộng bằng form */
+  padding: 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Hiệu ứng khi di chuột qua nút */
 }
 
 .submit-btn:hover {
-    background-color: #555; /* Màu sắc của nút khi hover */
+  background-color: #555; /* Màu sắc của nút khi hover */
 }
