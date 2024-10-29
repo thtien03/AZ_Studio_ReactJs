@@ -1,0 +1,84 @@
+/* Container chính của trang */
+.dress-style-container {
+  display: flex;
+  flex-direction: row-reverse; /* Đảo ngược vị trí của bộ lọc và gallery */
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* Phong cách cho gallery của các kiểu váy */
+.dress-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 70%; /* Điều chỉnh chiều rộng */
+}
+
+.dress-item {
+  width: 30%; /* Điều chỉnh chiều rộng mỗi item váy */
+  text-align: center;
+}
+
+.dress-image {
+  width: 100%;
+  height: 450px; /* Chiều cao cố định để hình ảnh đều nhau */
+  object-fit: cover; /* Cắt ảnh để vừa khung mà không méo */
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.dress-image:hover {
+  transform: scale(1.05);
+}
+
+.dress-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Phong cách cho phần bộ lọc */
+.filter-section {
+  width: 20%; /* Điều chỉnh chiều rộng của phần bộ lọc */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.filter-option {
+  margin-bottom: 15px;
+}
+
+.filter-option label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.filter-option select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.apply-button {
+  width: 25%;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.apply-button:hover {
+  background-color: #555;
+}
