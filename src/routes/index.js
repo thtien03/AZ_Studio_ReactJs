@@ -1,18 +1,39 @@
 import MainContent from "../pages/home/Home";
 import Service from "../pages/service/Service";
-
+import Contact from "../pages/contact/Contact";
+import Pricing from "../pages/service/Pricing";
+import Album from "../pages/service/Album";
+import Photography from "../pages/portfolio/Photography";
 
 const publicRoutes = [
   {
     path: '/',
     component: MainContent,
   },
-
-
   {
     path: '/service',
     component: Service,
   },
+  {
+    path: '/service/pricing',
+    component: Pricing,
+  },
+  {
+    path: '/service/album',
+    component: Album,
+  },
+
+  
+  {
+    path: '/contact',
+    component: Contact,
+  },
+  {
+    path: '/portfolio/photography',
+    component: Photography,
+  },
 ];
+
 const privateRoutes = [];
+
 export { publicRoutes, privateRoutes };
