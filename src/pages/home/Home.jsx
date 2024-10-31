@@ -31,7 +31,7 @@ function MainContent() {
             </div>
 
             <div className="about-section">
-                <h2>About Us</h2>
+                <h2>Về chúng tôi</h2>
                 <p>
                     REN Bridal Studio là một trong những công ty cung cấp dịch vụ cưới hàng đầu Việt Nam. Chúng tôi sở hữu hệ thống showroom cưới tại 3 tỉnh thành lớn khu vực miền Nam: TP. Hồ Chí Minh, Cần Thơ và Đà Lạt.
                 </p>
@@ -65,6 +65,10 @@ function MainContent() {
                     </div>
                 </div>
             </div>
+
+
+            {/* =========================Sản Phẩm================================ */}
+
         <div className="product-gallery">
                 <h2>Sản Phẩm</h2>
 
@@ -87,19 +91,44 @@ function MainContent() {
                     </div>
                     <div className="product-card">
                         <img src={imgService1} alt="Product 2" className="product-image" />
+                        <div className="product-overlay">
+                            <p>Concept Tết</p>
+                            <p>Model: Quỳnh Như</p>
+                        </div>
                     </div>
                     <div className="product-card">
                         <img src={imgService2} alt="Product 3" className="product-image" />
+                        <div className="product-overlay">
+                            <p>Concept Tết</p>
+                            <p>Model: Quỳnh Như</p>
+                        </div>
                     </div>
                     <div className="product-card">
                         <img src={imgService1} alt="Product 4" className="product-image" />
+                        <div className="product-overlay">
+                            <p>Concept Tết</p>
+                            <p>Model: Quỳnh Như</p>
+                        </div>
                     </div>
                     <div className="product-card">
                         <img src={imgabout2} alt="Product 5" className="product-image" />
                     </div>
                     <div className="product-card">
+                        <img src={imgService1} alt="Product 4" className="product-image" />
+                    </div>
+                    <div className="product-card">
                         <img src={imgabout2} alt="Product 6" className="product-image" />
                     </div>
+                    <div className="product-card">
+                        <img src={imgabout2} alt="Product 6" className="product-image" />
+                    </div>
+                    <div className="product-card">
+                        <img src={imgabout2} alt="Product 6" className="product-image" />
+                    </div>
+                    <div className="product-card">
+                        <img src={imgService1} alt="Product 4" className="product-image" />
+                    </div>
+                    
                 </div>
             </div>
 
