@@ -5,17 +5,24 @@ import Pricing from "../pages/service/Pricing";
 import Album from "../pages/service/Album";
 import Photography from "../pages/portfolio/Photography";
 import DressStyle from "../pages/dress/DressStyle";
-
+import About from "../pages/about/About";
 
 const publicRoutes = [
   {
     path: '/',
     component: MainContent,
   },
+
+  {
+    path: '/about',
+    component: About,
+  },
+
   {
     path: '/service',
     component: Service,
   },
+  
   {
     path: '/service/pricing',
     component: Pricing,
@@ -28,6 +35,7 @@ const publicRoutes = [
     path: '/contact',
     component: Contact,
   },
+
   {
     path: '/portfolio/photography',
     component: Photography,

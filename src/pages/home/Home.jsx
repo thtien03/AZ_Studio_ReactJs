@@ -2,7 +2,7 @@ import React from 'react';
 import './Home.css';
 import iconPhone from '../../assets/images/phone-icon.png';
 import iconChat from '../../assets/images/chat-icon.png';
-import imgBackground from '../../assets/images/background.jpg';
+import imgBackground from '../../assets/images/Nen-home.jpg';
 import imgabout1 from '../../assets/images/THT_6762.jpg';
 import imgabout2 from '../../assets/images/cardabout2.jpg';
 import imgabout3 from '../../assets/images/card-about3.jpg';
