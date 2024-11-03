@@ -26,12 +26,12 @@ function Header() {
 
     return (
         <div className="header-container">
-            <div className="logo">
+            <div onClick={()=> navigate('/')} className="logo">
                 <img src={logoImage} alt="A-Z Studio" className="logo-image" />
             </div>
             <div className="navbar">
                 <Menu mode="horizontal" theme="light" overflowedIndicator="...">
-                    <Menu.Item key="about" onClick={() => navigate('/about')}>Về chúng tôi</Menu.Item>
+                    <Menu.Item key="about" onClick={() => navigate('/')}>Trang chủ</Menu.Item>
                     
                     <Dropdown overlay={servicesSubmenu} trigger={['click']} placement="bottomCenter">
                         <Menu.Item key="services">Dịch vụ</Menu.Item>
