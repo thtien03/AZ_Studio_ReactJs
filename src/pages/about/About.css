@@ -1,0 +1,91 @@
+.about-container {
+    width: 100%; /* Đặt chiều rộng cho toàn bộ phần .about-container */
+}
+
+.cover-image-container {
+    width: 100%; /* Chiều rộng đầy đủ cho phần chứa ảnh nền */
+    height: 500px; /* Chiều cao của ảnh nền, có thể chỉnh sửa theo ý muốn */
+    overflow: hidden; /* Ẩn phần nội dung vượt quá chiều cao đã đặt */
+}
+
+.cover-image {
+    width: 100%; /* Đặt chiều rộng đầy đủ cho ảnh nền */
+    height: 100%; /* Đặt chiều cao đầy đủ để ảnh nền bao phủ toàn bộ container */
+    object-fit: cover; /* Giữ tỉ lệ ảnh và cắt ảnh nếu cần để phủ đầy container */
+}
+
+.about-section {
+    padding: 40px; /* Khoảng cách bên trong cho phần about */
+    text-align: center; /* Căn giữa nội dung văn bản */
+}
+
+.about-section h2 {
+    font-size: 2em; /* Kích thước chữ cho tiêu đề h2 */
+    margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+}
+
+.about-section p {
+    font-size: 1.1em; /* Kích thước chữ cho đoạn văn */
+    color: #555; /* Màu sắc chữ cho đoạn văn */
+    margin-bottom: 20px; /* Khoảng cách dưới đoạn văn */
+    line-height: 1.6; /* Chiều cao dòng cho đoạn văn */
+}
+
+.about-section h1 {
+    font-size: 1.5em; /* Kích thước chữ cho tiêu đề h1 */
+    color: #333; /* Màu sắc chữ cho tiêu đề h1 */
+    font-weight: 300; /* Độ dày của chữ */
+    margin-bottom: 30px; /* Khoảng cách dưới tiêu đề */
+}
+
+.about-card-container {
+    display: flex; /* Hiển thị các phần tử con theo hàng ngang */
+    justify-content: space-around; /* Chia đều khoảng cách giữa các phần tử con */
+    gap: 20px; /* Khoảng cách giữa các thẻ */
+    flex-wrap: wrap; /* Tự động xuống hàng nếu không đủ không gian */
+}
+
+.about-card {
+    position: relative; /* Vị trí tương đối để chứa các phần tử con tuyệt đối */
+    width: 300px; /* Chiều rộng của từng thẻ .about-card */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều rộng/chiều cao */
+    border-radius: 8px; /* Bo tròn góc các thẻ */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ cho thẻ */
+}
+
+.about-image {
+    width: 100%; /* Chiều rộng đầy đủ cho ảnh bên trong thẻ */
+    height: auto; /* Chiều cao tự động để giữ tỉ lệ */
+    display: block; /* Hiển thị như block để tránh khoảng trắng */
+    transition: transform 0.3s ease; /* Tạo hiệu ứng mượt mà khi thay đổi kích thước */
+}
+
+.about-card:hover .about-image {
+    transform: scale(1.1); /* Phóng to ảnh khi hover */
+}
+
+.overlay {
+    position: absolute; /* Vị trí tuyệt đối để chồng lên ảnh */
+    bottom: 0; /* Canh dưới cùng của thẻ */
+    background: rgba(0, 0, 0, 0.6); /* Nền đen mờ cho lớp phủ */
+    color: #fff; /* Màu chữ trắng cho lớp phủ */
+    width: 100%; /* Chiều rộng đầy đủ */
+    padding: 20px; /* Khoảng cách bên trong lớp phủ */
+    text-align: center; /* Căn giữa nội dung */
+    opacity: 0; /* Đặt độ mờ ban đầu là 0 (ẩn) */
+    transition: opacity 0.3s ease; /* Hiệu ứng mượt mà khi thay đổi độ mờ */
+}
+
+.about-card:hover .overlay {
+    opacity: 1; /* Hiển thị lớp phủ khi hover */
+}
+
+.about-title {
+    font-size: 1.2em; /* Kích thước chữ cho tiêu đề trong lớp phủ */
+    margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+}
+
+.about-detail {
+    font-size: 0.9em; /* Kích thước chữ cho chi tiết trong lớp phủ */
+    line-height: 1.4; /* Chiều cao dòng cho chi tiết */
+}

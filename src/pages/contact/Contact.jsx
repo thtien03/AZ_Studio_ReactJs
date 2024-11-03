@@ -5,7 +5,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import './Contact.css';
-
+import nenContact from '../../assets/images/Nen-Contact.jpg';
 
 const Contact = () => {
   const [date, setDate] = useState('');
@@ -34,7 +34,12 @@ const Contact = () => {
   };
 
   return (
-    <div className="container">
+    <div className="contact-container">
+      {/* Cover Image Section */}
+      <div className="cover-image-container">
+        <img src={nenContact} alt="Contact Cover" className="cover-image" />
+      </div>
+
       <header>
         <h2>A-Z Studio</h2>
       </header>

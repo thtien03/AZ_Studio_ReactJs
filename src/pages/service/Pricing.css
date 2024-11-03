@@ -4,13 +4,13 @@
 }
 
 .cover-image {
-    width: 100vw; /* Trải rộng toàn bộ chiều ngang màn hình */
-    height: 100%; /* Phủ hết chiều cao của container */
-    object-fit: cover;
+    width: 100%;
+    height: auto; /* Giữ nguyên tỷ lệ khung hình */
     display: block;
     position: absolute;
     top: 0;
-    left: 0; /* Đảm bảo hình ảnh căn sát lề trái */
+    left: 0;
+    object-fit: cover; /* Cắt ảnh thay vì kéo dãn */
 }
 
 
@@ -34,7 +34,8 @@
 .pricing-item, .wedding-item {
     position: relative;
     width: 300px;
-    height: 300px;
+    height: auto; /* Để chiều cao tự động điều chỉnh giữ tỷ lệ khung hình */
+    max-height: 400px; /* Thiết lập chiều cao tối đa để kiểm soát kích thước container */
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
