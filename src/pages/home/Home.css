@@ -69,23 +69,15 @@
 }
 
 .about-section h2 {
-    font-size: 2.5em;
-    color: #333;
-<<<<<<< HEAD
-=======
-    text-align: left;
-}
-
-.about-section h2 {
     font-size: 35px;
-    margin-bottom: 15px;
     color: #444;
+    margin-bottom: 15px;
+    text-align: left;
 }
 
 .about-section p {
     font-size: 16px;
     line-height: 1.6;
->>>>>>> 6d7797533c22cd270db97240483dfc17450a7137
     margin-bottom: 20px;
 }
 
@@ -168,14 +160,10 @@
 }
 .product-gallery h2{
     text-align: center;
-<<<<<<< HEAD
+    font-size: 35px;
+    margin-bottom: 15px;
+    color: #444;
     padding: 40px 20px;
-}
-
-.product-gallery h2 {
-    font-size: 2.5em;
-    color: #252424;
-    margin-bottom: 20px;
 }
 
 .category-menu {
@@ -185,28 +173,14 @@
     margin-bottom: 30px;
 }
 
-=======
-    font-size: 35px;
-    margin-bottom: 15px;
-    color: #444;
-}
-
-.category-menu {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
->>>>>>> 6d7797533c22cd270db97240483dfc17450a7137
 .category-button {
     padding: 10px 20px;
     cursor: pointer;
-<<<<<<< HEAD
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
     font-weight: bold;
-    transition: color 0.3s;
-=======
->>>>>>> 6d7797533c22cd270db97240483dfc17450a7137
 }
 
 .category-button.active {
@@ -215,24 +189,14 @@
 }
 
 .product-grid {
-<<<<<<< HEAD
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Giảm chiều rộng tối thiểu của các thẻ */
-    gap: 15px;
-    padding: 0 20px;
-=======
-    column-count: 3; /* Số cột của masonry */
+    column-count: 3;
     column-gap: 15px;
->>>>>>> 6d7797533c22cd270db97240483dfc17450a7137
 }
 
 .product-card {
     margin-bottom: 15px;
-    break-inside: avoid; /* Tránh chia cắt các phần tử trong cột */
+    break-inside: avoid;
     position: relative;
-<<<<<<< HEAD
-    width: 100%;
-    height: 300px; /* Giảm chiều cao của thẻ */
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -240,19 +204,8 @@
     cursor: pointer;
 }
 
-.product-card:hover {
-    transform: scale(1.05);
-=======
->>>>>>> 6d7797533c22cd270db97240483dfc17450a7137
-}
-
 .product-image {
     width: 100%;
-<<<<<<< HEAD
-    height: 100%;
-    object-fit: cover;
-=======
->>>>>>> 6d7797533c22cd270db97240483dfc17450a7137
     display: block;
     border-radius: 8px;
     transition: transform 0.3s ease;
@@ -280,7 +233,6 @@
     opacity: 1;
 }
 
-<<<<<<< HEAD
 .product-overlay p {
     margin: 5px 0;
     font-size: 0.9em; /* Giảm kích thước chữ */
@@ -360,25 +312,6 @@
 .service-button:hover {
     background-color: #e05500;
 }
-=======
-
-.category-button {
-    padding: 10px 20px;
-    cursor: pointer;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.category-button:hover {
-    background-color: #ddd;
-}
-
-.category-button.active {
-    background-color: #333;
-    color: #fff;
-}
 
 @media (max-width: 992px) {
     .product-grid {
@@ -391,6 +324,3 @@
         column-count: 1;
     }
 }
-
-
->>>>>>> 6d7797533c22cd270db97240483dfc17450a7137
