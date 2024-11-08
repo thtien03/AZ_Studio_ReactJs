@@ -1,6 +1,7 @@
 // src/components/Header.js
 import React from 'react';
 import { Menu, Dropdown } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import './Header.css';
 import logoImage from '../../assets/images/logo.png';
 import { useNavigate } from 'react-router-dom';
@@ -24,13 +25,20 @@ function Header() {
         </Menu>
     );
 
+    // Tạo menu con cho User dropdown
+    const userSubmenu = (
+        <Menu>
+            <Menu.Item key="login" onClick={() => navigate('/auth/login')}>Đăng nhập</Menu.Item>
+        </Menu>
+    );
+
     return (
         <div className="header-container">
-            <div onClick={()=> navigate('/')} className="logo">
+            <div onClick={() => navigate('/')} className="logo">
                 <img src={logoImage} alt="A-Z Studio" className="logo-image" />
             </div>
             <div className="navbar">
-                <Menu mode="horizontal" theme="light" overflowedIndicator="...">
+                <Menu mode="horizontal" theme="light" overflowedIndicator="..." style={{ display: 'flex', alignItems: 'center' }}>
                     <Menu.Item key="about" onClick={() => navigate('/')}>Trang chủ</Menu.Item>
                     
                     <Dropdown overlay={servicesSubmenu} trigger={['click']} placement="bottomCenter">
@@ -44,6 +52,12 @@ function Header() {
                     <Menu.Item key="dress-style" onClick={() => navigate('/dress-style')}>Váy Cưới</Menu.Item>
                     <Menu.Item key="tips" onClick={() => navigate('/tips')}>Stories & Tips</Menu.Item>
                     <Menu.Item key="contact" onClick={() => navigate('/contact')}>Liên hệ</Menu.Item>
+
+                    <Dropdown overlay={userSubmenu} trigger={['click']} placement="bottomRight">
+                        <Menu.Item key="user" style={{ marginLeft: 'auto' }}>
+                            <UserOutlined style={{ fontSize: '20px' }} />
+                        </Menu.Item>
+                    </Dropdown>
                 </Menu>
             </div>
         </div>

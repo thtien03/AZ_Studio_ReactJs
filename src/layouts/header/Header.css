@@ -15,7 +15,7 @@
 }
 
 .logo {
-    margin-bottom: 1px;
+    margin-right: 20px;
 }
 
 .logo-image {
@@ -27,18 +27,31 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    margin-top: 1px;
+    position: relative;
+    align-items: center; /* Căn giữa theo chiều dọc */
 }
 
+/* Đảm bảo menu không có background hoặc đường viền dưới */
 .navbar .ant-menu {
     background-color: transparent;
     border-bottom: none;
 }
 
+/* Style cho từng item trong menu */
 .navbar .ant-menu-item {
     color: #000;
+    text-decoration: none !important; /* Loại bỏ gạch chân */
+    border-bottom: none !important; /* Loại bỏ đường viền dưới */
 }
 
 .navbar .ant-menu-item:hover {
-    color: #1890ff;
+    color: #7faeda !important; /* Màu khi hover */
+    text-decoration: none !important; /* Đảm bảo không có gạch chân khi hover */
+    border-bottom: none !important; /* Loại bỏ đường viền dưới khi hover */
+}
+
+.navbar .ant-menu-item-selected {
+    color: #7faeda !important; /* Màu khi được chọn */
+    text-decoration: none !important; /* Đảm bảo không có gạch chân */
+    border-bottom: none !important; /* Loại bỏ border dưới khi chọn */
 }

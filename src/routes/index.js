@@ -6,6 +6,9 @@ import Album from "../pages/service/Album";
 import Photography from "../pages/portfolio/Photography";
 import DressStyle from "../pages/dress/DressStyle";
 import About from "../pages/about/About";
+import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 
 const publicRoutes = [
   {
@@ -44,6 +47,21 @@ const publicRoutes = [
   {
     path: '/dress-style',
     component: DressStyle,
+  },
+
+  {
+    path: '/auth/login',
+    component: Login,
+  },
+
+  {
+    path: '/auth/register',
+    component: Register,
+  },
+
+  {
+    path: '/auth/forgot-password',
+    component: ForgotPassword,
   },
 ];
 

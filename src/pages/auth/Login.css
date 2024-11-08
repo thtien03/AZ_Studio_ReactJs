@@ -1,0 +1,161 @@
+/* Container chính cho form đăng nhập */
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề "Login" */
+.login-title {
+    font-size: 25px;
+    font-weight: bold;
+    color: #464242;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Các trường nhập liệu */
+.login-container input[type="email"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+/* Container cho checkbox và quên mật khẩu */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Căn chỉnh Remember me với checkbox */
+.checkbox-container .form-check {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+/* Nút đăng nhập */
+.login-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+/* Separator line */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.separator::before {
+    margin-right: 10px;
+}
+
+.separator::after {
+    margin-left: 10px;
+}
+
+/* Nút mạng xã hội */
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-button .icon {
+    margin-right: 8px;
+}
+
+.social-button.facebook {
+    background-color: #4267B2;
+}
+
+.social-button.google {
+    background-color: #DB4437;
+}
+
+.social-button.facebook:hover {
+    background-color: #365899;
+}
+
+.social-button.google:hover {
+    background-color: #c23321;
+}
+
+/* Style cho text "Forgot password?" */
+.forgot-password {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Style cho text liên kết "Register Here" */
+.login-container p a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-container p a:hover {
+    text-decoration: underline;
+}
+
+/* Style cho phần text "Not a member?" */
+.login-container p {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
