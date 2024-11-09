@@ -1,0 +1,107 @@
+/* Container chính */
+.user-management-container {
+    padding: 24px;
+    background-color: #f5f5f5; /* Màu nền nhạt */
+    min-height: 100vh;
+  }
+  
+  /* Tiêu đề */
+  .user-management-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Bảng */
+  .ant-table {
+    background-color: #393535;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+
+  }
+  
+  .ant-table-thead > tr > th {
+    background-color: #d7d4d4; /* Màu nền cho header */
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #616060; /* Thêm viền đen cho header */
+  }
+  
+  .ant-table-tbody > tr > td {
+    text-align: center;
+    border: 1px solid #636161; /* Thêm viền đen cho các ô */
+  }
+  
+  /* Các nút thao tác */
+  .ant-btn {
+    font-weight: 500;
+  }
+  
+  .ant-btn-primary {
+    background-color: #1890ff;
+    border-color: #1890ff;
+  }
+  
+  .ant-btn-dangerous {
+    background-color: #ff4d4f;
+    border-color: #ff4d4f;
+  }
+  
+  /* Nút Khóa và Mở Khóa */
+  .ant-btn {
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .ant-btn:hover {
+    opacity: 0.9;
+  }
+  
+  /* Modal */
+  .ant-modal-title {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .ant-form-item-label > label {
+    font-weight: 500;
+  }
+  
+  /* Form */
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+  
+  .ant-form-item input,
+  .ant-form-item .ant-select-selector {
+    height: 40px;
+    border-radius: 4px;
+  }
+  
+/* Đảm bảo vị trí của ant-message ở góc phải trên cùng */
+.ant-message {
+  position: fixed !important; /* Đảm bảo vị trí cố định */
+  top: 20px !important;       /* Khoảng cách từ trên xuống */
+  right: 20px !important;     /* Khoảng cách từ bên phải */
+  z-index: 1000 !important;   /* Đặt z-index cao để hiển thị trên các phần tử khác */
+  width: auto !important;     /* Đảm bảo kích thước phù hợp */
+  max-width: 300px !important; /* Giới hạn chiều rộng nếu cần */
+}
+
+/* Đảm bảo các lớp con của ant-message được định vị đúng */
+.ant-message-notice {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ant-message-notice-content {
+  position: relative !important;
+  right: 0 !important;
+  top: 0 !important;
+  background-color: #ffffff; /* Có thể tùy chỉnh màu nền */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+}
+

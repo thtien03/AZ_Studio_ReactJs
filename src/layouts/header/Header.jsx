@@ -29,6 +29,13 @@ function Header() {
     const userSubmenu = (
         <Menu>
             <Menu.Item key="login" onClick={() => navigate('/auth/login')}>Đăng nhập</Menu.Item>
+            <Menu.Divider />
+            <Menu.SubMenu key="dashboard" title="Bảng điều khiển">
+                <Menu.Item key="users" onClick={() => navigate('/admin/user-management')}>Quản lý người dùng</Menu.Item>
+                <Menu.Item key="bookings" onClick={() => navigate('/admin/bookings-management')}>Quản lý đặt lịch</Menu.Item>
+                <Menu.Item key="orders" onClick={() => navigate('/admin/orders-management')}>Quản lý đơn hàng</Menu.Item>
+                <Menu.Item key="revenue" onClick={() => navigate('/admin/revenue-report')}>Báo cáo doanh thu</Menu.Item>
+            </Menu.SubMenu>
         </Menu>
     );
 

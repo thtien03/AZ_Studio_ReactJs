@@ -9,6 +9,12 @@ import About from "../pages/about/About";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
+import Dashboard from "../pages/admin/Dashboard";
+import UserManagement from "../pages/admin/UserManagement";
+import BookingManagement from "../pages/admin/BookingManagement";
+import OrderManagement from "../pages/admin/OrderManagement";
+import ImageStorage from "../pages/admin/ImageStorage";
+import RevenueReport from "../pages/admin/RevenueReport";
 
 const publicRoutes = [
   {
@@ -62,6 +68,36 @@ const publicRoutes = [
   {
     path: '/auth/forgot-password',
     component: ForgotPassword,
+  },
+
+  {
+    path: '/admin',
+    component: Dashboard,
+  },
+
+  {
+    path: '/admin/user-management',
+    component: UserManagement,
+  },
+
+  {
+    path: '/admin/bookings-management',
+    component: BookingManagement,
+  },
+
+  {
+    path: '/admin/orders-management',
+    component: OrderManagement,
+  },
+
+  {
+    path: '/admin/images-storage',
+    component: ImageStorage,
+  },
+
+  {
+    path: '/admin/revenue-report',
+    component: RevenueReport,
   },
 ];
 
