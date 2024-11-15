@@ -1,0 +1,63 @@
+/* Bảng */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  td {
+    background-color: #f9f9f9;
+  }
+  
+  /* Hiệu ứng hover cho hàng */
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  h1{
+    text-align: center;
+  }
+  
+  /* Nút */
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  button:hover {
+    background-color: #ddd;
+    transform: scale(1.05);
+  }
+  
+  button:active {
+    background-color: #ccc;
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    table {
+      font-size: 14px;
+    }
+  
+    td, th {
+      padding: 8px;
+    }
+  
+    button {
+      padding: 8px 16px;
+    }
+  }
+  

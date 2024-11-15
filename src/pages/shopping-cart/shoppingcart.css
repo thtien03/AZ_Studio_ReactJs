@@ -1,0 +1,39 @@
+/* Thêm CSS cho giỏ hàng */
+.ant-table-thead > tr > th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .ant-table-tbody > tr > td {
+    vertical-align: middle;
+  }
+  
+  .ant-table-row {
+    cursor: pointer;
+  }
+  
+  .ant-btn-primary {
+    background-color: #4caf50;
+    border-color: #4caf50;
+  }
+  
+  .ant-btn-danger {
+    background-color: #f44336;
+    border-color: #f44336;
+  }
+
+  /* Tùy chỉnh thông báo */
+.ant-notification-notice {
+    background-color: #f1f1f1;
+    border-left: 4px solid #4caf50;
+  }
+  
+  .ant-notification-notice-message {
+    font-weight: bold;
+  }
+  
+  .ant-notification-notice-description {
+    font-size: 0.9rem;
+  }
+  

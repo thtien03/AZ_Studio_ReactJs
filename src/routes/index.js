@@ -15,6 +15,9 @@ import BookingManagement from "../pages/admin/BookingManagement";
 import OrderManagement from "../pages/admin/OrderManagement";
 import ImageStorage from "../pages/admin/ImageStorage";
 import RevenueReport from "../pages/admin/RevenueReport";
+import ProductManagement from "../pages/admin/ProductManagement";
+import PortfolioManagement from "../pages/admin/PortfolioManagement";
+import ShoppingCart from "../pages/shopping-cart/shoppingcart";
 
 const publicRoutes = [
   {
@@ -98,6 +101,18 @@ const publicRoutes = [
   {
     path: '/admin/revenue-report',
     component: RevenueReport,
+  },
+  {
+    path: '/admin/product-management',
+    component: ProductManagement,
+  },
+  {
+    path: '/admin/portfolio-management',
+    component:PortfolioManagement
+  },
+  {
+    path: '/shopping-cart/shoppingcart',
+    component:ShoppingCart
   },
 ];
 

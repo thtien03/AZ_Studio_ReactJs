@@ -1,57 +1,71 @@
-/* src/components/Header.css */
+/* Container cho header */
 .header-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #e8e8e8;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 100;
-    height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e8e8e8;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  height: 120px;
 }
 
 .logo {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .logo-image {
-    width: 150px; /* Điều chỉnh kích thước theo ý muốn */
-    height: 70px;
+  width: 150px;
+  height: 70px;
 }
 
 .navbar {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    position: relative;
-    align-items: center; /* Căn giữa theo chiều dọc */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  align-items: center;
 }
 
 /* Đảm bảo menu không có background hoặc đường viền dưới */
 .navbar .ant-menu {
-    background-color: transparent;
-    border-bottom: none;
+  background-color: transparent;
+  border-bottom: none;
 }
 
-/* Style cho từng item trong menu */
+/* Căn chỉnh các mục trong menu */
 .navbar .ant-menu-item {
-    color: #000;
-    text-decoration: none !important; /* Loại bỏ gạch chân */
-    border-bottom: none !important; /* Loại bỏ đường viền dưới */
+  color: #000;
 }
 
 .navbar .ant-menu-item:hover {
-    color: #7faeda !important; /* Màu khi hover */
-    text-decoration: none !important; /* Đảm bảo không có gạch chân khi hover */
-    border-bottom: none !important; /* Loại bỏ đường viền dưới khi hover */
+  color: #007bff; /* Màu khi hover */
 }
 
-.navbar .ant-menu-item-selected {
-    color: #7faeda !important; /* Màu khi được chọn */
-    text-decoration: none !important; /* Đảm bảo không có gạch chân */
-    border-bottom: none !important; /* Loại bỏ border dưới khi chọn */
+/* Căn chỉnh các icon về bên phải */
+.navbar .ant-menu-item.ant-dropdown-trigger {
+  margin-left: auto; /* Đẩy các icon sang bên phải */
+}
+
+/* Container chứa các biểu tượng giỏ hàng, thông báo và người dùng */
+.navbar-icons {
+  display: flex;
+  justify-content: flex-end; /* Đảm bảo các icon nằm về bên phải */
+  gap: 20px; /* Khoảng cách giữa các icon */
+  position: absolute;
+  right: 20px; /* Đảm bảo các icon ở bên phải của navbar */
+}
+
+.navbar-icon {
+  font-size: 20px;
+  color: #000;
+  cursor: pointer;
+}
+
+.navbar-icon:hover {
+  color: #007bff; /* Màu khi hover */
 }

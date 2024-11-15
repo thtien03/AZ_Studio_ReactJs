@@ -3,7 +3,7 @@
     position: relative;
     height: 80vh; /* Điều chỉnh chiều cao cho phù hợp */
     background-position: center;
-    background-size: cover;
+    background-size:  contain;
     background-repeat: no-repeat;
 }
 
@@ -69,10 +69,10 @@
 }
 
 .about-section h2 {
-    font-size: 35px;
+    font-size: 40px;
     color: #444;
     margin-bottom: 15px;
-    text-align: left;
+    text-align: center;
 }
 
 .about-section p {
@@ -150,6 +150,13 @@
     font-weight: bold;
     margin: 10px 0;
     line-height: 1.4;
+}
+
+
+
+.about-detail p{
+    color: #fff;
+
 }
 
 /* Product Gallery */

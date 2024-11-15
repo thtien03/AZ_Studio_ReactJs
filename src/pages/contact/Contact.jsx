@@ -5,7 +5,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import './Contact.css';
-import nenContact from '../../assets/images/Nen-Contact.jpg';
+ import nenContact from '../../assets/images/bg-contact.jpg';
 
 const Contact = () => {
   const [date, setDate] = useState('');

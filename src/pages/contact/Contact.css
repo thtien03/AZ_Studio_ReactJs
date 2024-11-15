@@ -10,14 +10,19 @@
 
 .cover-image-container {
   width: 100%;
-  height: 300px; /* Adjust height as needed */
+  height: 500px; /* Adjust height as needed */
   overflow: hidden;
+  position: relative; /* Đảm bảo các phần tử con (như cover-image) được căn chỉnh đúng */
 }
 
+/* Hình ảnh cover */
 .cover-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* Đảm bảo hình ảnh được hiển thị đúng tỷ lệ mà không bị méo */
+  position: absolute; /* Đảm bảo hình ảnh được đặt chính xác trong container */
+  top: 0;
+  left: 0;
 }
 
 /* Tiêu đề của phần thông tin liên hệ */
@@ -26,6 +31,7 @@ header h2 {
   font-size: 32px;
   color: #1b1c1c;
   margin-bottom: 20px;
+  margin-left: 150px;
 }
 
 /* Thiết lập bố cục flex cho phần contact và form */
@@ -41,6 +47,7 @@ header h2 {
   flex: 1; /* Chiếm toàn bộ chiều rộng trên màn hình nhỏ hơn */
   font-size: 18px;
   line-height: 1.5; /* Tăng khoảng cách giữa các dòng */
+  margin-left: 150px;
 }
 
 /* Phần tử chứa từng mục liên hệ (icon và text) */
