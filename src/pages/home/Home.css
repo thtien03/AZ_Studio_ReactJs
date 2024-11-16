@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+
+
 /* Nền chính */
 .main-content {
     position: relative;
@@ -75,16 +79,11 @@
     text-align: center;
 }
 
-.about-section p {
-    font-size: 16px;
+.about-section>p,
+.about-section>h1 {
+    color: #000000;
     line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-.about-section p, .about-section h1 {
-    color: #555;
-    line-height: 1.6;
-    font-size: 1.2em;
+    font-size: 15px;
     max-width: 800px;
     margin: 0 auto 20px auto;
 }
@@ -93,24 +92,33 @@
 .about-card-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 100px; /* Loại bỏ khoảng cách giữa các thẻ */
     justify-content: center;
 }
 
 .about-card {
     position: relative;
-    width: 220px; /* Giảm chiều rộng của thẻ */
-    height: 330px; /* Giảm chiều cao của thẻ */
+    width: 320px;
+    height: 430px;
     overflow: hidden;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0; /* Loại bỏ margin */
+    padding: 0; /* Loại bỏ padding */
+    box-sizing: border-box; /* Đảm bảo kích thước chính xác */
+    transition: transform 0.3s ease; /* Thêm hiệu ứng khi hover */
 }
 
 .about-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.about-card:hover {
+    transform: scale(1.02); /* Thẻ phóng to nhẹ khi hover */
 }
 
 .about-card:hover img {
@@ -128,35 +136,39 @@
     color: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Đưa nội dung lên phía trên */
+    justify-content: center; /* Canh giữa nội dung theo chiều dọc */
     align-items: center;
-    padding-top: 20px; /* Khoảng cách từ trên xuống */
     opacity: 0;
     transition: opacity 0.3s ease;
     text-align: center;
     padding: 20px;
     box-sizing: border-box;
+    z-index: 1; /* Đảm bảo lớp phủ hiển thị trên cùng */
 }
 
-.about-card:hover .overlay,
-.product-card:hover .overlay {
+.about-card:hover .overlay {
     opacity: 1; /* Hiển thị lớp phủ khi hover */
 }
 
 /* Chỉnh sửa chữ trong ảnh */
-.about-title,
-.overlay p {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 10px 0;
+.about-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 40px 0 0 0;
     line-height: 1.4;
+    color: #fff;
+    margin-bottom: 30px;
 }
 
-
-
+/* Chỉnh sửa chi tiết */
 .about-detail p{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
     color: #fff;
-
+    margin: 10px 0 0 0;
+    line-height: 1.6;
 }
 
 /* Product Gallery */

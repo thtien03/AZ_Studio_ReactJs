@@ -12,6 +12,8 @@ import imgService2 from '../../assets/images/dọc.jpg';
 import { Modal,Input,Button,DatePicker,Select } from 'antd';
 
 
+
+
 function MainContent() {
 
     
@@ -59,7 +61,7 @@ function MainContent() {
             <div className="about-section">
                 <h2>Về chúng tôi</h2>
                 <p>
-                    REN Bridal Studio là một trong những công ty cung cấp dịch vụ cưới hàng đầu Việt Nam. Chúng tôi sở hữu hệ thống showroom cưới tại 3 tỉnh thành lớn khu vực miền Nam: TP. Hồ Chí Minh, Cần Thơ và Đà Lạt.
+                    AZ Studio là một trong những công ty cung cấp dịch vụ cưới hàng đầu Việt Nam. Chúng tôi sở hữu hệ thống showroom cưới tại 3 tỉnh thành lớn khu vực miền Nam: TP. Hồ Chí Minh, Cần Thơ và Đà Lạt.
                 </p>
                 <h1>
                     “Từ khi cầu hôn cho đến ngày cưới, từ lúc bắt đầu chuẩn bị đến khoảnh khắc về chung một nhà, chúng tôi đều ở đây cho mọi bước trong cuộc hành trình của đôi bạn.”
@@ -70,7 +72,7 @@ function MainContent() {
                         <img src={imgabout1} alt="Dịch vụ quay chụp" className="about-image" />
                         <div className="overlay">
                             <h3 className="about-title">Dịch Vụ Quay Chụp</h3>
-                            <p className="about-detail">AZ Studio cung cấp dịch vụ trọn gói chụp hình Pre-wedding: studio, phim trường, ngoại cảnh.</p>
+                            <p className="about-detail">Dịch vụ chụp hình Pre-wedding trọn gói với đa dạng lựa chọn: Studio chuyên nghiệp, phim trường lãng mạn, và ngoại cảnh tuyệt đẹp. Đội ngũ tận tâm, phong cách sáng tạo, đảm bảo lưu giữ trọn vẹn khoảnh khắc ngọt ngào nhất cho bạn.</p>
                         </div>
                     </div>
                     
@@ -78,7 +80,7 @@ function MainContent() {
                         <img src={imgabout2} alt="Váy Cưới" className="about-image" />
                         <div className="overlay">
                             <h3 className="about-title">Váy Cưới</h3>
-                            <p className="about-detail">Các mẫu váy cưới đa dạng và tinh tế, đáp ứng mọi phong cách của cô dâu.</p>
+                            <p className="about-detail">Bộ sưu tập váy cưới đa dạng và tinh tế, từ cổ điển thanh lịch đến hiện đại quyến rũ, đáp ứng mọi phong cách và sở thích của cô dâu. Mỗi thiết kế đều giúp tôn vinh vẻ đẹp rạng ngời ngày trọng đại.</p>
                         </div>
                     </div>
 
@@ -86,7 +88,7 @@ function MainContent() {
                         <img src={imgabout3} alt="Trang Điểm" className="about-image" />
                         <div className="overlay">
                             <h3 className="about-title">Trang Điểm</h3>
-                            <p className="about-detail">Trang điểm chuyên nghiệp để tạo nên vẻ đẹp tự nhiên và nổi bật cho ngày trọng đại của bạn.</p>
+                            <p className="about-detail">Dịch vụ trang điểm chuyên nghiệp, giúp cô dâu tỏa sáng với vẻ đẹp tự nhiên và nổi bật trong ngày trọng đại. Đội ngũ makeup giàu kinh nghiệm sẽ tạo nên phong cách hoàn hảo, phù hợp với từng gương mặt và mong muốn của bạn.</p>
                         </div>
                     </div>
                 </div>
