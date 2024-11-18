@@ -1,31 +1,35 @@
-// api/categoryApi.js
-import axiosClient from './axiosClient';
+import axiosClient from "../api/axiosClient.js";
 
-const categoryApi = {
-  getAllCategories: () => {
-    const url = '/category';
-    return axiosClient.get(url);
-  },
-
-  getCategory: (id) => {
-    const url = `/category/${id}`;
-    return axiosClient.get(url);
-  },
-
-  createCategory: (data) => {
-    const url = '/category';
-    return axiosClient.post(url, data);
-  },
-
-  updateCategory: (id, data) => {
-    const url = `/category/${id}`;
-    return axiosClient.put(url, data);
-  },
-
-  deleteCategory: (id) => {
-    const url = `/category/${id}`;
-    return axiosClient.delete(url);
-  },
+export const getListCategoriesService = async () => {
+  const response = await axiosClient.get("/category");
+  return response;
 };
 
-export default categoryApi;
+export const getCategoryService = async (id) => {
+  const response = await axiosClient.get(`/category/${id}`);
+  return response;
+};
+
+// type: portfolio/product
+export const createCategoryService = async ({ name, description, type }) => {
+  const response = await axiosClient.post("/category", {
+    name,
+    description,
+    type,
+  });
+  return response;
+};
+
+export const updateCategoryService = async ({ name, description, type }) => {
+  const response = await axiosClient.put("/category", {
+    name,
+    description,
+    type,
+  });
+  return response;
+};
+
+export const deleteCategoryService = async (id) => {
+  const response = await axiosClient.delete(`/category/${id}`);
+  return response;
+};

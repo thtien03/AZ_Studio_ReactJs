@@ -1,8 +1,8 @@
-import axiosClient from './axiosClient';
+import axiosClient from "../api/axiosClient.js";
 
 const serviceApi = {
   getListServices: () => {
-    const url = '/service';
+    const url = "/service";
     return axiosClient.get(url);
   },
 
@@ -12,7 +12,7 @@ const serviceApi = {
   },
 
   createService: () => {
-    const url = '/service';
+    const url = "/service";
     return axiosClient.post(url);
   },
 
@@ -20,7 +20,6 @@ const serviceApi = {
     const url = `/category/${id}`;
     return axiosClient.put(url);
   },
-
 };
 
 export default serviceApi;
