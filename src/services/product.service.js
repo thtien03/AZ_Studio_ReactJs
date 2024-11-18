@@ -1,36 +1,64 @@
-// api/appointmentApi.js
-import axiosClient from './axiosClient';
+import axiosClient from "../api/axiosClient.js";
 
-const productApi = {
-  getListProducts: () => {
-    const url = '/product'; // endpoint của API
-    return axiosClient.get(url);
-  },
-
-  createProduct: (data) => {
-    const url = '/product';
-    return axiosClient.post(url, data);
-  },
-
-  getProduct: (id) => {
-    const url = `/product/${id}`;
-    return axiosClient.get(url);
-  },
-
-  updateProducts: (id) => {
-    const url = `/product/${id}`; 
-    return axiosClient.put(url);
-  },
-
-  deleteProducts: (id) => {
-    const url = `/product/${id}`; 
-    return axiosClient.get(url);
-  },
-
-  getProducts: (categoryid) => {
-    const url = `/product/${categoryid}`; 
-    return axiosClient.get(url);
-  },
+export const getListProductsService = async () => {
+  const response = await axiosClient.get("/product");
+  return response;
 };
 
-export default productApi;
+export const getProductByCategoryService = async (idCategory) => {
+  const response = await axiosClient.get(`/product/${idCategory}`);
+  return response;
+};
+
+export const getProductService = async (id) => {
+  const response = await axiosClient.get(`/product/${id}`);
+  return response;
+};
+
+// type: portfolio/product
+export const createProductService = async ({
+  name,
+  description,
+  images,
+  category,
+  price,
+  type,
+  bannerImage,
+}) => {
+  const response = await axiosClient.post("/product", {
+    name,
+    description,
+    images,
+    category,
+    price,
+    type,
+    bannerImage,
+  });
+  return response;
+};
+
+export const updateCategoryService = async ({
+  name,
+  description,
+  images,
+  category,
+  price,
+  type,
+  bannerImage,
+}) => {
+  const response = await axiosClient.put("/product", {
+    name,
+    description,
+    images,
+    category,
+    price,
+    type,
+    bannerImage,
+  });
+  return response;
+};
+
+export const deleteProductService = async (id) => {
+  const response = await axiosClient.delete(`/product/${id}`);
+  return response;
+};

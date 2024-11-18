@@ -1,21 +1,28 @@
-// api/appointmentApi.js
-import axiosClient from '../config/axiosClient';
+import axiosClient from "../api/axiosClient.js";
 
-const appointmentApi = {
-  getListAppointments: () => {
-    const url = '/appointment'; // endpoint của API
-    return axiosClient.get(url);
-  },
-
-  createAppointment: (data) => {
-    const url = '/appointment';
-    return axiosClient.post(url, data);
-  },
-
-  getAppointment: (id) => {
-    const url = `/appointment/${id}`;
-    return axiosClient.get(url);
-  },
+export const getListAppointmentsService = async () => {
+  const response = await axiosClient.get("/appointment");
+  return response;
 };
 
-export default appointmentApi;
+export const getAppointmentService = async (id) => {
+  const response = await axiosClient.get(`/appointment/${id}`);
+  return response;
+};
+
+export const createAppointmentService = async ({
+  fullName,
+  phone,
+  email,
+  appointmentDate,
+  service,
+}) => {
+  const response = await axiosClient.post("/appointment", {
+    fullName,
+    phone,
+    email,
+    appointmentDate,
+    service,
+  });
+  return response;
+};
