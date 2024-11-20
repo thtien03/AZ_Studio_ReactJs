@@ -15,14 +15,14 @@ export const createAppointmentService = async ({
   phone,
   email,
   appointmentDate,
-  service,
+  serviceId,
 }) => {
   const response = await axiosClient.post("/appointment", {
     fullName,
     phone,
     email,
     appointmentDate,
-    service,
+    serviceId,
   });
   return response;
 };
