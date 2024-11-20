@@ -1,5 +1,4 @@
-import { Button, DatePicker, Input, Modal, Select } from "antd";
-import { useEffect, useState } from "react";
+import ModalAppointment from "./components/ModalAppointment/ModalAppointment";
 import imgabout3 from "../../assets/images/card-about3.jpg";
 import imgabout2 from "../../assets/images/cardabout2.jpg";
 import iconChat from "../../assets/images/chat-icon.png";
@@ -8,41 +7,9 @@ import imgBackground from "../../assets/images/Nen-home.jpg";
 import imgService1 from "../../assets/images/ngang.jpg";
 import iconPhone from "../../assets/images/phone-icon.png";
 import imgabout1 from "../../assets/images/THT_6762.jpg";
-import { getListProductsService } from "../../services/product.service.js";
 import "./Home.css";
 
 function MainContent() {
-  const [openModel, setOpenModel] = useState(false);
-  useEffect(() => {
-    try {
-      const fetch = async () => {
-        const res = await getListProductsService();
-        console.log("check test res", res);
-      };
-      fetch();
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-  // const handleAppointment = async () => {
-  //     try {
-  //         const response = await appointmentApi.getListAppointments()
-  //         console.log(response)
-
-  //         if (response.ok) {
-  //             alert("Đặt lịch hẹn thành công!");
-  //         } else {
-  //             const errorData = await response.json();
-  //             alert("Đặt lịch hẹn thất bại: " + errorData.message);
-  //         }
-  //     } catch (error) {
-  //         console.error("Lỗi:", error);
-  //         alert("Đã xảy ra lỗi khi đặt lịch hẹn.");
-  //     }
-  // };
-
-  const handleSubmit = () => {};
-
   return (
     <>
       <div
@@ -62,12 +29,7 @@ function MainContent() {
           <div className="icon phone-icon">
             <img src={iconPhone} alt="Phone Icon" />
           </div>
-          <button
-            className="appointment-button"
-            onClick={() => setOpenModel(true)}
-          >
-            Đặt lịch hẹn
-          </button>
+          <ModalAppointment />
         </div>
       </div>
 
@@ -258,52 +220,6 @@ function MainContent() {
           </div>
         </div>
       </div>
-      <Modal
-        open={openModel}
-        title="Đặt lịch hẹn"
-        footer={false}
-        centered
-        onCancel={() => setOpenModel(false)}
-      >
-        <div>
-          <div style={{ marginBottom: 16 }}>
-            <Input placeholder="Họ và tên" />
-          </div>
-          <div style={{ marginBottom: 16 }}>
-            <Input placeholder="Số điện thoại" />
-          </div>
-          <div style={{ marginBottom: 16 }}>
-            <Input placeholder="Email" />
-          </div>
-          <div style={{ marginBottom: 16 }}>
-            <DatePicker
-              style={{ width: "100%" }}
-              placeholder="Chọn ngày đặt lịch"
-            />
-          </div>
-          <div style={{ marginBottom: 16 }}>
-            <Select
-              placeholder="Chọn loại dịch vụ"
-              style={{ width: "100%" }}
-              options={[
-                { value: "jack", label: "Jack" },
-                { value: "lucy", label: "Lucy" },
-                { value: "Yiminghe", label: "yiminghe" },
-                { value: "disabled", label: "Disabled", disabled: true },
-              ]}
-            />
-
-            <div style={{ marginBottom: 16 }}>
-              <Input placeholder="Ghi chú" />
-            </div>
-          </div>
-          <div style={{ textAlign: "right" }}>
-            <Button type="primary" onClick={handleSubmit}>
-              Đặt lịch
-            </Button>
-          </div>
-        </div>
-      </Modal>
     </>
   );
 }
