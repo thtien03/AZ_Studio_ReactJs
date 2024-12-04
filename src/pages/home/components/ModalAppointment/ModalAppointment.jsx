@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select, Button, message } from "antd";
 import { getListServices } from "../../../../services/service.service.js";
 import { createAppointmentService } from "../../../../services/appointment.service.js";
+import io from "socket.io-client";
 
 const ModalAppointment = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -28,6 +29,25 @@ const ModalAppointment = () => {
       });
     }
   };
+
+  // useEffect(() => {
+  //   // Kết nối đến Socket.IO server
+  //   const socket = io.connect("http://localhost:3000");
+  //   console.log(socket);
+  //   // Lắng nghe sự kiện "newAppointment" từ server
+  //   socket.on("newAppointment", (data) => {
+  //     message.success({
+  //       content: "Có một cuộc hẹn mới được tạo!",
+  //       duration: 3,
+  //     });
+  //     console.log("Received new appointment:", data);
+  //   });
+
+  //   // Đảm bảo ngắt kết nối khi component unmount
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   useEffect(() => {
     const fetchServices = async () => {
