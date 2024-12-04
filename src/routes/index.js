@@ -10,109 +10,109 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import Dashboard from "../pages/admin/Dashboard";
-import UserManagement from "../pages/admin/UserManagement";
-import BookingManagement from "../pages/admin/BookingManagement";
+import UserManagement from "../pages/admin/user-management/UserManagement";
+import BookingManagement from "../pages/admin/booking-management/BookingManagement";
 import OrderManagement from "../pages/admin/OrderManagement";
-import ImageStorage from "../pages/admin/ImageStorage";
-import RevenueReport from "../pages/admin/RevenueReport";
-import ProductManagement from "../pages/admin/ProductManagement";
-import PortfolioManagement from "../pages/admin/PortfolioManagement";
+import ImageStorage from "../pages/admin/image-storage/ImageStorage";
+import RevenueReport from "../pages/admin/revenue-report/RevenueReport";
+import ProductManagement from "../pages/admin/product-management/ProductManagement";
+import PortfolioManagement from "../pages/admin/portfolio-management/PortfolioManagement";
 import ShoppingCart from "../pages/shopping-cart/shoppingcart";
 
 const publicRoutes = [
   {
-    path: '/',
+    path: "/",
     component: MainContent,
   },
 
   {
-    path: '/about',
+    path: "/about",
     component: About,
   },
 
   {
-    path: '/service',
+    path: "/service",
     component: Service,
   },
-  
+
   {
-    path: '/service/pricing',
+    path: "/service/pricing",
     component: Pricing,
   },
   {
-    path: '/service/album',
+    path: "/service/album",
     component: Album,
   },
   {
-    path: '/contact',
+    path: "/contact",
     component: Contact,
   },
 
   {
-    path: '/portfolio/photography',
+    path: "/portfolio/photography",
     component: Photography,
   },
 
   {
-    path: '/dress-style',
+    path: "/dress-style",
     component: DressStyle,
   },
 
   {
-    path: '/auth/login',
+    path: "/auth/login",
     component: Login,
   },
 
   {
-    path: '/auth/register',
+    path: "/auth/register",
     component: Register,
   },
 
   {
-    path: '/auth/forgot-password',
+    path: "/auth/forgot-password",
     component: ForgotPassword,
   },
 
   {
-    path: '/admin',
+    path: "/admin",
     component: Dashboard,
   },
 
   {
-    path: '/admin/user-management',
+    path: "/admin/user-management",
     component: UserManagement,
   },
 
   {
-    path: '/admin/bookings-management',
+    path: "/admin/bookings-management",
     component: BookingManagement,
   },
 
   {
-    path: '/admin/orders-management',
+    path: "/admin/orders-management",
     component: OrderManagement,
   },
 
   {
-    path: '/admin/images-storage',
+    path: "/admin/images-storage",
     component: ImageStorage,
   },
 
   {
-    path: '/admin/revenue-report',
+    path: "/admin/revenue-report",
     component: RevenueReport,
   },
   {
-    path: '/admin/product-management',
+    path: "/admin/product-management",
     component: ProductManagement,
   },
   {
-    path: '/admin/portfolio-management',
-    component:PortfolioManagement
+    path: "/admin/portfolio-management",
+    component: PortfolioManagement,
   },
   {
-    path: '/shopping-cart/shoppingcart',
-    component:ShoppingCart
+    path: "/shopping-cart/shoppingcart",
+    component: ShoppingCart,
   },
 ];
 

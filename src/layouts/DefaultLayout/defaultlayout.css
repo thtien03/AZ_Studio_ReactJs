@@ -1,16 +1,15 @@
 .wrapper-default {
-    display: flex;
-    flex-direction: column;
-  
-   
-  }
-  .wrapper-default .container-client {
-    width: 100%;
-    display: flex;
-    min-height: 100vh;
-    padding-top: 141px;
-  }
+  display: flex;
+  flex-direction: column;
+}
+.wrapper-default .container-client {
+  width: 100%;
+  display: flex;
+  min-height: 100vh;
+  padding-top: 141px;
+  background-color: white;
+}
 
-  .wrapper-default .content {
-    flex: 1;
-  }
+.wrapper-default .content {
+  flex: 1;
+}
