@@ -1,68 +1,68 @@
+// src/pages/admin/ProductDashboard.jsx
 import React, { useState } from 'react';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from '@mui/material';
-import { styled } from '@mui/system';
+import { Button, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
+import AddProduct from '../add-product/AddProduct'; 
+import './ProductManagement.css';
 
-// Cấu hình bảng
-const StyledTableCell = styled(TableCell)({
-  backgroundColor: '#f1f1f1',
-  fontWeight: 'bold',
-});
-
-const ProductManagement = () => {
+const ProductDashboard = () => {
   const [products, setProducts] = useState([
-    { id: 1, name: "Sản phẩm A", category: "Áo", image: "image1.jpg", detailsImage: "details1.jpg", quantity: 10 },
-    { id: 2, name: "Sản phẩm B", category: "Quần", image: "image2.jpg", detailsImage: "details2.jpg", quantity: 5 }
+    { id: 1, name: 
+'Sản phẩm A', category: 'Áo', image: 'image1.jpg', detailsImage: ['details1.jpg'], quantity: 10 },
+    { id: 2, name: 'Sản phẩm B', category: 'Quần', image: 'image2.jpg', detailsImage: ['details2.jpg'], quantity: 5 },
   ]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleAdd = () => {
-    // Logic để thêm sản phẩm mới
-  };
-
-  const handleEdit = (id) => {
-    // Logic để sửa sản phẩm
-  };
-
-  const handleDelete = (id) => {
-    setProducts(products.filter(product => product.id !== id));
+  const handleAddProduct = (product) => {
+    setProducts([...products, product]);
   };
 
   return (
-    <div>
+    <div className="product-dashboard">
       <h1>Quản lý Sản Phẩm</h1>
-      <Button variant="contained" color="primary" onClick={handleAdd}>Thêm Sản Phẩm</Button>
-      <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+      <Button variant="contained" color="primary" onClick={() => setIsModalVisible(true)} style={{ marginBottom: '20px' }}>
+        Thêm Sản Phẩm
+      </Button>
+      <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID Sản Phẩm</StyledTableCell>
-              <StyledTableCell>Tên Sản Phẩm</StyledTableCell>
-              <StyledTableCell>Danh Mục</StyledTableCell>
-              <StyledTableCell>Hình Ảnh Đại Diện</StyledTableCell>
-              <StyledTableCell>Hình Ảnh Chi Tiết</StyledTableCell>
-              <StyledTableCell>Số Lượng</StyledTableCell>
-              <StyledTableCell>Thao Tác</StyledTableCell>
+              <TableCell><strong>Tên Sản Phẩm</strong></TableCell>
+              <TableCell><strong>Danh Mục</strong></TableCell>
+              <TableCell><strong>Hình Ảnh</strong></TableCell>
+              <TableCell><strong>Số Lượng</strong></TableCell>
+              <TableCell><strong>Thao Tác</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {products.map(product => (
               <TableRow key={product.id}>
-                <TableCell>{product.id}</TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.category}</TableCell>
-                <TableCell><img src={product.image} alt="avatar" width={50} /></TableCell>
-                <TableCell><img src={product.detailsImage} alt="details" width={50} /></TableCell>
+                <TableCell>
+                  <img src={product.image} alt={product.name} style={{ width: '50px', height: '50px' }} />
+                </TableCell>
                 <TableCell>{product.quantity}</TableCell>
                 <TableCell>
-                  <Button variant="outlined" color="secondary" onClick={() => handleEdit(product.id)}>Sửa</Button>
-                  <Button variant="outlined" color="error" onClick={() => handleDelete(product.id)}>Xóa</Button>
+                  <Button variant="outlined" color="primary" style={{ marginRight: '10px' }}>
+                    Sửa
+                  </Button>
+                  <Button variant="outlined" color="secondary" onClick={() => setProducts(products.filter(p => p.id !== product.id))}>
+                    Xóa
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      <AddProduct
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onAddProduct={handleAddProduct}
+      />
     </div>
   );
 };
 
-export default ProductManagement;
+export default ProductDashboard;

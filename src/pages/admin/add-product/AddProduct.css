@@ -1,0 +1,116 @@
+/* Container chính cho trang quản lý kho ảnh */
+.image-storage-container {
+  padding: 12px;
+  background-color: #f9f9f9; /* Màu nền nhạt */
+  min-height: 100vh;
+}
+
+/* Tiêu đề của trang */
+.image-storage-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Phần tải lên ảnh */
+.upload-section {
+  margin-bottom: 12px;
+}
+
+/* Nút tải lên */
+.upload-section .ant-upload {
+  border: 1px dashed #d9d9d9;
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-section .ant-upload:hover {
+  background-color: #e6f7ff;
+}
+
+.upload-section .ant-upload.ant-upload-select-picture-card {
+  width: 104px;
+  height: 104px;
+}
+
+.upload-section .ant-upload-text {
+  color: #595959;
+  font-weight: 600;
+}
+
+/* Lưới ảnh */
+.image-grid {
+  margin-top: 8px;
+}
+
+/* Card của mỗi hình ảnh */
+.ant-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ant-card-cover img {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-card-meta-title {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+  color: #333;
+}
+
+/* Biểu tượng xóa ảnh */
+.ant-card-actions {
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.ant-card-actions .anticon-delete {
+  color: #ff4d4f;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.ant-card-actions .anticon-delete:hover {
+  color: #ff7875;
+}
+
+/* Modal xem trước hình ảnh */
+.ant-modal {
+  top: 20px;
+}
+
+.ant-modal-title {
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+.ant-modal img {
+  border-radius: 8px;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+/* Thêm style cho các input form */
+input[type="text"],
+.ant-input,
+.ant-select {
+  margin-bottom: 16px !important; /* Thêm khoảng cách giữa các input */
+}
+
+/* Style cho label "Hình Ảnh Đại Diện" */
+label {
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
