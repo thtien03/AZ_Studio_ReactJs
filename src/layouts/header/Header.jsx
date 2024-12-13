@@ -3,11 +3,11 @@ import { Menu } from "antd";
 import {
   UserOutlined,
   ShoppingCartOutlined,
-  BellOutlined,
 } from "@ant-design/icons";
 import "./Header.css";
 import logoImage from "../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
+import NotificationBell from "../../pages/admin/notification-management/NotificationBell";
 
 function Header() {
   const navigate = useNavigate();
@@ -62,11 +62,15 @@ function Header() {
         navigate("/admin/portfolio-management"); // Quản lý portfolio
         break;
       case "iconCart":
-        navigate("/shopping-cart/shoppingcart"); // Giỏ hàng
+        navigate("/shopping-cart/shoppingcart");
         break;
-
+      case "notifications":
+        navigate("/admin/notifications");
+        break;
       default:
-        navigate("/404"); // Trang không tìm thấy
+        if (e.key !== "iconUser" && e.key !== "notifications") {
+          navigate("/404");
+        }
     }
   };
 
@@ -104,12 +108,15 @@ function Header() {
       label: "Liên hệ",
       key: "contact",
     },
+  ];
 
+  // Thêm các items bên phải
+  const rightItems = [
     ...(roleAdmin
       ? [
           {
-            label: <BellOutlined style={{ fontSize: "20px" }} />,
-            key: "iconBell",
+            label: <NotificationBell />,
+            key: "notifications",
           },
         ]
       : []),
@@ -117,7 +124,6 @@ function Header() {
       label: <ShoppingCartOutlined style={{ fontSize: "20px" }} />,
       key: "iconCart",
     },
-
     {
       label: <UserOutlined style={{ fontSize: "20px" }} />,
       key: "iconUser",
@@ -153,7 +159,8 @@ function Header() {
           onClick={handleItemClick}
           selectedKeys={[current]} // Hiển thị mục đang chọn
           mode="horizontal"
-          items={items} // Sử dụng items cho Menu
+          items={[...items, ...rightItems]} // Kết hợp menu items chính và items bên phải
+          className="main-menu"
         />
       </div>
     </div>
