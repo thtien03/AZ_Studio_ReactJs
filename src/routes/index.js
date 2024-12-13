@@ -18,6 +18,10 @@ import RevenueReport from "../pages/admin/revenue-report/RevenueReport";
 import ProductManagement from "../pages/admin/product-management/ProductManagement";
 import PortfolioManagement from "../pages/admin/portfolio-management/PortfolioManagement";
 import ShoppingCart from "../pages/shopping-cart/shoppingcart";
+import AddProduct from "../pages/admin/add-product/AddProduct";
+import NotificationBell from "../pages/admin/notification-management/NotificationBell";
+import NotificationDetail from "../pages/admin/notification-management/NotificationDetail"; 
+
 
 const publicRoutes = [
   {
@@ -109,6 +113,18 @@ const publicRoutes = [
   {
     path: "/admin/portfolio-management",
     component: PortfolioManagement,
+  },
+  {
+    path: "/admin/notifications",
+    component: NotificationBell,
+  },
+  {
+    path: "/admin/notifications/:id", 
+    component: NotificationDetail,
+  },
+  {
+    path: "/admin/add-product",
+    component: AddProduct,
   },
   {
     path: "/shopping-cart/shoppingcart",

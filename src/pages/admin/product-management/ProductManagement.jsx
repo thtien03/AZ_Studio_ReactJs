@@ -25,7 +25,8 @@ const ProductDashboard = () => {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow>
+            <TableRow>  
+              <TableCell><strong>ID</strong></TableCell>
               <TableCell><strong>Tên Sản Phẩm</strong></TableCell>
               <TableCell><strong>Danh Mục</strong></TableCell>
               <TableCell><strong>Hình Ảnh</strong></TableCell>
@@ -34,8 +35,9 @@ const ProductDashboard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map(product => (
+            {products.map((product, index) => (
               <TableRow key={product.id}>
+                <TableCell>{product.id}</TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.category}</TableCell>
                 <TableCell>

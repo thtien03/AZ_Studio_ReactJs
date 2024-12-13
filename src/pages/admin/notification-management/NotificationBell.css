@@ -1,0 +1,91 @@
+/* .notification-badge {
+  cursor: pointer;
+  font-size: 20px;
+} */
+.ant-layout-content .notification-badge {
+  display: none !important; /* Chỉ ẩn chuông trong ant-layout-content */
+  cursor: pointer;
+  font-size: 20px;
+}
+
+
+.notification-icon {
+  font-size: 24px;
+  padding: 4px;
+  color: #555;
+    margin-left: auto; /* Chỉ hiển thị trên Navbar */
+    position: static; /* Loại bỏ vị trí cố định */
+}
+
+.notification-icon:hover {
+  color: #1890ff;
+}
+
+.notification-container {
+  width: 350px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-list {
+  padding: 0;
+}
+
+.notification-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.notification-item:hover {
+  background-color: #f5f5f5;
+}
+
+.notification-item.unread {
+  background-color: #e6f7ff;
+}
+
+.notification-item.unread:hover {
+  background-color: #bae7ff;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.notification-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.notification-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.notification-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Style cho Popover */
+.notification-popover .ant-popover-inner-content {
+  padding: 0;
+}
+
+.notification-popover .ant-list-item-meta-title {
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.notification-popover .ant-list-item-meta-description {
+  font-size: 12px;
+  color: #8c8c8c;
+}

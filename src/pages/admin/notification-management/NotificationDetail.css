@@ -1,0 +1,39 @@
+.notification-detail {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.notification-detail h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.detail-form {
+  margin-top: 20px;
+}
+
+.detail-form label {
+  font-weight: bold;
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.detail-form input,
+.detail-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+  font-size: 14px;
+}
+
+.detail-form textarea {
+  resize: none;
+  height: 80px;
+}
