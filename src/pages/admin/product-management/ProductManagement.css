@@ -1,12 +1,12 @@
 /* Container chính cho trang quản lý đặt lịch */
-.booking-management-container {
+.product-management-container {
   padding: 24px;
   background-color: #f9f9f9; /* Màu nền nhạt */
   min-height: 100vh;
 }
 
 /* Tiêu đề của trang */
-.booking-management-title {
+.product-management-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;

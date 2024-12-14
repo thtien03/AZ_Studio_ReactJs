@@ -1,22 +1,22 @@
-// src/pages/admin/BookingManagement.jsx
+// src/pages/admin/productManagement.jsx
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, Select, DatePicker, message } from 'antd';
 import moment from 'moment';
 import './ProductManagement.css';
 
 const ProductManagement = () => {
-  const [bookings, setBookings] = useState([]);
+  const [products, setProduct] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [editingBooking, setEditingBooking] = useState(null);
+  const [editingproduct, setEditingproduct] = useState(null);
   const [form] = Form.useForm();
 
-  // Giả lập dữ liệu đặt lịch
+  // Giả lập dữ liệu sản phẩm
   useEffect(() => {
-    const mockBookings = [
+    const mockproducts = [
       {
         id: 1,
-        customerName: 'Nguyễn Văn A',
-        service: 'Chụp ảnh cưới',
+        productName: 'Sony A7R3',
+        category: 'Máy ảnh',
         date: '2024-02-20',
         time: '09:00',
         status: 'Đã xác nhận',
@@ -24,7 +24,7 @@ const ProductManagement = () => {
       },
       // Thêm dữ liệu mẫu khác...
     ];
-    setBookings(mockBookings);
+    setProduct(mockproducts);
   }, []);
 
   const columns = [
@@ -34,14 +34,14 @@ const ProductManagement = () => {
       key: 'id',
     },
     {
-      title: 'Tên khách hàng',
-      dataIndex: 'customerName',
-      key: 'customerName',
+      title: 'Sản phẩm',
+      dataIndex: 'productName',
+      key: 'productName',
     },
     {
-      title: 'Dịch vụ',
-      dataIndex: 'service',
-      key: 'service',
+      title: 'Danh mục',
+      dataIndex: 'category',
+      key: 'category',
     },
     {
       title: 'Ngày',
@@ -74,67 +74,67 @@ const ProductManagement = () => {
     },
   ];
 
-  const handleEdit = (booking) => {
-    setEditingBooking(booking);
+  const handleEdit = (product) => {
+    setEditingproduct(product);
     form.setFieldsValue({
-      ...booking,
-      date: moment(booking.date)
+      ...product,
+      date: moment(product.date)
     });
     setIsModalVisible(true);
   };
 
   const handleDelete = (id) => {
-    setBookings(bookings.filter(booking => booking.id !== id));
-    message.success('Đã xóa đặt lịch thành công');
+    setProduct(products.filter(product => product.id !== id));
+    message.success('Đã xóa sản phẩm thành công');
   };
 
   const handleModalOk = () => {
     form.validateFields().then(values => {
-      const updatedBookings = bookings.map(booking => {
-        if (booking.id === editingBooking.id) {
+      const updatedproducts = products.map(product => {
+        if (product.id === editingproduct.id) {
           return {
-            ...booking,
+            ...product,
             ...values,
             date: values.date.format('YYYY-MM-DD')
           };
         }
-        return booking;
+        return product;
       });
       
-      setBookings(updatedBookings);
+      setProduct(updatedproducts);
       setIsModalVisible(false);
       form.resetFields();
-      setEditingBooking(null);
-      message.success('Cập nhật đặt lịch thành công');
+      setEditingproduct(null);
+      message.success('Cập nhật sản phẩm thành công');
     });
   };
 
   return (
-    <div className="booking-management-container">
-      <h2 className="booking-management-title">Quản Lý Đặt Lịch</h2>
+    <div className="product-management-container">
+      <h2 className="product-management-title">Quản Lý Sản Phẩm</h2>
       
-      <Table columns={columns} dataSource={bookings} />
+      <Table columns={columns} dataSource={products} />
 
       <Modal
-        title="Chỉnh sửa thông tin đặt lịch"
+        title="Chỉnh sửa thông tin sản phẩm"
         visible={isModalVisible}
         onOk={handleModalOk}
         onCancel={() => {
           setIsModalVisible(false);
           form.resetFields();
-          setEditingBooking(null);
+          setEditingproduct(null);
         }}
       >
         <Form form={form} layout="vertical">
           <Form.Item
-            name="customerName"
-            label="Tên khách hàng"
-            rules={[{ required: true, message: 'Vui lòng nhập tên khách hàng!' }]}
+            name="productName"
+            label="Tên sản phẩm"
+            rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm!' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name="service"
+            name="category"
             label="Dịch vụ"
             rules={[{ required: true, message: 'Vui lòng chọn dịch vụ!' }]}
           >
