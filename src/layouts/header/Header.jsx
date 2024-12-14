@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Menu } from "antd";
-import {
-  UserOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import "./Header.css";
 import logoImage from "../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +10,8 @@ function Header() {
   const navigate = useNavigate();
   const [current, setCurrent] = useState("home"); // Set giá trị mặc định cho current
   const roleAdmin = localStorage.getItem("isAdmin");
-  console.log("roleAdmin", roleAdmin);
+  const accessToken = localStorage.getItem("accessToken");
+  console.log(!!accessToken);
   // Hàm xử lý sự kiện cho từng mục và chuyển hướng bằng navigate
   const handleItemClick = (e) => {
     console.log("click ", e.key);
@@ -45,21 +43,13 @@ function Header() {
       case "login":
         navigate("/auth/login"); // Đăng nhập
         break;
-      case "users":
+      case "logout":
+        navigate("/auth/login"); // Đăng nhập
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("isAdmin");
+        break;
+      case "control":
         navigate("/admin/user-management"); // Quản lý người dùng
-        break;
-      case "appointment-manage":
-        navigate("/admin/bookings-management"); // Quản lý đặt lịch
-        break;
-      case "order-manage":
-        navigate("/admin/orders-management"); // Quản lý đơn hàng
-        break;
-      case "product-manage":
-        navigate("/admin/product-management"); // Quản lý mặt hàng
-        break;
-
-      case "portfolio-manage":
-        navigate("/admin/portfolio-management"); // Quản lý portfolio
         break;
       case "iconCart":
         navigate("/shopping-cart/shoppingcart");
@@ -128,20 +118,15 @@ function Header() {
       label: <UserOutlined style={{ fontSize: "20px" }} />,
       key: "iconUser",
       children: [
-        { key: "login", label: "Đăng nhập" },
+        {
+          key: !!!accessToken ? "login" : "logout",
+          label: !!!accessToken ? "Đăng nhập" : "Đăng xuất",
+        },
         ...(roleAdmin
           ? [
               {
                 key: "control",
                 label: "Bảng điều khiển",
-                children: [
-                  { key: "users", label: "Quản lý người dùng" },
-                  { key: "appointment-manage", label: "Quản lý đặt lịch" },
-                  { key: "order-manage", label: "Quản lý Đơn hàng" },
-                  { key: "category-manage", label: "Quản lý Danh mục" },
-                  { key: "product-manage", label: "Quản lý Mặt hàng" },
-                  { key: "portfolio-manage", label: "Quản lý Portfolio" },
-                ],
               },
             ]
           : []),
