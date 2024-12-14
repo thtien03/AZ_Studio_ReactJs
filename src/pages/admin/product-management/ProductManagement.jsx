@@ -1,70 +1,183 @@
-// src/pages/admin/ProductDashboard.jsx
-import React, { useState } from 'react';
-import { Button, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
-import AddProduct from '../add-product/AddProduct'; 
+// src/pages/admin/BookingManagement.jsx
+import React, { useState, useEffect } from 'react';
+import { Table, Button, Modal, Form, Input, Select, DatePicker, message } from 'antd';
+import moment from 'moment';
 import './ProductManagement.css';
 
-const ProductDashboard = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: 
-'Sản phẩm A', category: 'Áo', image: 'image1.jpg', detailsImage: ['details1.jpg'], quantity: 10 },
-    { id: 2, name: 'Sản phẩm B', category: 'Quần', image: 'image2.jpg', detailsImage: ['details2.jpg'], quantity: 5 },
-  ]);
+const ProductManagement = () => {
+  const [bookings, setBookings] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingBooking, setEditingBooking] = useState(null);
+  const [form] = Form.useForm();
 
-  const handleAddProduct = (product) => {
-    setProducts([...products, product]);
+  // Giả lập dữ liệu đặt lịch
+  useEffect(() => {
+    const mockBookings = [
+      {
+        id: 1,
+        customerName: 'Nguyễn Văn A',
+        service: 'Chụp ảnh cưới',
+        date: '2024-02-20',
+        time: '09:00',
+        status: 'Đã xác nhận',
+        phone: '0123456789'
+      },
+      // Thêm dữ liệu mẫu khác...
+    ];
+    setBookings(mockBookings);
+  }, []);
+
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Tên khách hàng',
+      dataIndex: 'customerName',
+      key: 'customerName',
+    },
+    {
+      title: 'Dịch vụ',
+      dataIndex: 'service',
+      key: 'service',
+    },
+    {
+      title: 'Ngày',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Giờ',
+      dataIndex: 'time',
+      key: 'time',
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+    },
+    {
+      title: 'Thao tác',
+      key: 'actions',
+      render: (_, record) => (
+        <>
+          <Button type="primary" onClick={() => handleEdit(record)} style={{ marginRight: 8 }}>
+            Sửa
+          </Button>
+          <Button type="primary" danger onClick={() => handleDelete(record.id)}>
+            Xóa
+          </Button>
+        </>
+      ),
+    },
+  ];
+
+  const handleEdit = (booking) => {
+    setEditingBooking(booking);
+    form.setFieldsValue({
+      ...booking,
+      date: moment(booking.date)
+    });
+    setIsModalVisible(true);
+  };
+
+  const handleDelete = (id) => {
+    setBookings(bookings.filter(booking => booking.id !== id));
+    message.success('Đã xóa đặt lịch thành công');
+  };
+
+  const handleModalOk = () => {
+    form.validateFields().then(values => {
+      const updatedBookings = bookings.map(booking => {
+        if (booking.id === editingBooking.id) {
+          return {
+            ...booking,
+            ...values,
+            date: values.date.format('YYYY-MM-DD')
+          };
+        }
+        return booking;
+      });
+      
+      setBookings(updatedBookings);
+      setIsModalVisible(false);
+      form.resetFields();
+      setEditingBooking(null);
+      message.success('Cập nhật đặt lịch thành công');
+    });
   };
 
   return (
-    <div className="product-dashboard">
-      <h1>Quản lý Sản Phẩm</h1>
-      <Button variant="contained" color="primary" onClick={() => setIsModalVisible(true)} style={{ marginBottom: '20px' }}>
-        Thêm Sản Phẩm
-      </Button>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>  
-              <TableCell><strong>ID</strong></TableCell>
-              <TableCell><strong>Tên Sản Phẩm</strong></TableCell>
-              <TableCell><strong>Danh Mục</strong></TableCell>
-              <TableCell><strong>Hình Ảnh</strong></TableCell>
-              <TableCell><strong>Số Lượng</strong></TableCell>
-              <TableCell><strong>Thao Tác</strong></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {products.map((product, index) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.id}</TableCell>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>{product.category}</TableCell>
-                <TableCell>
-                  <img src={product.image} alt={product.name} style={{ width: '50px', height: '50px' }} />
-                </TableCell>
-                <TableCell>{product.quantity}</TableCell>
-                <TableCell>
-                  <Button variant="outlined" color="primary" style={{ marginRight: '10px' }}>
-                    Sửa
-                  </Button>
-                  <Button variant="outlined" color="secondary" onClick={() => setProducts(products.filter(p => p.id !== product.id))}>
-                    Xóa
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div className="booking-management-container">
+      <h2 className="booking-management-title">Quản Lý Đặt Lịch</h2>
+      
+      <Table columns={columns} dataSource={bookings} />
 
-      <AddProduct
+      <Modal
+        title="Chỉnh sửa thông tin đặt lịch"
         visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        onAddProduct={handleAddProduct}
-      />
+        onOk={handleModalOk}
+        onCancel={() => {
+          setIsModalVisible(false);
+          form.resetFields();
+          setEditingBooking(null);
+        }}
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item
+            name="customerName"
+            label="Tên khách hàng"
+            rules={[{ required: true, message: 'Vui lòng nhập tên khách hàng!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="service"
+            label="Dịch vụ"
+            rules={[{ required: true, message: 'Vui lòng chọn dịch vụ!' }]}
+          >
+            <Select>
+              <Select.Option value="Chụp ảnh cưới">Chụp ảnh cưới</Select.Option>
+              <Select.Option value="Chụp ảnh kỷ yếu">Chụp ảnh kỷ yếu</Select.Option>
+              <Select.Option value="Chụp ảnh gia đình">Chụp ảnh gia đình</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="date"
+            label="Ngày"
+            rules={[{ required: true, message: 'Vui lòng chọn ngày!' }]}
+          >
+            <DatePicker format="YYYY-MM-DD" />
+          </Form.Item>
+          <Form.Item
+            name="time"
+            label="Giờ"
+            rules={[{ required: true, message: 'Vui lòng chọn giờ!' }]}
+          >
+            <Select>
+              <Select.Option value="09:00">09:00</Select.Option>
+              <Select.Option value="10:00">10:00</Select.Option>
+              <Select.Option value="14:00">14:00</Select.Option>
+              <Select.Option value="15:00">15:00</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="status"
+            label="Trạng thái"
+            rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
+          >
+            <Select>
+              <Select.Option value="Chờ xác nhận">Chờ xác nhận</Select.Option>
+              <Select.Option value="Đã xác nhận">Đã xác nhận</Select.Option>
+              <Select.Option value="Đã hủy">Đã hủy</Select.Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
 
-export default ProductDashboard;
+export default ProductManagement;

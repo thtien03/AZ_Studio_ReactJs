@@ -103,6 +103,7 @@ const publicRoutes = [
   {
     path: "/admin/product-management",
     component: ProductManagement,
+    layout: "AdminLayout",
   },
   {
     path: "/admin/portfolio-management",

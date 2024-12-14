@@ -100,7 +100,7 @@ const UserManagement = () => {
           },
           ...columns,
         ]}
-        dataSource={listUsers.data}
+        dataSource={listUsers?.data}
       />
     </div>
   );
