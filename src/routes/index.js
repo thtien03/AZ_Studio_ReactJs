@@ -1,24 +1,22 @@
-import MainContent from "../pages/home/Home";
-import Service from "../pages/service/Service";
-import Contact from "../pages/contact/Contact";
-import Pricing from "../pages/service/Pricing";
-import Album from "../pages/service/Album";
-import Photography from "../pages/portfolio/Photography";
-import DressStyle from "../pages/dress/DressStyle";
 import About from "../pages/about/About";
+import BookingManagement from "../pages/admin/booking-management/BookingManagement";
+import ImageStorage from "../pages/admin/image-storage/ImageStorage";
+import OrderManagement from "../pages/admin/OrderManagement";
+import PortfolioManagement from "../pages/admin/portfolio-management/PortfolioManagement";
+import ProductManagement from "../pages/admin/product-management/ProductManagement";
+import RevenueReport from "../pages/admin/revenue-report/RevenueReport";
+import UserManagement from "../pages/admin/user-management/UserManagement";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
-import ForgotPassword from "../pages/auth/ForgotPassword";
-import Dashboard from "../pages/admin/Dashboard";
-import UserManagement from "../pages/admin/user-management/UserManagement";
-import BookingManagement from "../pages/admin/booking-management/BookingManagement";
-import OrderManagement from "../pages/admin/OrderManagement";
-import ImageStorage from "../pages/admin/image-storage/ImageStorage";
-import RevenueReport from "../pages/admin/revenue-report/RevenueReport";
-import ProductManagement from "../pages/admin/product-management/ProductManagement";
-import PortfolioManagement from "../pages/admin/portfolio-management/PortfolioManagement";
+import Contact from "../pages/contact/Contact";
+import DressStyle from "../pages/dress/DressStyle";
+import MainContent from "../pages/home/Home";
+import Photography from "../pages/portfolio/Photography";
+import Album from "../pages/service/Album";
+import Pricing from "../pages/service/Pricing";
+import Service from "../pages/service/Service";
 import ShoppingCart from "../pages/shopping-cart/shoppingcart";
-import { layouts } from "chart.js";
 
 const publicRoutes = [
   {
@@ -74,32 +72,28 @@ const publicRoutes = [
     component: ForgotPassword,
   },
 
-
   {
     path: "/admin/user-management",
     component: UserManagement,
-    layout: 'AdminLayout' 
+    layout: "AdminLayout",
   },
 
   {
     path: "/admin/bookings-management",
     component: BookingManagement,
-    layout: 'AdminLayout' 
-
+    layout: "AdminLayout",
   },
 
   {
     path: "/admin/orders-management",
     component: OrderManagement,
-    layout: 'AdminLayout' 
-
+    layout: "AdminLayout",
   },
 
   {
     path: "/admin/images-storage",
     component: ImageStorage,
-    layout: 'AdminLayout' 
-
+    layout: "AdminLayout",
   },
 
   {
@@ -122,4 +116,4 @@ const publicRoutes = [
 
 const privateRoutes = [];
 
-export { publicRoutes, privateRoutes };
+export { privateRoutes, publicRoutes };

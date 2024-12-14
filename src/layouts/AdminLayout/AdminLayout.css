@@ -1,0 +1,20 @@
+.admin-layout .header-container {
+  padding: 0 !important;
+}
+.admin-layout .content-admin {
+  padding-top: 120px !important;
+}
+.admin-layout .ant-layout-sider-children {
+  background-color: white;
+}
+.admin-layout .ant-layout-sider-trigger {
+  border-top: 1px solid gray;
+  background-color: white;
+}
+.admin-layout .ant-layout-sider-trigger svg {
+  fill: black;
+}
+
+.admin-layout .ant-layout-sider {
+  background-color: white;
+}

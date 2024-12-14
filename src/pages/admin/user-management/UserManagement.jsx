@@ -2,24 +2,19 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import LockIcon from "@mui/icons-material/Lock";
 import { Popconfirm, Table, Tag, Tooltip } from "antd";
 import "./UserManagement.css";
+import { usePagination } from "src/hook/usePagination.hook";
+import { getListUsers } from "src/services/user.service";
 
 const UserManagement = () => {
-  const users = [
+  const { data: listUsers, refresh } = usePagination(
+    "ListUsers",
     {
-      key: "1",
-      username: "user1",
-      email: "user1@example.com",
-      role: "Khách hàng",
-      status: "active",
+      page: 1,
+      pageSize: 10,
     },
-    {
-      key: "2 ",
-      username: "user2",
-      email: "user2@example.com",
-      role: "Quản trị viên",
-      status: "active",
-    },
-  ];
+    getListUsers
+  );
+  console.log(listUsers);
 
   const columns = [
     {
@@ -105,7 +100,7 @@ const UserManagement = () => {
           },
           ...columns,
         ]}
-        dataSource={users}
+        dataSource={listUsers.data}
       />
     </div>
   );

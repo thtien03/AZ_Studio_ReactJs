@@ -2,7 +2,7 @@
 // import { Layout, Menu } from 'antd';
 // import { Link } from 'react-router-dom';
 // import { UserOutlined, FileTextOutlined, ShoppingCartOutlined, PictureOutlined, BarChartOutlined } from '@ant-design/icons';
-// import './Dashboard.css'; 
+// import './Dashboard.css';
 
 // const { Sider } = Layout;
 
@@ -33,24 +33,27 @@
 //           </Menu.Item>
 //         </Menu>
 //       </Sider>
-      
+
 //     </Layout>
 //   );
 // };
 
 // export default AdminLayout;
 import {
-    CalendarOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    UserOutlined
-} from '@ant-design/icons';
-import { BrowseGallerySharp, PictureInPicture, StoreOutlined } from '@mui/icons-material';
-import { Layout, Menu, theme } from 'antd';
-import { useState } from 'react';
-import AppFooter from '../footer/Footer';
-import Header from '../header/Header';
-const {  Content, Sider } = Layout;
+  CalendarOutlined,
+  PieChartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { PictureInPicture, StoreOutlined } from "@mui/icons-material";
+import { Layout, Menu } from "antd";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import logoImage from "../../assets/images/logo.png";
+import AppFooter from "../footer/Footer";
+import Header from "../header/Header";
+import "./AdminLayout.css";
+
+const { Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
     key,
@@ -59,47 +62,51 @@ function getItem(label, key, icon, children) {
     label,
   };
 }
+
 const items = [
-  getItem('Thống kê', '1', <PieChartOutlined />),
-  getItem('Quản lý đặt lịch', '2', <CalendarOutlined />),
-  getItem('Quản lý tài khoản ', 'sub1', <UserOutlined />), 
-  getItem('Quản lý đơn hàng', 'sub2', <StoreOutlined />, ),
-  getItem('Quản lý Portfolio', '9', <PictureInPicture />),
+  getItem("Thống kê", "1", <PieChartOutlined />),
+  getItem("Quản lý đặt lịch", "2", <CalendarOutlined />),
+  getItem("Quản lý tài khoản ", "sub1", <UserOutlined />),
+  getItem("Quản lý đơn hàng", "sub2", <StoreOutlined />),
+  getItem("Quản lý Portfolio", "9", <PictureInPicture />),
 ];
-const AdminLayout = ({children}) => {
+const AdminLayout = ({ children }) => {
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { borderRadiusLG },
-  } = theme.useToken();
+
   return (
     <Layout
+      className="admin-layout"
       style={{
-        minHeight: '100vh'
+        minHeight: "100vh",
       }}
     >
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="demo-logo-vertical" />
-        <Menu defaultSelectedKeys={['1']} mode="inline" items={items} />
-      </Sider>
-      <Layout>
-      <Header />
-        <Content
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+        style={{
+          position: "sticky",
+          top: 0,
+        }}
+      >
+        <div
+          onClick={() => navigate("/user-management")}
           style={{
-            margin: '0 16px',
+            cursor: "pointer",
+            height: "120px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            {children}
-          </div>
-
-        </Content>
+          <img src={logoImage} alt="A-Z Studio" className="logo-image" />
+        </div>
+        <Menu defaultSelectedKeys={["1"]} mode="inline" items={items} />
+      </Sider>
+      <Layout>
+        <Header />
+        <div className="content-admin">{children}</div>
         <AppFooter />
       </Layout>
     </Layout>
