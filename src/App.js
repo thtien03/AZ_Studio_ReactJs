@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DefaultLayout from './layouts/DefaultLayout/DefaultLayout';
 import { publicRoutes } from './routes';
+import AdminLayout from './layouts/AdminLayout/AdminLayout';
 
 
 const { Content } = Layout;
@@ -21,10 +22,10 @@ function App() {
             console.log("Rendering route:", route.path, "with component:", Page);
 
             // Use custom layout if specified, otherwise use default layout
-            if (route.layout) {
-              LayoutComponent = route.layout;
-            } else if (route.layout === null) {
-              LayoutComponent = Fragment;
+            if (route.layout==="AdminLayout") {
+              LayoutComponent = AdminLayout;
+            } else {
+              LayoutComponent = DefaultLayout;
             }
 
             return (

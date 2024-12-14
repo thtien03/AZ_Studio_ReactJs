@@ -18,10 +18,7 @@ import RevenueReport from "../pages/admin/revenue-report/RevenueReport";
 import ProductManagement from "../pages/admin/product-management/ProductManagement";
 import PortfolioManagement from "../pages/admin/portfolio-management/PortfolioManagement";
 import ShoppingCart from "../pages/shopping-cart/shoppingcart";
-import AddProduct from "../pages/admin/add-product/AddProduct";
-import NotificationBell from "../pages/admin/notification-management/NotificationBell";
-import NotificationDetail from "../pages/admin/notification-management/NotificationDetail"; 
-
+import { layouts } from "chart.js";
 
 const publicRoutes = [
   {
@@ -77,29 +74,32 @@ const publicRoutes = [
     component: ForgotPassword,
   },
 
-  {
-    path: "/admin",
-    component: Dashboard,
-  },
 
   {
     path: "/admin/user-management",
     component: UserManagement,
+    layout: 'AdminLayout' 
   },
 
   {
     path: "/admin/bookings-management",
     component: BookingManagement,
+    layout: 'AdminLayout' 
+
   },
 
   {
     path: "/admin/orders-management",
     component: OrderManagement,
+    layout: 'AdminLayout' 
+
   },
 
   {
     path: "/admin/images-storage",
     component: ImageStorage,
+    layout: 'AdminLayout' 
+
   },
 
   {
@@ -113,18 +113,6 @@ const publicRoutes = [
   {
     path: "/admin/portfolio-management",
     component: PortfolioManagement,
-  },
-  {
-    path: "/admin/notifications",
-    component: NotificationBell,
-  },
-  {
-    path: "/admin/notifications/:id", 
-    component: NotificationDetail,
-  },
-  {
-    path: "/admin/add-product",
-    component: AddProduct,
   },
   {
     path: "/shopping-cart/shoppingcart",
