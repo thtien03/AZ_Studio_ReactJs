@@ -1,0 +1,28 @@
+/* Đặt kích thước cho bảng */
+.category-table {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Đặt kích thước cột ID và Hành động */
+  .category-table .ant-table-thead th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .category-table .ant-table-tbody td {
+    text-align: center;
+  }
+  
+  /* Định dạng button thêm/sửa/xóa */
+  .action-button {
+    margin-right: 10px;
+  }
+  
+  /* Định dạng modal */
+  .modal-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  

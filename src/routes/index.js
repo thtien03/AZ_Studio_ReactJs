@@ -1,3 +1,5 @@
+import CategoryManagement from "src/pages/admin/category-management/category-management";
+import ImageDetail from "src/pages/portfolio/ImageDetail";
 import About from "../pages/about/About";
 import BookingManagement from "../pages/admin/booking-management/BookingManagement";
 import ImageStorage from "../pages/admin/image-storage/ImageStorage";
@@ -17,6 +19,7 @@ import Album from "../pages/service/Album";
 import Pricing from "../pages/service/Pricing";
 import Service from "../pages/service/Service";
 import ShoppingCart from "../pages/shopping-cart/shoppingcart";
+import AlbumManagement from "../pages/admin/portfolio-management/PortfolioManagement";
 
 const publicRoutes = [
   {
@@ -96,6 +99,13 @@ const publicRoutes = [
     layout: "AdminLayout",
   },
 
+
+  {
+    path: "/admin/portfolio-management",
+    component: PortfolioManagement,
+    layout: "AdminLayout",
+  },
+
   {
     path: "/admin/revenue-report",
     component: RevenueReport,
@@ -113,8 +123,19 @@ const publicRoutes = [
     path: "/shopping-cart/shoppingcart",
     component: ShoppingCart,
   },
+  {
+    path: "/portfolio/imagedetail",
+    component: ImageDetail,
+  },
+
+  {
+    path: "/admin/category-management",
+    component: CategoryManagement,
+    layout: "AdminLayout",
+  },
 ];
 
 const privateRoutes = [];
 
 export { privateRoutes, publicRoutes };
+

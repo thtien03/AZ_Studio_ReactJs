@@ -123,7 +123,7 @@ const AdminLayout = ({ children }) => {
               navigate("/admin/orders-management");
               break;
             case "9":
-              navigate("/admin/images-storage");
+              navigate("/admin/portfolio-management");
               break;
             case "category":
               navigate("/admin/category-management");

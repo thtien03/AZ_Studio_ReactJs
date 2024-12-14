@@ -84,27 +84,9 @@ const Contact = () => {
               </div>
             </div>
           </div>
-          <form className="booking-form">
-            <div className="form-group">
-              <input type="text" placeholder="Nhập tên của bạn" required />
-            </div>
-            <div className="form-group">
-              <input type="tel" placeholder="Nhập số điện thoại" required />
-            </div>
-            <div className="form-group">
-              <input type="email" placeholder="Nhập email" required />
-            </div>
-            <div className="form-group">
-              <input type="date" value={date} onChange={handleDateChange} required />
-            </div>
-            <div className="form-group">
-              <input type="time" value={time} onChange={handleTimeChange} required />
-            </div>
-            <div className="form-group">
-              <textarea placeholder="Nhập ghi chú" rows="4"></textarea>
-            </div>
-            <button type="submit" className="submit-btn">Gửi</button>
-          </form>
+         <div className='googlemap'> 
+         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.4276767170654!2d106.78212887570389!3d10.855040057737428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527006db97ff1%3A0x8ed7036831a229d3!2sHUTECH%20E%202!5e0!3m2!1svi!2s!4v1734205269493!5m2!1svi!2s" ></iframe>
+         </div>
         </section>
       </main>
     </div>

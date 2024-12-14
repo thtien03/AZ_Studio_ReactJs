@@ -14,6 +14,7 @@ function Header() {
   console.log(!!accessToken);
   // Hàm xử lý sự kiện cho từng mục và chuyển hướng bằng navigate
   const handleItemClick = (e) => {
+    setCurrent(e.key);
     console.log("click ", e.key);
     switch (e.key) {
       case "home":
@@ -83,7 +84,6 @@ function Header() {
       key: "portfolio",
       children: [
         { label: "Photography", key: "photo" },
-        { label: "Videography", key: "video" },
       ],
     },
     {
@@ -135,11 +135,13 @@ function Header() {
   ];
 
   return (
+    
     <div className="header-container">
       <div onClick={() => navigate("/")} className="logo">
         <img src={logoImage} alt="A-Z Studio" className="logo-image" />
       </div>
       <div className="navbar">
+        
         <Menu
           onClick={handleItemClick}
           selectedKeys={[current]} // Hiển thị mục đang chọn
