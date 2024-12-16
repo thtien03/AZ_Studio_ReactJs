@@ -42,9 +42,10 @@
 import {
   CalendarOutlined,
   PieChartOutlined,
+  ProductOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { PictureInPicture, StoreOutlined } from "@mui/icons-material";
+import { Category, CategoryOutlined, PictureInPicture, StoreOutlined } from "@mui/icons-material";
 import { Layout, Menu } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -52,6 +53,7 @@ import logoImage from "../../assets/images/logo.png";
 import AppFooter from "../footer/Footer";
 import Header from "../header/Header";
 import "./AdminLayout.css";
+import ProductDashboard from "src/pages/admin/product-management/ProductManagement";
 
 const { Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -69,6 +71,8 @@ const items = [
   getItem("Quản lý tài khoản ", "sub1", <UserOutlined />),
   getItem("Quản lý đơn hàng", "sub2", <StoreOutlined />),
   getItem("Quản lý Portfolio", "9", <PictureInPicture />),
+  getItem("Quản lý danh mục", "category", <CategoryOutlined />),
+  getItem("Quản lý sản phẩm", "product", <ProductOutlined />),
 ];
 const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -102,7 +106,37 @@ const AdminLayout = ({ children }) => {
         >
           <img src={logoImage} alt="A-Z Studio" className="logo-image" />
         </div>
-        <Menu defaultSelectedKeys={["1"]} mode="inline" items={items} />
+        <Menu defaultSelectedKeys={["1"]} mode="inline" items={items}
+         onClick={({ key }) => {
+          switch (key) {
+            case "1":
+              // navigate("/admin/statistics");
+              navigate("/admin/bookings-management");
+              break;
+            case "2":
+              navigate("/admin/bookings-management");
+              break;
+            case "sub1":
+              navigate("/admin/user-management");
+              break;
+            case "sub2":
+              navigate("/admin/orders-management");
+              break;
+            case "9":
+              navigate("/admin/portfolio-management");
+              break;
+            case "category":
+              navigate("/admin/category-management");
+              break;
+            case "product":
+              navigate("/admin/product-management");
+              break;
+            default:
+              break;
+          }
+        }}
+        />
+    
       </Sider>
       <Layout>
         <Header />
