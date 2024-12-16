@@ -3,10 +3,14 @@ import LockIcon from "@mui/icons-material/Lock";
 import { Popconfirm, Table, Tag, Tooltip } from "antd";
 import "./UserManagement.css";
 import { usePagination } from "src/hook/usePagination.hook";
-import { getListUsers } from "src/services/user.service";
+import { getListUsers, lockUserService } from "src/services/user.service";
 
 const UserManagement = () => {
-  const { data: listUsers, refresh } = usePagination(
+  const {
+    data: listUsers,
+    loading,
+    refresh,
+  } = usePagination(
     "ListUsers",
     {
       page: 1,
@@ -49,11 +53,23 @@ const UserManagement = () => {
     },
   ];
 
+  const handleConfirmLockUser = async (id) => {
+    try {
+      const res = await lockUserService(id);
+      if (res) {
+        refresh();
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return (
     <div className="user-management-container">
       <h2 className="user-management-title">Quản lý người dùng</h2>
 
       <Table
+        loading={loading}
         columns={[
           {
             title: "Hành động",
@@ -66,21 +82,19 @@ const UserManagement = () => {
                   justifyContent: "space-around",
                 }}
               >
-                <Tooltip title="Sửa">
-                  <BorderColorIcon
-                    style={{
-                      cursor: "pointer",
-                      width: 20,
-                      height: 20,
-                      color: "gray",
-                    }}
-                  />
-                </Tooltip>
-                <Tooltip title="Khóa">
+                <Tooltip title={record?.status === "active" ? "Khóa" : "Mở"}>
                   <Popconfirm
-                    title="Khóa tài khoản"
-                    description="Bạn có chắc muốn khóa tài khoản này không?"
-                    // onConfirm={confirm}
+                    title={
+                      record?.status === "active"
+                        ? "Khóa tài khoản"
+                        : "Mở tài khoản"
+                    }
+                    description={
+                      record?.status === "active"
+                        ? "Bạn có chắc chắn muốn khóa tài khoản này không?"
+                        : "Bạn có chắc chắn muốn mở tài khoản này không?"
+                    }
+                    onConfirm={() => handleConfirmLockUser(record?._id)}
                     okText="Đồng ý"
                     cancelText="Hủy"
                   >
