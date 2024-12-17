@@ -9,6 +9,8 @@ const ProductManagement = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingproduct, setEditingproduct] = useState(null);
   const [form] = Form.useForm();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
 
   // Giả lập dữ liệu sản phẩm
   useEffect(() => {
@@ -26,6 +28,22 @@ const ProductManagement = () => {
     ];
     setProduct(mockproducts);
   }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      const filteredSuggestions = products.filter(product =>
+        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  }, [searchTerm, products]);
+
+  const handleSuggestionClick = (productName) => {
+    setSearchTerm(productName);
+    setSuggestions([]);
+  };
 
   const columns = [
     {
@@ -109,11 +127,37 @@ const ProductManagement = () => {
     });
   };
 
+  const filteredProducts = products.filter(product =>
+    product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="product-management-container">
       <h2 className="product-management-title">Quản Lý Sản Phẩm</h2>
       
-      <Table columns={columns} dataSource={products} />
+      <div style={{ position: 'relative' }}>
+        <Input
+          placeholder="Tìm kiếm sản phẩm"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ marginBottom: '20px' }}
+        />
+        {suggestions.length > 0 && (
+          <div className="suggestion-list">
+            {suggestions.map((product) => (
+              <div
+                key={product.id}
+                className="suggestion-item"
+                onClick={() => handleSuggestionClick(product.productName)}
+              >
+                {product.productName}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <Table columns={columns} dataSource={filteredProducts} />
 
       <Modal
         title="Chỉnh sửa thông tin sản phẩm"

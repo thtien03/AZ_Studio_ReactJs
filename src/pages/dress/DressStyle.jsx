@@ -1,5 +1,6 @@
 // src/pages/DressStyle.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DressStyle.css';
 
 const dressStyles = [
@@ -16,22 +17,45 @@ const dressStyles = [
 ];
 
 const DressStyle = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedStyle, setSelectedStyle] = useState('');
   const [selectedLine, setSelectedLine] = useState('Premium');
   const [selectedColor, setSelectedColor] = useState('');
+  const suggestions = [];
+
+  const handleDressClick = (dress) => {
+    navigate(`/product-detail/${dress.id}`);
+  };
+
+  const filteredDressStyles = dressStyles.filter(dress =>
+    dress.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <div className="dress-style-container">
-      <div className="dress-gallery">
-        {dressStyles.map((dress) => (
-          <div key={dress.id} className="dress-item">
-            <img src={dress.imgSrc} alt={dress.name} className="dress-image" />
-            <p className="dress-name">{dress.name}</p>
-          </div>
-        ))}
-      </div>
-
       <div className="filter-section">
+        <div className="search-bar">
+          <input 
+            type="text" 
+            placeholder="Tìm kiếm kiểu váy..." 
+            value={searchTerm} 
+            onChange={handleChange} 
+          />
+          {searchTerm && (
+            <ul className="suggestions">
+              {suggestions
+                .filter(suggestion => suggestion.toLowerCase().includes(searchTerm.toLowerCase()))
+                .map((suggestion, index) => (
+                  <li key={index}>{suggestion}</li>
+              ))}
+            </ul>
+          )}
+        </div>
         <h2>Bộ Lọc</h2>
         <div className="filter-option">
           <label>Dáng Váy:</label>
@@ -68,7 +92,15 @@ const DressStyle = () => {
         </div>
 
         <button className="apply-button">Áp Dụng</button>
+      </div>
 
+      <div className="dress-gallery">
+        {filteredDressStyles.map((dress) => (
+          <div key={dress.id} className="dress-item" onClick={() => handleDressClick(dress)}>
+            <img src={dress.imgSrc} alt={dress.name} className="dress-image" />
+            <p className="dress-name">{dress.name}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

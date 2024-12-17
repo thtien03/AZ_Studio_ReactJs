@@ -1,0 +1,66 @@
+.product-detail-container {
+  display: flex;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.product-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image {
+  width: 300px; /* Điều chỉnh kích thước hình ảnh */
+  height: auto;
+}
+
+.product-info {
+  flex: 1;
+  padding: 20px;
+}
+
+.product-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.product-price {
+  font-size: 20px;
+  color: #ff4d4f; /* Màu sắc cho giá */
+  margin-bottom: 10px;
+}
+
+.product-original-price {
+  font-size: 16px;
+  color: #999; /* Màu sắc cho giá gốc */
+  margin-bottom: 20px;
+}
+
+.product-options {
+  margin-bottom: 20px;
+}
+
+.product-colors {
+  margin-bottom: 10px;
+}
+
+.color-option {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product-size {
+  margin-bottom: 10px;
+}
