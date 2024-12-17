@@ -23,6 +23,7 @@ import AlbumManagement from "../pages/admin/portfolio-management/PortfolioManage
 import { Component } from "react";
 import ProductDetail from '../pages/product-detail/ProductDetail';
 import DefaultLayout from "src/layouts/DefaultLayout/DefaultLayout";
+import Gallery from "src/pages/gallery/Gallery";
 
 const publicRoutes = [
   {
@@ -140,6 +141,12 @@ const publicRoutes = [
     path: "/product-detail/:id",
     component: ProductDetail,layout:DefaultLayout
   },
+  {
+    path: "/gallery/gallery",
+    component: Gallery,
+    layout:DefaultLayout
+  },
+  
 ];
 
 const privateRoutes = [];
