@@ -20,6 +20,10 @@ import Pricing from "../pages/service/Pricing";
 import Service from "../pages/service/Service";
 import ShoppingCart from "../pages/shopping-cart/shoppingcart";
 import AlbumManagement from "../pages/admin/portfolio-management/PortfolioManagement";
+import { Component } from "react";
+import ProductDetail from '../pages/product-detail/ProductDetail';
+import DefaultLayout from "src/layouts/DefaultLayout/DefaultLayout";
+import Gallery from "src/pages/gallery/Gallery";
 
 const publicRoutes = [
   {
@@ -133,9 +137,18 @@ const publicRoutes = [
     component: CategoryManagement,
     layout: "AdminLayout",
   },
+  {
+    path: "/product-detail/:id",
+    component: ProductDetail,layout:DefaultLayout
+  },
+  {
+    path: "/gallery/gallery",
+    component: Gallery,
+    layout:DefaultLayout
+  },
+  
 ];
 
 const privateRoutes = [];
 
 export { privateRoutes, publicRoutes };
-

@@ -1,28 +1,56 @@
-/* Container chính của trang */
 .dress-style-container {
   display: flex;
-  flex-direction: row-reverse; /* Đảo ngược vị trí của bộ lọc và gallery */
-  justify-content: space-between;
+  flex-direction: row; /* filter-section bên trái, right-section bên phải */
   padding: 20px;
+  gap: 20px;
 }
 
-/* Phong cách cho gallery của các kiểu váy */
+.filter-section {
+  width: 25%;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column; 
+  width: 75%;
+}
+
 .dress-gallery {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  width: 70%; /* Điều chỉnh chiều rộng */
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .dress-item {
-  width: 30%; /* Điều chỉnh chiều rộng mỗi item váy */
+  width: 30%;
   text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .dress-image {
   width: 100%;
-  height: 450px; /* Chiều cao cố định để hình ảnh đều nhau */
-  object-fit: cover; /* Cắt ảnh để vừa khung mà không méo */
+  height: 600px;
+  object-fit: cover;
   border-radius: 8px;
   transition: transform 0.3s ease;
 }
@@ -36,21 +64,6 @@
   margin-top: 10px;
 }
 
-/* Phong cách cho phần bộ lọc */
-.filter-section {
-  width: 20%; /* Điều chỉnh chiều rộng của phần bộ lọc */
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.filter-section h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
 .filter-option {
   margin-bottom: 15px;
 }
@@ -61,24 +74,105 @@
   margin-bottom: 5px;
 }
 
+/* Bo viền cho select */
 .filter-option select {
   width: 100%;
   padding: 8px;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
+  background-color: #fff;
 }
 
+.filter-option select:focus {
+  border-color: #aaa;
+  outline: none;
+}
+
+/* Bo viền cho nút Áp Dụng */
 .apply-button {
-  width: 30%;
+  width: 50%;
   padding: 10px;
-  background-color: #585656;
-  color: #fff;
-  border: none;
+  background-color: #fff;
+  color: #333;
+  border: 2px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .apply-button:hover {
-  background-color: #555;
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.suggestions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+}
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Pagination Container */
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Tùy chỉnh Tabs (Ant Design) cho giống button filter */
+/* Thêm viền, bo góc cho tab để trông như button */
+
+.ant-tabs-nav .ant-tabs-tab {
+  border: none;                            /* Bỏ viền cũ */
+  border-radius: 8px;                      /* Bo góc mềm mại hơn */
+  margin-right: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+  padding: 10px 15px;                      /* Tăng padding cho cảm giác nút đầy đặn */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);   /* Đổ bóng nhẹ cho cảm giác nổi khối */
+}
+
+.ant-tabs-nav .ant-tabs-tab:hover {
+  background-color: #f7f7f7;               /* Màu nền nhạt hơn khi hover */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);  /* Tăng đổ bóng khi hover */
+}
+
+.ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active {
+  background-color: #e6f7ff;               /* Nền xanh nhạt cho tab active */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);   /* Đổ bóng đậm hơn cho tab active */
+  border: none;
+}
+
+/* Chữ đậm và màu sắc nổi bật hơn cho tab active */
+.ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  font-weight: bold;
+  color: #a2a7ac; /* Màu xanh chủ đạo của Ant Design */
+}
+
+/* Căn giữa cả khối tabs */
+.ant-tabs {
+  margin: 0 auto;      
+  width: fit-content;  
 }

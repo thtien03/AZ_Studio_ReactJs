@@ -1,33 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Table, InputNumber, Typography, Space, notification, Modal } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
 const Cart = () => {
-  // Dữ liệu sản phẩm trong giỏ hàng
-  const initialCartItems = [
-    {
-      id: 1,
-      name: 'Áo thun nam',
-      price: 200000,
-      quantity: 2,
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 2,
-      name: 'Quần jeans nữ',
-      price: 350000,
-      quantity: 1,
-      image: 'https://via.placeholder.com/150',
-    },
-  ];
+  const navigate = useNavigate();
 
-  // State để quản lý giỏ hàng
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  // Dữ liệu sản phẩm trong giỏ hàng
+  const [cartItems, setCartItems] = useState([]);
   // State để xác nhận xóa sản phẩm
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+
+  useEffect(() => {
+    // Đọc giỏ hàng từ localStorage khi component được mount
+    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCartItems(savedCart);
+  }, []);
 
   // Hàm để thay đổi số lượng sản phẩm
   const handleQuantityChange = (value, id) => {
@@ -35,6 +26,7 @@ const Cart = () => {
       item.id === id ? { ...item, quantity: value } : item
     );
     setCartItems(newCartItems);
+    localStorage.setItem('cart', JSON.stringify(newCartItems));
 
     // Hiển thị thông báo thành công
     notification.success({
@@ -54,6 +46,7 @@ const Cart = () => {
   const handleConfirmDelete = () => {
     const newCartItems = cartItems.filter(item => item.id !== itemToDelete);
     setCartItems(newCartItems);
+    localStorage.setItem('cart', JSON.stringify(newCartItems));
     setIsModalVisible(false); // Đóng Modal
 
     // Hiển thị thông báo thành công
@@ -78,7 +71,17 @@ const Cart = () => {
       title: 'Hình ảnh',
       dataIndex: 'image',
       key: 'image',
-      render: (image) => <img src={image} alt="product" style={{ width: '100px', height: 'auto' }} />,
+      render: (image) => (
+        <img 
+          src={image} 
+          alt="product" 
+          style={{ width: '100px', height: 'auto' }}
+          onError={(e) => {
+            e.target.onerror = null; // Tránh lặp vô hạn
+            e.target.src = '/images/default-product.jpg'; // Hình ảnh mặc định khi lỗi
+          }}
+        />
+      ),
     },
     {
       title: 'Tên sản phẩm',
@@ -124,6 +127,11 @@ const Cart = () => {
     },
   ];
 
+  // Thêm hàm xử lý chuyển hướng
+  const handleContinueShopping = () => {
+    navigate('/dress-style');
+  };
+
   return (
     <div style={{ padding: '30px' }}>
       <Title level={2}>Giỏ hàng của bạn</Title>
@@ -140,7 +148,11 @@ const Cart = () => {
         <Space style={{ width: '100%' }} direction="vertical">
           <Text strong style={{ fontSize: '1.2rem' }}>Tổng cộng: {total.toLocaleString()} VND</Text>
           <Space>
-            <Button type="primary" style={{ flex: 1 }}>
+            <Button 
+              type="primary" 
+              style={{ flex: 1 }}
+              onClick={handleContinueShopping}
+            >
               Tiếp tục mua sắm
             </Button>
             <Button type="danger" style={{ flex: 1 }}>

@@ -105,3 +105,29 @@
 .ant-form-item .ant-picker {
   width: 100%;
 }
+
+/* Điều chỉnh kích thước ô tìm kiếm */
+.ant-input {
+  width: 250px; /* Kích thước nhỏ hơn */
+  margin-bottom: 20px; /* Khoảng cách dưới */
+}
+
+/* Gợi ý tên sản phẩm */
+.suggestion-list {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f5f5f5;
+}
