@@ -1,11 +1,10 @@
 // src/App.js
-import { Layout } from 'antd';
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DefaultLayout from './layouts/DefaultLayout/DefaultLayout';
-import { publicRoutes } from './routes';
-import AdminLayout from './layouts/AdminLayout/AdminLayout';
-
+import { Layout } from "antd";
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import DefaultLayout from "./layouts/DefaultLayout/DefaultLayout";
+import { publicRoutes } from "./routes";
+import AdminLayout from "./layouts/AdminLayout/AdminLayout";
 
 const { Content } = Layout;
 
@@ -19,10 +18,15 @@ function App() {
             let LayoutComponent = DefaultLayout;
 
             // Logging to verify route and component are set correctly
-            console.log("Rendering route:", route.path, "with component:", Page);
+            console.log(
+              "Rendering route:",
+              route.path,
+              "with component:",
+              Page
+            );
 
             // Use custom layout if specified, otherwise use default layout
-            if (route.layout==="AdminLayout") {
+            if (route.layout === "AdminLayout") {
               LayoutComponent = AdminLayout;
             } else {
               LayoutComponent = DefaultLayout;
@@ -34,7 +38,11 @@ function App() {
                 path={route.path}
                 element={
                   <LayoutComponent>
-                    <Content>
+                    <Content
+                      style={{
+                        height: "100%",
+                      }}
+                    >
                       <Page />
                     </Content>
                   </LayoutComponent>

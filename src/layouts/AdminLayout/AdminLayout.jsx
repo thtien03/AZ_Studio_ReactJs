@@ -45,7 +45,12 @@ import {
   ProductOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Category, CategoryOutlined, PictureInPicture, StoreOutlined } from "@mui/icons-material";
+import {
+  Category,
+  CategoryOutlined,
+  PictureInPicture,
+  StoreOutlined,
+} from "@mui/icons-material";
 import { Layout, Menu } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -106,42 +111,44 @@ const AdminLayout = ({ children }) => {
         >
           <img src={logoImage} alt="A-Z Studio" className="logo-image" />
         </div>
-        <Menu defaultSelectedKeys={["1"]} mode="inline" items={items}
-         onClick={({ key }) => {
-          switch (key) {
-            case "1":
-              // navigate("/admin/statistics");
-              navigate("/admin/bookings-management");
-              break;
-            case "2":
-              navigate("/admin/bookings-management");
-              break;
-            case "sub1":
-              navigate("/admin/user-management");
-              break;
-            case "sub2":
-              navigate("/admin/orders-management");
-              break;
-            case "9":
-              navigate("/admin/portfolio-management");
-              break;
-            case "category":
-              navigate("/admin/category-management");
-              break;
-            case "product":
-              navigate("/admin/product-management");
-              break;
-            default:
-              break;
-          }
-        }}
+        <Menu
+          defaultSelectedKeys={["1"]}
+          mode="inline"
+          items={items}
+          onClick={({ key }) => {
+            switch (key) {
+              case "1":
+                // navigate("/admin/statistics");
+                navigate("/admin/bookings-management");
+                break;
+              case "2":
+                navigate("/admin/bookings-management");
+                break;
+              case "sub1":
+                navigate("/admin/user-management");
+                break;
+              case "sub2":
+                navigate("/admin/orders-management");
+                break;
+              case "9":
+                navigate("/admin/portfolio-management");
+                break;
+              case "category":
+                navigate("/admin/category-management");
+                break;
+              case "product":
+                navigate("/admin/product-management");
+                break;
+              default:
+                break;
+            }
+          }}
         />
-    
       </Sider>
       <Layout>
         <Header />
         <div className="content-admin">{children}</div>
-        <AppFooter />
+        {/* <AppFooter /> */}
       </Layout>
     </Layout>
   );

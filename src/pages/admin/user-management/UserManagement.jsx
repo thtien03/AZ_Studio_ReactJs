@@ -1,4 +1,4 @@
-import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { useState } from "react";
 import LockIcon from "@mui/icons-material/Lock";
 import { Popconfirm, Table, Tag, Tooltip } from "antd";
 import "./UserManagement.css";
@@ -6,6 +6,9 @@ import { usePagination } from "src/hook/usePagination.hook";
 import { getListUsers, lockUserService } from "src/services/user.service";
 
 const UserManagement = () => {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
   const {
     data: listUsers,
     loading,
@@ -13,8 +16,8 @@ const UserManagement = () => {
   } = usePagination(
     "ListUsers",
     {
-      page: 1,
-      pageSize: 10,
+      page: page,
+      pageSize: pageSize,
     },
     getListUsers
   );
