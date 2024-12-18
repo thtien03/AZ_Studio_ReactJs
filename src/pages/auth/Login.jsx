@@ -13,7 +13,6 @@ const Login = () => {
   const onFinish = async (values) => {
     try {
       const fetchLogin = await loginService(values);
-      console.log("fetchLogin", fetchLogin);
       if (fetchLogin) {
         form.resetFields();
         navigate("/");
@@ -34,7 +33,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container" style={{ marginTop: "100px" }}>
       {contextHolder}
       <h2 className="login-title">Đăng Nhập</h2>
       <Form
@@ -67,7 +66,7 @@ const Login = () => {
         </Form.Item>
 
         <Form.Item label={null}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Đăng Nhập
           </Button>
         </Form.Item>

@@ -11,10 +11,10 @@ export const getCategoryService = async (id) => {
 };
 
 // type: portfolio/product
-export const createCategoryService = async ({ name, description, type }) => {
+export const createCategoryService = async ({ name, type }) => {
   const response = await axiosClient.post("/category", {
     name,
-    description,
+    description: "",
     type,
   });
   return response;

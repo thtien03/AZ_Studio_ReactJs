@@ -1,21 +1,32 @@
 import axios from "axios";
 
 const baseURL = "http://localhost:8080/api/v1";
-console.log(baseURL);
-let token = JSON.parse(localStorage.getItem("token"));
+let token = "";
+let refreshToken = "";
+const tokenString = localStorage.getItem("accessToken");
+// const refreshTokenString = localStorage.getItem("refreshToken");
+
+if (tokenString) {
+  token = tokenString;
+}
+// if (refreshTokenString) {
+//   refreshToken = refreshTokenString;
+// }
+
 const axiosClient = axios.create({
   baseURL,
   headers: {
     "content-type": "application/json",
-    Authorization: `Bearer ${token?.accessToken}`,
+    Authorization: `Bearer ${token}`,
   },
 });
+
 axiosClient.interceptors.request.use(async (config) => {
-  token = JSON.parse(localStorage.getItem("token"));
-  config.headers.Authorization = `Bearer ${token?.accessToken}`;
-  config.headers["x-refresh"] = token?.refreshToken;
+  config.headers.Authorization = `Bearer ${token}`;
+  config.headers["x-refresh"] = token;
   return config;
 });
+
 axiosClient.interceptors.response.use(
   async (response) => {
     if (response && response.data) return response.data;
@@ -25,4 +36,5 @@ axiosClient.interceptors.response.use(
     throw error;
   }
 );
+
 export default axiosClient;
