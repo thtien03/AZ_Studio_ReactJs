@@ -8,6 +8,8 @@
   min-height: 100vh;
   padding-top: 141px;
   background-color: white;
+  overflow-y: auto;
+  position: relative;
 }
 
 .wrapper-default .content {
