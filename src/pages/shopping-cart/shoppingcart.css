@@ -1,39 +1,138 @@
-/* Thêm CSS cho giỏ hàng */
+/* Tổng thể */
+.cart-container {
+  display: flex; /* Tạo bố cục 2 cột */
+  flex-wrap: wrap; /* Đảm bảo bố cục linh hoạt */
+  gap: 20px; /* Khoảng cách giữa các cột */
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Cột bên trái */
+.cart-left {
+  flex: 3; /* Chiếm 3 phần không gian */
+  min-width: 60%; /* Đảm bảo tối thiểu chiều rộng */
+}
+
+/* Cột bên phải */
+.cart-right {
+  flex: 1; /* Chiếm 1 phần không gian */
+  min-width: 35%; /* Đảm bảo tối thiểu chiều rộng */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Khoảng cách giữa các thành phần */
+}
+
+/* Bảng sản phẩm */
+.ant-table {
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
 .ant-table-thead > tr > th {
-    background-color: #f4f4f4;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .ant-table-tbody > tr > td {
-    vertical-align: middle;
-  }
-  
-  .ant-table-row {
-    cursor: pointer;
-  }
-  
-  .ant-btn-primary {
-    background-color: #4caf50;
-    border-color: #4caf50;
-  }
-  
-  .ant-btn-danger {
-    background-color: #f44336;
-    border-color: #f44336;
+  background-color: #f9f9f9;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid #ddd;
+}
+
+.ant-table-tbody > tr > td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 12px;
+}
+
+.ant-table-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* Nút bấm */
+.ant-btn-primary {
+ background-color: #fff;
+  border-color: #acacac;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.ant-btn-primary:hover {
+  background-color: #45a049;
+  border-color: #45a049;
+}
+
+.ant-btn-danger {
+  background-color: #45a049;
+  border-color: #45a049;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  justify-items: center;
+}
+
+.ant-btn-danger:hover {
+  background-color: #45e311;
+  border-color: #45e311;
+}
+
+/* Mã giảm giá */
+.discount-section {
+  padding: 20px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.discount-section .ant-input {
+  width: 270px; /* Đảm bảo input không vượt ra ngoài */
+  /* max-width: 800px; Đặt kích thước tối đa */
+  border-radius: 6px;
+}
+.discount-section .ant-btn {
+  width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+  max-width: 300px; /* Đặt kích thước tối đa */
+  border-radius: 6px;
+}
+
+/* Tổng cộng và hành động */
+.total-section {
+  padding: 20px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.total-section .ant-typography {
+  font-size: 1.5rem; /* Tăng kích thước chữ */
+  font-weight: bold; /* Tô đậm tổng giá tiền */
+  color: #4caf50;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cart-container {
+    flex-direction: column;
   }
 
-  /* Tùy chỉnh thông báo */
-.ant-notification-notice {
-    background-color: #f1f1f1;
-    border-left: 4px solid #4caf50;
+  .cart-left,
+  .cart-right {
+    flex: none;
+    width: 100%;
   }
-  
-  .ant-notification-notice-message {
-    font-weight: bold;
+
+  .ant-btn-primary,
+  .ant-btn-danger {
+    width: 100%;
   }
-  
-  .ant-notification-notice-description {
-    font-size: 0.9rem;
-  }
-  
+}

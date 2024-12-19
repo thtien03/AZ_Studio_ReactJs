@@ -1,95 +1,125 @@
-import React, { useState, useEffect } from 'react';
-import { Badge, Popover, List, Typography, Button } from 'antd';
-import { BellOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import './NotificationBell.css';
+import React, { useState } from "react";
+import { Badge } from "antd";
+import { BellOutlined } from "@ant-design/icons";
+import { Modal, List, Select, Tag } from "antd";
+import "./NotificationBell.css";
+import NotificationDetail from "./NotificationDetail"; // Import detail component
+
+const { Option } = Select;
 
 const NotificationBell = () => {
-  const [notifications, setNotifications] = useState([]); // Danh sách thông báo
-  const [unreadCount, setUnreadCount] = useState(0); // Số lượng thông báo chưa đọc
-  const navigate = useNavigate(); // Khởi tạo useNavigate
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [filter, setFilter] = useState("all");
+  const [selectedNotification, setSelectedNotification] = useState(null);
+  const [notifications, setNotifications] = useState([
+    { id: 1, message: "Thông báo 1: Đơn hàng của bạn đã được xác nhận.", isRead: true, time: "2024-12-19T08:00:00" },
+    { id: 2, message: "Thông báo 2: Đơn hàng của bạn đang được giao.", isRead: false, time: "2024-12-19T10:00:00" },
+    { id: 3, message: "Thông báo 3: Đơn hàng đã được giao thành công.", isRead: false, time: "2024-12-18T15:30:00" },
+  ]);
 
-  // Giả lập dữ liệu thông báo
-  useEffect(() => {
-    const mockNotifications = [
-      {
-        id: 1,
-        type: 'booking',
-        message: 'Nguyễn Văn A đã đặt lịch chụp ảnh cưới',
-        time: '5 phút trước',
-        read: false,
-      },
-      {
-        id: 2,
-        type: 'order',
-        message: 'Đơn hàng mới từ Trần Thị B',
-        time: '10 phút trước',
-        read: false,
-      },
-    ];
-    setNotifications(mockNotifications);
-    setUnreadCount(mockNotifications.filter((n) => !n.read).length);
-  }, []);
+  const handleOpenModal = (e) => {
+    e.stopPropagation(); // Ngăn chặn sự kiện click lan rộng
+    setIsModalVisible(true);
+  };
 
-  // Xử lý khi nhấn vào thông báo
-  const handleNavigate = (id) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
-        notification.id === id ? { ...notification, read: true } : notification
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleFilterChange = (value) => {
+    setFilter(value);
+  };
+
+  const handleNotificationClick = (notification) => {
+    // Mark notification as read
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((n) =>
+        n.id === notification.id ? { ...n, isRead: true } : n
       )
-    ); // Đánh dấu thông báo là đã đọc
-    setUnreadCount((prev) => Math.max(0, prev - 1)); // Giảm số lượng thông báo chưa đọc
-    console.log(`Navigating to /admin/notifications/${id}`); // Kiểm tra log
-    navigate(`/admin/notifications/${id}`); // Điều hướng đến trang chi tiết
-  };
-
-  // Đánh dấu tất cả là đã đọc
-  const handleReadAll = () => {
-    setNotifications((prev) =>
-      prev.map((notification) => ({ ...notification, read: true }))
     );
-    setUnreadCount(0);
+    setSelectedNotification(notification); // Set the selected notification
   };
 
-  // Nội dung hiển thị trong Popover
-  const content = (
-    <div className="notification-container">
-      <div className="notification-header">
-        <Typography.Text strong>Thông báo</Typography.Text>
-        {unreadCount > 0 && (
-          <Button type="link" onClick={handleReadAll}>
-            Đánh dấu tất cả đã đọc
-          </Button>
-        )}
-      </div>
-      <List
-        className="notification-list"
-        itemLayout="horizontal"
-        dataSource={notifications}
-        renderItem={(item) => (
-          <List.Item
-            className={`notification-item ${!item.read ? 'unread' : ''}`}
-            onClick={() => handleNavigate(item.id)} // Chuyển hướng khi nhấn vào thông báo
-          >
-            <List.Item.Meta title={item.message} description={item.time} />
-          </List.Item>
-        )}
-      />
-    </div>
-  );
+  const handleCloseDetail = () => {
+    setSelectedNotification(null); // Clear selected notification
+  };
+
+  const unreadCount = notifications.filter((notification) => !notification.isRead).length;
+
+  const filteredNotifications = notifications.filter((notification) => {
+    if (filter === "all") return true;
+    return filter === "read" ? notification.isRead : !notification.isRead;
+  });
+
+  const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  };
 
   return (
-    <div style={{ marginLeft: 'auto' }}>
-      <Popover
-        content={content}
-        trigger="click"
-        placement="bottomRight"
-        overlayClassName="notification-popover"
+    <div
+      onClick={(e) => {
+        e.stopPropagation(); // Ngăn chặn sự kiện click dẫn tới điều hướng
+      }}
+    >
+      <Badge count={unreadCount} offset={[10, 0]}>
+        <BellOutlined
+          style={{ fontSize: "20px", cursor: "pointer" }}
+          onClick={handleOpenModal}
+        />
+      </Badge>
+      <Modal
+        title="Thông Báo"
+        visible={isModalVisible}
+        onCancel={handleCloseModal}
+        footer={null}
+        className="notification-modal"
+        onClick={(e) => e.stopPropagation()} // Ngăn chặn click trên modal lan rộng
       >
-        <Badge count={unreadCount} className="notification-badge">
-          <BellOutlined className="notification-icon" />
-        </Badge>
-      </Popover>
+        <div className="filter-container">
+          <Select
+            defaultValue="all"
+            onChange={(value) => handleFilterChange(value)}
+            style={{ width: "100%", marginBottom: "10px" }}
+          >
+            <Option value="all">Tất cả</Option>
+            <Option value="read">Đã xem</Option>
+            <Option value="unread">Chưa xem</Option>
+          </Select>
+        </div>
+        <List
+          dataSource={filteredNotifications}
+          renderItem={(item) => (
+            <List.Item key={item.id} onClick={() => handleNotificationClick(item)}>
+              <List.Item.Meta
+                description={
+                  <div>
+                    <span>{item.message}</span>
+                    <br />
+                    <Tag color={item.isRead ? "green" : "red"} style={{ marginTop: "5px" }}>
+                      {item.isRead ? "Đã xem" : "Chưa xem"}
+                    </Tag>
+                    <div className="notification-time" style={{ marginTop: "5px", fontSize: "12px", color: "#888" }}>
+                      {formatDateTime(item.time)}
+                    </div>
+                  </div>
+                }
+              />
+            </List.Item>
+          )}
+        />
+      </Modal>
+      {selectedNotification && (
+        <NotificationDetail
+          notification={selectedNotification}
+          onClose={handleCloseDetail}
+        />
+      )}
     </div>
   );
 };

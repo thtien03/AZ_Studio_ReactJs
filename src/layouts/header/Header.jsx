@@ -8,49 +8,45 @@ import NotificationBell from "../../pages/admin/notification-management/Notifica
 
 function Header() {
   const navigate = useNavigate();
-  const [current, setCurrent] = useState("home"); // Set giá trị mặc định cho current
+  const [current, setCurrent] = useState("home");
+
   const roleAdmin = localStorage.getItem("isAdmin");
   const accessToken = localStorage.getItem("accessToken");
-  console.log(!!accessToken);
-  // Hàm xử lý sự kiện cho từng mục và chuyển hướng bằng navigate
+
   const handleItemClick = (e) => {
     setCurrent(e.key);
-    console.log("click ", e.key);
     switch (e.key) {
       case "home":
-        navigate("/"); // Trang chủ
+        navigate("/");
         break;
       case "price":
-        navigate("/service/pricing"); // Bảng giá
+        navigate("/service/pricing");
         break;
       case "weddingAlbum":
-        navigate("/service/album"); // Chụp Album cưới
+        navigate("/service/album");
         break;
       case "photo":
-        navigate("/portfolio/photography"); // Photography
-        break;
-      case "video":
-        navigate("/portfolio/videography"); // Videography
+        navigate("/portfolio/photography");
         break;
       case "store":
-        navigate("/dress-style"); // Cửa hàng
+        navigate("/dress-style");
         break;
       case "story":
-        navigate("/story-tips"); // Story & tips
+        navigate("/story-tips");
         break;
       case "contact":
-        navigate("/contact"); // Liên hệ
+        navigate("/contact");
         break;
       case "login":
-        navigate("/auth/login"); // Đăng nhập
+        navigate("/auth/login");
         break;
       case "logout":
-        navigate("/auth/login"); // Đăng nhập
+        navigate("/auth/login");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("isAdmin");
         break;
       case "control":
-        navigate("/admin/user-management"); // Quản lý người dùng
+        navigate("/admin/user-management");
         break;
       case "iconCart":
         navigate("/shopping-cart/shoppingcart");
@@ -65,8 +61,7 @@ function Header() {
     }
   };
 
-  // Tạo menu từ items và gắn sự kiện onClick trực tiếp
-  const items = [
+  const mainMenuItems = [
     {
       label: "Trang Chủ",
       key: "home",
@@ -100,8 +95,7 @@ function Header() {
     },
   ];
 
-  // Thêm các items bên phải
-  const rightItems = [
+  const rightMenuItems = [
     ...(roleAdmin
       ? [
           {
@@ -135,19 +129,30 @@ function Header() {
   ];
 
   return (
-    
     <div className="header-container">
+      {/* Logo */}
       <div onClick={() => navigate("/")} className="logo">
         <img src={logoImage} alt="A-Z Studio" className="logo-image" />
       </div>
+
+      {/* Navbar */}
       <div className="navbar">
-        
+        {/* Menu Chính */}
         <Menu
           onClick={handleItemClick}
-          selectedKeys={[current]} // Hiển thị mục đang chọn
+          selectedKeys={[current]}
           mode="horizontal"
-          items={[...items, ...rightItems]} // Kết hợp menu items chính và items bên phải
+          items={mainMenuItems}
           className="main-menu"
+        />
+
+        {/* Menu Bên Phải */}
+        <Menu
+          onClick={handleItemClick}
+          selectedKeys={[current]}
+          mode="horizontal"
+          items={rightMenuItems}
+          className="right-menu"
         />
       </div>
     </div>
