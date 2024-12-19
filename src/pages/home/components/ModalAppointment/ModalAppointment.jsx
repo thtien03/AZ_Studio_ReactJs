@@ -5,17 +5,16 @@ import { getListServices } from "../../../../services/service.service.js";
 import { createAppointmentService } from "../../../../services/appointment.service.js";
 import io from "socket.io-client";
 
-const ModalAppointment = () => {
+const ModalAppointment = ({ open, onClose }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
-  const [openModal, setOpenModal] = useState(false);
   const [listServices, setListServices] = useState([]);
 
   const handleSubmitAppointment = async (value) => {
     try {
       const fetchAppointment = await createAppointmentService(value);
       if (fetchAppointment) {
-        setOpenModal(false);
+        onClose();
         messageApi.open({
           type: "success",
           content: "Đặt lịch thành công",
@@ -30,25 +29,6 @@ const ModalAppointment = () => {
     }
   };
 
-  // useEffect(() => {
-  //   // Kết nối đến Socket.IO server
-  //   const socket = io.connect("http://localhost:3000");
-  //   console.log(socket);
-  //   // Lắng nghe sự kiện "newAppointment" từ server
-  //   socket.on("newAppointment", (data) => {
-  //     message.success({
-  //       content: "Có một cuộc hẹn mới được tạo!",
-  //       duration: 3,
-  //     });
-  //     console.log("Received new appointment:", data);
-  //   });
-
-  //   // Đảm bảo ngắt kết nối khi component unmount
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
-
   useEffect(() => {
     const fetchServices = async () => {
       try {
@@ -58,21 +38,18 @@ const ModalAppointment = () => {
         console.log("error", error);
       }
     };
-    if (openModal) fetchServices();
-  }, [openModal]);
+    if (open) fetchServices();
+  }, [open]);
 
   return (
     <div className="modal-appointment-wrap">
       {contextHolder}
-      <button className="appointment-button" onClick={() => setOpenModal(true)}>
-        Đặt lịch hẹn
-      </button>
       <Modal
-        open={openModal}
+        open={open}
         title="Đặt lịch hẹn"
         footer={false}
         centered
-        onCancel={() => setOpenModal(false)}
+        onCancel={onClose}
       >
         <Form
           form={form}

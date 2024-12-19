@@ -1,0 +1,37 @@
+.floating-booking-button {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  border: none !important;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  z-index: 1000;
+  min-width: 80px;
+  max-width: 100px;
+}
+
+.floating-booking-button:hover {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  transform: translateX(-50%) translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+.floating-booking-button .anticon {
+  font-size: 14px;
+}
+
+.floating-booking-button span {
+  color: white;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}

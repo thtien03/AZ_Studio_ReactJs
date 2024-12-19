@@ -1,36 +1,62 @@
+import { Carousel } from "antd";
 import ModalAppointment from "./components/ModalAppointment/ModalAppointment";
 import imgabout3 from "../../assets/images/card-about3.jpg";
 import imgabout2 from "../../assets/images/cardabout2.jpg";
-import iconChat from "../../assets/images/chat-icon.png";
 import imgService2 from "../../assets/images/dọc.jpg";
 import imgBackground from "../../assets/images/Nen-home.jpg";
+import imgHome1 from "../../assets/images/home1.png";
+import imgHome2 from "../../assets/images/home2.png";
+import imgHome3 from "../../assets/images/home6.jpg";
+import imgHome4 from "../../assets/images/home5.jpg";
 import imgService1 from "../../assets/images/ngang.jpg";
-import iconPhone from "../../assets/images/phone-icon.png";
 import imgabout1 from "../../assets/images/THT_6762.jpg";
 import "./Home.css";
+import { useState } from "react";
 
 function MainContent() {
+  // Mảng chứa các hình ảnh cho slider
+  const backgroundImages = [
+    imgBackground,
+    imgHome1,
+    imgHome2,
+    imgHome3,
+    imgHome4
+  ];
+
+  // Thêm state để quản lý modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Hàm xử lý mở modal
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
-      <div
-        className="main-content"
-        style={{
-          backgroundImage: `url(${imgBackground})`,
-          backgroundSize: "cover",
-          backgroundPosition: "contain",
-          backgroundRepeat: "no-repeat",
-          height: "100vh",
-        }}
-      >
-        <div className="support-icons">
-          <div className="icon chat-icon">
-            <img src={iconChat} alt="Chat Icon" />
-          </div>
-          <div className="icon phone-icon">
-            <img src={iconPhone} alt="Phone Icon" />
-          </div>
-          <ModalAppointment />
-        </div>
+      <div className="main-content">
+        <Carousel 
+          autoplay 
+          autoplaySpeed={3000} 
+          effect="fade" 
+          dots={true}
+          pauseOnHover={false}
+          infinite={true}
+        >
+          {backgroundImages.map((image, index) => (
+            <div key={index}>
+              <div
+                className="slide-background"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  height: "85vh",
+                }}
+              />
+            </div>
+          ))}
+        </Carousel>
       </div>
 
       <div className="about-section">
@@ -168,10 +194,13 @@ function MainContent() {
             <img src={imgService1} alt="Chân dung" className="service-image" />
             <h3 className="service-title">Chân dung</h3>
             <p className="service-price">Chỉ từ 1.500.000₫</p>
-            <div className="service-rating">★★★★★</div>
             <div className="service-buttons">
-              <button className="service-button">Xem thêm</button>
-              <button className="service-button">Đặt lịch</button>
+              <button 
+                className="service-button book-now"
+                onClick={handleOpenModal}
+              >
+                Đặt lịch
+              </button>
             </div>
           </div>
 
@@ -179,10 +208,13 @@ function MainContent() {
             <img src={imgService2} alt="Event" className="service-image" />
             <h3 className="service-title">Event</h3>
             <p className="service-price">Chỉ từ 3.000.000₫</p>
-            <div className="service-rating">★★★★★</div>
             <div className="service-buttons">
-              <button className="service-button">Xem thêm</button>
-              <button className="service-button">Đặt lịch</button>
+              <button 
+                className="service-button book-now"
+                onClick={handleOpenModal}
+              >
+                Đặt lịch
+              </button>
             </div>
           </div>
 
@@ -190,10 +222,13 @@ function MainContent() {
             <img src={imgService2} alt="Lễ Hội" className="service-image" />
             <h3 className="service-title">PreWedding</h3>
             <p className="service-price">Chỉ từ 3.000.000₫</p>
-            <div className="service-rating">★★★★★</div>
             <div className="service-buttons">
-              <button className="service-button">Xem thêm</button>
-              <button className="service-button">Đặt lịch</button>
+              <button 
+                className="service-button book-now"
+                onClick={handleOpenModal}
+              >
+                Đặt lịch
+              </button>
             </div>
           </div>
 
@@ -201,10 +236,13 @@ function MainContent() {
             <img src={imgService2} alt="Lễ Hội" className="service-image" />
             <h3 className="service-title">Kỷ yếu</h3>
             <p className="service-price">Chỉ từ 3.000.000₫</p>
-            <div className="service-rating">★★★★★</div>
             <div className="service-buttons">
-              <button className="service-button">Xem thêm</button>
-              <button className="service-button">Đặt lịch</button>
+              <button 
+                className="service-button book-now"
+                onClick={handleOpenModal}
+              >
+                Đặt lịch
+              </button>
             </div>
           </div>
 
@@ -212,10 +250,13 @@ function MainContent() {
             <img src={imgService2} alt="Lễ Hội" className="service-image" />
             <h3 className="service-title">Sản phẩm</h3>
             <p className="service-price">Chỉ từ 3.000.000₫</p>
-            <div className="service-rating">★★★★★</div>
             <div className="service-buttons">
-              <button className="service-button">Xem thêm</button>
-              <button className="service-button">Đặt lịch</button>
+              <button 
+                className="service-button book-now"
+                onClick={handleOpenModal}
+              >
+                Đặt lịch
+              </button>
             </div>
           </div>
         </div>
