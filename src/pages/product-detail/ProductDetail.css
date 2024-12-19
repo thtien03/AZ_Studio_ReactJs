@@ -87,10 +87,10 @@
 }
 
 .product-info {
-  flex: 1 1 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 10px;
+ 
 }
 
 .product-name {
