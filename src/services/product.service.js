@@ -20,7 +20,7 @@ export const createProductService = async ({
   name,
   description,
   images,
-  category,
+  categoryId,
   price,
   type,
   bannerImage,
@@ -29,7 +29,7 @@ export const createProductService = async ({
     name,
     description,
     images,
-    category,
+    categoryId,
     price,
     type,
     bannerImage,
@@ -37,20 +37,20 @@ export const createProductService = async ({
   return response;
 };
 
-export const updateCategoryService = async ({
+export const updateProductService = async (id,{
   name,
   description,
   images,
-  category,
+  categoryId,
   price,
   type,
   bannerImage,
 }) => {
-  const response = await axiosClient.put("/product", {
+  const response = await axiosClient.put(`/product/${id}`, {
     name,
     description,
     images,
-    category,
+    categoryId,
     price,
     type,
     bannerImage,

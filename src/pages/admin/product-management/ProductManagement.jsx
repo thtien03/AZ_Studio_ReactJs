@@ -1,14 +1,16 @@
 // src/pages/admin/productManagement.jsx
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Form, Input, Select, DatePicker, message } from 'antd';
+import { Table, Button, Modal, Form, Input, Select,Popconfirm, DatePicker, message } from 'antd';
 import moment from 'moment';
 import './ProductManagement.css';
 import {
   createProductService,
   deleteProductService,
+  updateProductService,
   getListProductsService,
 } from "src/services/product.service";
 import { usePagination } from "src/hook/usePagination.hook";
+import { getListCategoriesService } from 'src/services/category.service';
 
 
 const ProductManagement = () => {
@@ -20,6 +22,7 @@ const ProductManagement = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [setId, setID] = useState(0);
 
     const {
       data: listProducts,
@@ -34,120 +37,75 @@ const ProductManagement = () => {
       getListProductsService
     );
 
-  // Giả lập dữ liệu sản phẩm
-  useEffect(() => {
-    const mockproducts = [
+    const {
+      data: listCategories,
+    
+    } = usePagination(
+      "listCategories",
       {
-        id: 1,
-        productName: 'Sony A7R3',
-        category: 'Máy ảnh',
-        date: '2024-02-20',
-        time: '09:00',
-        status: 'Đã xác nhận',
-        phone: '0123456789'
+        page: 1,
       },
-      // Thêm dữ liệu mẫu khác...
-    ];
-    setProduct(mockproducts);
-  }, []);
+      getListCategoriesService
+    );
 
-  useEffect(() => {
-    if (searchTerm) {
-      const filteredSuggestions = products.filter(product =>
-        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setSuggestions(filteredSuggestions);
-    } else {
-      setSuggestions([]);
+    const showAddModal = () => {
+      setEditingproduct(null);
+      form.resetFields();
+      setIsModalVisible(true);
+    };
+
+  const handleAddNewProduct = async (values) => {
+    try {
+      console.log(values);
+      const res = await createProductService(values);
+      console.log(res);
+      message.success('Thêm sản phẩm thành công');
+      setIsModalVisible(false);
+      form.resetFields();
+      refresh();
+    } catch (error) {
+      message.error('Có lỗi xảy ra khi thêm sản phẩm');
     }
-  }, [searchTerm, products]);
-
-  const handleSuggestionClick = (productName) => {
-    setSearchTerm(productName);
-    setSuggestions([]);
   };
 
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 'Sản phẩm',
-      dataIndex: 'productName',
-      key: 'productName',
-    },
-    {
-      title: 'Danh mục',
-      dataIndex: 'category',
-      key: 'category',
-    },
-    {
-      title: 'Ngày',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: 'Giờ',
-      dataIndex: 'time',
-      key: 'time',
-    },
-    {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
-    },
-    {
-      title: 'Thao tác',
-      key: 'actions',
-      render: (_, record) => (
-        <>
-          <Button type="primary" onClick={() => handleEdit(record)} style={{ marginRight: 8 }}>
-            Sửa
-          </Button>
-          <Button type="primary" danger onClick={() => handleDelete(record.id)}>
-            Xóa
-          </Button>
-        </>
-      ),
-    },
-  ];
 
-  const handleEdit = (product) => {
+  
+  const handleEditShowModal = (product) => {
+    setID(product._id);
     setEditingproduct(product);
+    setIsModalVisible(true);
     form.setFieldsValue({
       ...product,
-      date: moment(product.date)
+      categoryId: product.categoryId?._id,
     });
-    setIsModalVisible(true);
+  };
+
+  const handleEditProduct = async (values) => {
+    try {
+      const res = await updateProductService(setId, values);
+      if (res) {
+        message.success('Cập nhật sản phẩm thành công');
+        setIsModalVisible(false);
+        form.resetFields();
+        refresh();
+      }
+    } catch (error) {
+      message.error('Có lỗi xảy ra khi cập nhật sản phẩm');
+    }
   };
 
   const handleDelete = (id) => {
-    setProduct(products.filter(product => product.id !== id));
-    message.success('Đã xóa sản phẩm thành công');
+    try {
+      deleteProductService(id);
+      refresh();
+      message.success('Xóa sản phẩm thành công');
+      refresh();
+    } catch (error) {
+      message.error('Có lỗi xảy ra khi xóa sản phẩm');
+    }
   };
 
-  const handleModalOk = () => {
-    form.validateFields().then(values => {
-      const updatedproducts = products.map(product => {
-        if (product.id === editingproduct.id) {
-          return {
-            ...product,
-            ...values,
-            date: values.date.format('YYYY-MM-DD')
-          };
-        }
-        return product;
-      });
-      
-      setProduct(updatedproducts);
-      setIsModalVisible(false);
-      form.resetFields();
-      setEditingproduct(null);
-      message.success('Cập nhật sản phẩm thành công');
-    });
-  };
+
 
   const filteredProducts = products.filter(product =>
     product.productName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -164,13 +122,14 @@ const ProductManagement = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{ marginBottom: '20px' }}
         />
+       
         {suggestions.length > 0 && (
           <div className="suggestion-list">
             {suggestions.map((product) => (
               <div
-                key={product.id}
+                key={product?.id}
                 className="suggestion-item"
-                onClick={() => handleSuggestionClick(product.productName)}
+                // onClick={() => handleSuggestionClick(product.productName)}
               >
                 {product.productName}
               </div>
@@ -178,69 +137,164 @@ const ProductManagement = () => {
           </div>
         )}
       </div>
-
-      <Table columns={columns} dataSource={filteredProducts} />
+      
+        <Button 
+          type="primary" 
+          onClick={showAddModal} 
+          style={{ marginBottom: '20px' }}
+        >
+          Thêm sản phẩm mới
+        </Button>
+      
+      {/* <Table columns={columns} dataSource={listProducts} /> */}
+      <Table
+        columns={[
+          {
+            title: 'Tên sản phẩm',
+            dataIndex: 'name',
+            key: 'name',
+          },
+          {
+            title: 'Giá',
+            dataIndex: 'price',
+            key: 'price',
+          },
+          {
+            title: 'Loại',
+            dataIndex: 'type',
+            key: 'type',
+          },
+          {
+            title: 'Danh mục',
+            dataIndex: ['categoryId', 'name'],
+            key: 'categoryId',
+          },
+          {
+            title: 'Thao tác',
+            key: 'action',
+            render: (_, record) => (
+              <span>
+              <Button className="action-button" onClick={() => handleEditShowModal(record) }>
+                Sửa
+              </Button>
+              <Popconfirm
+                title="Bạn có chắc muốn xóa?"
+                onConfirm={() => handleDelete(record?._id)}
+              >
+                <Button className="action-button" danger>
+                  Xóa
+                </Button>
+              </Popconfirm>
+            </span>
+            ),
+          },
+        ]} 
+        dataSource={listProducts?.data}
+        loading={loading}
+        pagination={{
+          total: listProducts?.total,
+          pageSize: pageSize,
+          current: page,
+          onChange: (page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }
+        }}
+      />
 
       <Modal
-        title="Chỉnh sửa thông tin sản phẩm"
+        title={editingproduct ?  "Chỉnh sửa thông tin sản phẩm" : "Thêm sản phẩm mới"}
         visible={isModalVisible}
-        onOk={handleModalOk}
+        onOk={editingproduct ? handleEditProduct : handleAddNewProduct}
+        footer={false}
         onCancel={() => {
           setIsModalVisible(false);
           form.resetFields();
           setEditingproduct(null);
         }}
       >
-        <Form form={form} layout="vertical">
-          <Form.Item
-            name="productName"
-            label="Tên sản phẩm"
-            rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm!' }]}
-          >
-            <Input />
+    <Form initialValues={editingproduct} onFinish={ editingproduct ?handleEditProduct :handleAddNewProduct } form={form} layout="vertical">
+      <Form.Item
+        name="name"
+        label="Tên sản phẩm"
+        rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm' }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="description"
+        label="Mô tả"
+      >
+        <Input.TextArea />
+      </Form.Item>
+
+      <Form.Item
+        name="images"
+        label="Hình ảnh"
+      >
+        <Input placeholder="URL hình ảnh" />
+      </Form.Item>
+
+      <Form.Item
+        name="categoryId"
+        label="Danh mục"
+        rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
+      >
+        <Select placeholder="Chọn danh mục">
+          {listCategories?.data?.map((category) => (
+            <Select.Option key={category?._id} value={category?._id}>
+              {category?.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+
+      <Form.Item
+        name="price"
+        label="Giá"
+        rules={[{ required: true, message: 'Vui lòng nhập giá' }]}
+      >
+        <Input type="number" />
+      </Form.Item>
+
+      <Form.Item
+        name="type"
+        label="Loại"
+        rules={[{ required: true, message: 'Vui lòng chọn loại' }]}
+      >
+        <Select placeholder="Chọn loại">
+          <Select.Option value="portfolio">Portfolio</Select.Option>
+          <Select.Option value="product">Product</Select.Option>
+        </Select>
+      </Form.Item>
+
+      <Form.Item
+        name="bannerImage"
+        label="Ảnh banner"
+      >
+        <Input placeholder="URL ảnh banner" />
+      </Form.Item>
+
+      <Form.Item
+        name="size"
+        label="Kích thước"
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="detail"
+        label="Chi tiết"
+      >
+        <Input.TextArea />
+      </Form.Item>
+      <Form.Item>
+            <Button type="primary" htmlType="submit">
+              {editingproduct ? "Cập nhật" : "Thêm"}
+            </Button>
           </Form.Item>
-          <Form.Item
-            name="category"
-            label="Dịch vụ"
-            rules={[{ required: true, message: 'Vui lòng chọn dịch vụ!' }]}
-          >
-            <Select>
-              <Select.Option value="Chụp ảnh cưới">Chụp ảnh cưới</Select.Option>
-              <Select.Option value="Chụp ảnh kỷ yếu">Chụp ảnh kỷ yếu</Select.Option>
-              <Select.Option value="Chụp ảnh gia đình">Chụp ảnh gia đình</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="date"
-            label="Ngày"
-            rules={[{ required: true, message: 'Vui lòng chọn ngày!' }]}
-          >
-            <DatePicker format="YYYY-MM-DD" />
-          </Form.Item>
-          <Form.Item
-            name="time"
-            label="Giờ"
-            rules={[{ required: true, message: 'Vui lòng chọn giờ!' }]}
-          >
-            <Select>
-              <Select.Option value="09:00">09:00</Select.Option>
-              <Select.Option value="10:00">10:00</Select.Option>
-              <Select.Option value="14:00">14:00</Select.Option>
-              <Select.Option value="15:00">15:00</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="status"
-            label="Trạng thái"
-            rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
-          >
-            <Select>
-              <Select.Option value="Chờ xác nhận">Chờ xác nhận</Select.Option>
-              <Select.Option value="Đã xác nhận">Đã xác nhận</Select.Option>
-              <Select.Option value="Đã hủy">Đã hủy</Select.Option>
-            </Select>
-          </Form.Item>
-        </Form>
+    </Form>
       </Modal>
     </div>
   );
