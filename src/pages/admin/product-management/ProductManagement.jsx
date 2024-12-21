@@ -3,6 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, Select, DatePicker, message } from 'antd';
 import moment from 'moment';
 import './ProductManagement.css';
+import {
+  createProductService,
+  deleteProductService,
+  getListProductsService,
+} from "src/services/product.service";
+import { usePagination } from "src/hook/usePagination.hook";
+
 
 const ProductManagement = () => {
   const [products, setProduct] = useState([]);
@@ -11,6 +18,21 @@ const ProductManagement = () => {
   const [form] = Form.useForm();
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+    const {
+      data: listProducts,
+      loading,
+      refresh,
+    } = usePagination(
+      "listProducts",
+      {
+        page: page,
+        pageSize: pageSize,
+      },
+      getListProductsService
+    );
 
   // Giả lập dữ liệu sản phẩm
   useEffect(() => {
