@@ -20,10 +20,10 @@ export const createCategoryService = async ({ name, type }) => {
   return response;
 };
 
-export const updateCategoryService = async ({ name, description, type }) => {
+export const updateCategoryService = async ({ name, type }) => {
   const response = await axiosClient.put("/category", {
     name,
-    description,
+    description: "",
     type,
   });
   return response;
