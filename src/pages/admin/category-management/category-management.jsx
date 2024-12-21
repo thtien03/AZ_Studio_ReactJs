@@ -15,6 +15,7 @@ import {
   createCategoryService,
   deleteCategoryService,
   getListCategoriesService,
+  updateCategoryService,
 } from "src/services/category.service";
 import "./category-management.css"; // Import file CSS
 
@@ -40,7 +41,6 @@ const CategoryManagement = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
 
-  // Cấu hình các cột trong Table
   const columns = [
     {
       title: "STT",
@@ -88,33 +88,45 @@ const CategoryManagement = () => {
     },
   ];
 
-  const showModal = (category = null) => {
-    setEditingCategory(category);
+  const showModal = (record) => {
     setIsModalVisible(true);
+    form.setFieldsValue({
+      ...record,
+    });
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
-    setEditingCategory(null);
+    form.resetFields();
   };
 
   const handleSave = async (values) => {
+    const value = form.getFieldsValue();
     try {
-      const res = await createCategoryService(values);
+      let res;
+      if (value) {
+        res = await updateCategoryService();
+      } else {
+        res = await createCategoryService(values);
+      }
       if (res) {
         refresh();
         setIsModalVisible(false);
         form.resetFields();
         messageApi.open({
           type: "success",
-          content: "Tạo mới danh mục thành công",
+          content: value
+            ? "Cập nhật danh mục thành công"
+            : "Tạo danh mục thành công",
         });
       }
     } catch (error) {
       console.log("error", error);
       messageApi.open({
         type: "error",
-        content: "Tạo danh mục thất bại, vui lòng thử lại!",
+        content: value
+          ? "Cập nhật danh mục thất bại, vui lòng thử lại!"
+          : "Tạo danh mục thất bại, vui lòng thử lại!",
       });
     }
   };
@@ -150,6 +162,15 @@ const CategoryManagement = () => {
         dataSource={listCategories?.data}
         rowKey="id"
         loading={loading}
+        pagination={{
+          current: page,
+          pageSize: pageSize,
+          total: listCategories?.total,
+          onChange: (current, size) => {
+            setPage(current);
+            setPageSize(size);
+          },
+        }}
       />
 
       <Modal
