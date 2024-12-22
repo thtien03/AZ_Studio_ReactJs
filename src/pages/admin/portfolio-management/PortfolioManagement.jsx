@@ -4,8 +4,9 @@ import { Button, Form, Input, Modal, Select, Table, Upload, message } from 'antd
 import { useEffect, useState } from 'react';
 import UploadFile from 'src/components/upload-file/upload-file';
 import { deleteCategoryService, getListCategoriesService } from 'src/services/category.service';
-import { createProductService, deleteProductService, getListProductsService, updateProductService } from 'src/services/product.service';
+import { createProductService, deleteProductService, getListProductsService, getProductService, updateProductService } from 'src/services/product.service';
 import './PortfolioManagement.css'; // Giả sử bạn có file CSS
+import { deleteFile } from 'src/services/upload.service';
 
 const { Option } = Select;
 
@@ -33,10 +34,11 @@ const PortfolioManagement = () => {
   const fetchDataAlbums = async () => {
     try {
       const response = await getListProductsService();
-      const albumsData = response.data.map(album => ({
+      const albumsData = response.data.filter((product) => product.type === "portfolio").map(album => ({
         ...album,
         category: categories.find(cat => cat._id === album.categoryId) || null,
       }));
+      console.log(albumsData);
       setAlbums(albumsData);
     } catch (error) {
       console.error(error);
@@ -62,47 +64,31 @@ const PortfolioManagement = () => {
     form.setFieldsValue({
       ...record,
     });
+    if(record){
+      setFiles([record.bannerImage]);
+    }
   };
-
-  
-
-  // const handleEdit = (album) => {
-  //   setEditing(album); // Đặt album đang chỉnh sửa vào state
-  
-  //   // Chuyển đổi dữ liệu hình ảnh đại diện thành định dạng fileList của Ant Design
-  //   const imageFileList = album.image ? [{
-  //     uid: '-1', // UID duy nhất
-  //     name: album.image, // Tên file
-  //     status: 'done', // Trạng thái hoàn thành
-  //     url: album.image, // URL hình ảnh
-  //   }] : [];
-  
-  //   // Chuyển đổi dữ liệu hình ảnh chi tiết thành định dạng fileList của Ant Design
-  //   const detailsImageFileList = album.detailsImage ? album.detailsImage.map((img, index) => ({
-  //     uid: `-${index}`, // UID duy nhất
-  //     name: img, // Tên file
-  //     status: 'done', // Trạng thái hoàn thành
-  //     url: img, // URL hình ảnh
-  //   })) : [];
-  
-  //   // Đặt giá trị cho form
-  //   form.setFieldsValue({
-  //     ...album,
-  //     categoryId: album.categoryId, // Đảm bảo categoryId được set
-  //     image: imageFileList,
-  //     detailsImage: detailsImageFileList,
-  //   });
-  
-  //   // Đặt các files hiện có vào state để hiển thị trong Upload component
-  //   setFiles(imageFileList);
-  //   setFilesDetail(detailsImageFileList);
-  
-  //   setIsModalVisible(true); // Hiển thị modal để sửa album
-  // };
   
 
   const handleDelete = async (_id) => {
     try {
+      const resDetail = await getProductService(_id);
+      const listImages = resDetail?.images || [];
+      const imageBanner = resDetail?.bannerImage;
+      const allImages = [...listImages, imageBanner].filter(Boolean); 
+      
+      if (allImages.length > 0) {
+        await Promise.all(
+          allImages.map(async (pathImage) => {
+            const publicIdMatch = pathImage.match(/\/AzStudio\/([^/.]+)\./);
+            if (publicIdMatch) {
+              const publicId = publicIdMatch[1];
+              await deleteFile(publicId);
+            }
+          })
+        );
+      }
+
           const res = await deleteProductService(_id);
           if (res) {
            fetchDataAlbums();
@@ -170,24 +156,21 @@ const handleFinishForm = async (value) => {
     },
     {
       title: 'Danh Mục',
-      dataIndex: 'category',
-      key: 'category',
+      dataIndex: 'categoryId',
+      key: 'categoryId',
       render: (category) => category ? category.name : 'Không có',
     },
     {
       title: 'Hình Ảnh Đại Diện',
-      dataIndex: 'image',
-      key: 'image',
-      render: (text) => text ? <img src={text} alt="avatar" width={50} /> : 'Không có',
+      dataIndex: 'bannerImage', // Đảm bảo `dataIndex` là `bannerImage`
+      key: 'bannerImage', // Đặt key tương tự
+      render: (text,record) => {console.log(record)
+        return (text ? <img src={text} alt="Hình Ảnh Đại Diện" width={179} /> : 'Không có')
+      }
+        // text ? <img src={text} alt="Hình Ảnh Đại Diện" width={179} /> : 'Không có',
     },
-    {
-      title: 'Hình Ảnh Chi Tiết',
-      dataIndex: 'detailsImage',
-      key: 'detailsImage',
-      render: (images) => images && images.length > 0 ? images.map((image, index) => (
-        <img key={index} src={image} alt={`details-${index}`} width={100} style={{ marginRight: '8px' }} />
-      )) : 'Không có',
-    },
+    
+
     {
       title: 'Thao Tác',
       key: 'actions',
@@ -248,13 +231,16 @@ const handleFinishForm = async (value) => {
             rules={[{ required: true, message: 'Vui lòng chọn danh mục!' }]}
           >
             <Select placeholder="Chọn danh mục">
-              {categories.map(category => (
-                <Option key={category._id} value={category._id}>
-                  {category.name}
-                </Option>
-              ))}
+              {categories
+                .filter((category) => category.type === "portfolio") // Lọc danh mục theo type "portfolio"
+                .map((category) => (
+                  <Select.Option key={category._id} value={category._id}>
+                    {category.name}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
+
           
           {/* Hình Ảnh Đại Diện */}
           <Form.Item
@@ -264,6 +250,7 @@ const handleFinishForm = async (value) => {
             <UploadFile
               setFiles={setFiles}
               files={files}
+              maxCount={1}
             />
           </Form.Item>
 

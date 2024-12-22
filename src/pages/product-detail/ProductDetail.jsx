@@ -1,52 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, notification } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules'; // Nếu dùng Swiper v9+, import từ 'swiper/modules'
+import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
-
 import './ProductDetail.css';
+import { getListProductsService, getProductService } from 'src/services/product.service';
+
+// Danh sách sản phẩm giả lập (tương tự DressStyle)
+// const dressStyles = [
+//   { id: 1, imgSrc: require('../../assets/images/A-line1.jpg'), name: 'Áo dài Luxury', price: 1500000, description: 'Áo dài cao cấp với chất liệu thoáng mát.', category: 'aodai', colors: ['Red', 'Blue'], size: 'M', detailImages: [] },
+//   { id: 2, imgSrc: require('../../assets/images/A-line2.jpg'), name: 'Váy cưới Đuôi Cá', price: 1800000, category: 'wedding-dress' },
+// ];
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Giả lập dữ liệu sản phẩm
-  const product = {
-    id,
-    name: 'Dòng Váy A-line',
-    description: 'Váy thiết kế hiện đại đẹp, phù hợp cho nhiều dịp khác nhau.',
-    detailDescription: `Chiếc váy A-line này được may từ chất liệu vải cao cấp, 
-thoáng mát và co giãn nhẹ, giúp bạn cảm thấy thoải mái cả ngày. Thiết kế cổ điển 
-với đường may tinh tế, tạo form dáng thanh lịch, tôn lên vẻ đẹp nữ tính. 
-Váy dễ phối với nhiều loại phụ kiện khác nhau, từ giày cao gót đến giày sneakers, 
-phù hợp để đi làm, dự tiệc, hoặc đi dạo phố. Hãy lựa chọn màu sắc yêu thích 
-để tạo nên phong cách riêng cho bạn!`,
-    price: 500000,
-    originalPrice: 700000,
-    image: require('../../assets/images/A-line1.jpg'),
-    colors: ['Black', 'Blue', 'Pink'],
-    size: 'One Size',
-    detailImages: [
-      require('../../assets/images/ballgown1.jpg'),
-      require('../../assets/images/ballgown2.jpg'),
-      require('../../assets/images/ballgown3.jpg'),
-      require('../../assets/images/ballgown1.jpg'),
-    ],
-  };
+  // Tìm sản phẩm theo ID từ danh sách giả lập
+  // const product = dressStyles.find((item) => item.id === parseInt(id)) || {};
 
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [dataDetail, setDataDetail] = useState(null)
 
   const handleAddToCart = () => {
     try {
       const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
-      const existingProductIndex = currentCart.findIndex(item => item.id === product.id);
+      const existingProductIndex = currentCart.findIndex((item) => item.id ===id);
 
       if (existingProductIndex !== -1) {
         currentCart[existingProductIndex].quantity = (currentCart[existingProductIndex].quantity || 1) + 1;
       } else {
-        currentCart.push({ ...product, quantity: 1 });
+        currentCart.push({ ...dataDetail, quantity: 1 });
       }
 
       localStorage.setItem('cart', JSON.stringify(currentCart));
@@ -66,82 +52,87 @@ phù hợp để đi làm, dự tiệc, hoặc đi dạo phố. Hãy lựa chọ
     }
   };
 
-  const mainImage = product.detailImages[selectedIndex] || product.image;
-
-  const handleSlideChange = (swiper) => {
-    setSelectedIndex(swiper.activeIndex);
-  };
+  // Sử dụng nội dung mặc định nếu thuộc tính không tồn tại
+  // const mainImage = product.detailImages?.[selectedIndex] || product.imgSrc || 'https://via.placeholder.com/300';
+  // const productName = product.name || 'Sản phẩm không có tên';
+  // const productDescription = product.description || 'Chưa có mô tả sản phẩm.';
+  // const productPrice = product.price || 0;
+  // const productColors = product.colors || ['Không có màu'];
+  // const productSize = product.size || 'Free Size';
 
   const handleSlideClick = (index) => {
     setSelectedIndex(index);
   };
+
+  useEffect(() => {
+    const fetchDetailData = async () => {
+      const res = await getProductService(id)
+      console.log(res)
+      if (res) {
+        setDataDetail(res)
+      }
+    }
+    fetchDetailData()
+  }, [])
 
   return (
     <div className="content">
       <div className="product-detail-container">
         <div className="gallery-container">
           <div className="main-image-wrapper">
-            <img src={mainImage} alt="Main Product" className="main-image" />
+            <img src={dataDetail?.images[0]} alt="Main Product" className="main-image" style={{objectFit:"cover"}}/>
           </div>
 
-          {/* Slider sử dụng Swiper với autoplay */}
-          <Swiper
-            modules={[Autoplay]}
-            slidesPerView={3} 
-            spaceBetween={10}
-            onSlideChange={handleSlideChange}
-            className="detail-swiper"
-            autoplay={{
-              delay: 1500,
-              disableOnInteraction: false,
-            }}
-            loop={true} /* Lặp vô hạn để slider cuộn liên tục */
-          >
-            {product.detailImages.map((image, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  src={image}
-                  alt={`Thumb-${index}`}
-                  className={`thumb ${index === selectedIndex ? 'active' : ''}`}
-                  onClick={() => handleSlideClick(index)}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          {dataDetail && (
+            <Swiper
+              modules={[Autoplay]}
+              slidesPerView={3}
+              spaceBetween={10}
+              className="detail-swiper"
+              autoplay={{
+                delay: 1500,
+                disableOnInteraction: false,
+              }}
+              loop={true}
+            >
+              {dataDetail?.images?.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    src={image}
+                    alt={`Thumb-${index}`}
+                    className={`thumb ${index === selectedIndex ? 'active' : ''}`}
+                    onClick={() => handleSlideClick(index)}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
         </div>
 
         <div className="product-info">
-          <h1 className="product-name">{product.name}</h1>
-          <p className="product-description">{product.description}</p>
+          <h1 className="product-name">{dataDetail?.name}</h1>
+          <p className="product-description">{dataDetail?.description}</p>
 
           <div className="product-options">
-            <div className="product-colors">
+            {/* <div className="product-colors">
               <label>Màu Sắc:</label>
-              {product.colors.map(color => (
-                <span key={color} className="color-option">{color}</span>
+              {productColors.map((color, index) => (
+                <span key={index} className="color-option">{color}</span>
               ))}
-            </div>
+            </div> */}
             <div className="product-size">
               <label>Kích Thước:</label>
-              <span>{product.size}</span>
+              <span>{dataDetail?.size || ""}</span>
             </div>
           </div>
 
           <div className="product-pricing">
             <p className="product-price">
-              {product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-            </p>
-            <p className="product-original-price">
-              {product.originalPrice?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+              {dataDetail?.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
             </p>
           </div>
 
           <Button type="primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
-
-          <div className="product-detail-description">
-            <h2>Chi Tiết Sản Phẩm</h2>
-            <p>{product.detailDescription}</p>
-          </div>
         </div>
       </div>
     </div>

@@ -20,6 +20,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
 }
 
+.table.ant-input{
+  width: 100%;
+}
+
 .ant-table-thead > tr > th {
   background-color: #fafafa; /* Màu nền cho header */
   font-weight: bold;
@@ -96,6 +100,7 @@
 .ant-form-item .ant-picker {
   height: 40px;
   border-radius: 4px;
+  width: 100%;
 }
 
 .ant-form-item .ant-select {
@@ -108,7 +113,7 @@
 
 /* Điều chỉnh kích thước ô tìm kiếm */
 .ant-input {
-  width: 250px; /* Kích thước nhỏ hơn */
+  width: 100%; /* Kích thước nhỏ hơn */
   margin-bottom: 20px; /* Khoảng cách dưới */
 }
 

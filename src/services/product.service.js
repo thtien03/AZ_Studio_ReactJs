@@ -24,6 +24,8 @@ export const createProductService = async ({
   price,
   type,
   bannerImage,
+  size,
+  detail
 }) => {
   const response = await axiosClient.post("/product", {
     name,
@@ -33,6 +35,8 @@ export const createProductService = async ({
     price,
     type,
     bannerImage,
+    size,
+    detail
   });
   return response;
 };
@@ -41,19 +45,23 @@ export const updateProductService = async (id,{
   name,
   description,
   images,
-  category,
+  categoryId,
   price,
   type,
   bannerImage,
+  size,
+  detail
 }) => {
   const response = await axiosClient.put(`/product/${id}`, {
     name,
     description,
     images,
-    category,
+    categoryId,
     price,
     type,
     bannerImage,
+    size,
+    detail
   });
   return response;
 };

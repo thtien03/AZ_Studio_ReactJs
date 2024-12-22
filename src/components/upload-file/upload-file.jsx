@@ -39,7 +39,7 @@ const UploadFile = ({
       return Upload.LIST_IGNORE;
     }
     if (maxCount === 1 && files.length > 0) {
-      const match = files[0].match(/\/AzStudio\/([^/.]+)\./);
+      const match = files[0]?.match(/\/AzStudio\/([^/.]+)\./);
       const publicId = match ? match[1] : null;
       if (!publicId) {
         messageApi.error("Invalid file format.");

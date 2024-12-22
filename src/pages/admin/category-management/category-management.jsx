@@ -91,6 +91,7 @@ const CategoryManagement = () => {
   const showModal = (record) => {
     setEditingCategory(record)
     setIsModalVisible(true);
+    setEditingCategory(record);
     form.setFieldsValue({
       ...record,
     });

@@ -60,4 +60,7 @@ table {
       padding: 8px 16px;
     }
   }
-  
+
+  .ant-modal-body.antd-input{
+    width: 100%;
+  }

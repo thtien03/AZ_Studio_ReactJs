@@ -30,7 +30,7 @@ const Cart = () => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(savedCart);
   }, []);
-
+console.log("check cart",cartItems)
   const calculateShippingFee = (items, method) => {
     const totalWeight = items.reduce(
       (sum, item) => sum + item.weight * item.quantity,
@@ -170,9 +170,9 @@ const Cart = () => {
       title: "Hình ảnh",
       dataIndex: "image",
       key: "image",
-      render: (image) => (
+      render: (_,record) => (
         <img
-          src={image}
+          src={record?.images[0]}
           alt="product"
           style={{ width: "100px", height: "auto" }}
           onError={(e) => {
