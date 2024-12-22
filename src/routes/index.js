@@ -1,5 +1,3 @@
-
-
 import CategoryManagement from "src/pages/admin/category-management/category-management";
 import ImageDetail from "src/pages/portfolio/ImageDetail";
 import About from "../pages/about/About";
@@ -31,7 +29,7 @@ import { Payment } from "@mui/icons-material";
 import PaymentResult from "src/pages/payment/payment-result";
 import AdminDiscount from "src/pages/admin/discount-management/discount";
 import AdminLayout from "src/layouts/AdminLayout/AdminLayout";
-
+import OrderHistory from 'src/pages/shopping-cart/OrderHistory';
 
 const publicRoutes = [
   {
@@ -172,11 +170,11 @@ const publicRoutes = [
     path: "/admin/discount",
     component: AdminDiscount,
     layout:"AdminLayout",
+  },
+  {
+    path: "/shopping-cart/OrderHistory",
+    component: OrderHistory,
   }
-
-
-  
-  
 ];
 
 const privateRoutes = [];

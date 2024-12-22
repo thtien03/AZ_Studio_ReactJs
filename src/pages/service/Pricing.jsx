@@ -30,49 +30,51 @@ const Pricing = () => {
     <div className="pricing-container">
       {/* Container ảnh cover */}
       <div className="cover-image-container">
+        <h1 className="pricing-title">GÓI THUÊ VÁY CƯỚI</h1>
         <img src={coverImage} alt="Cover" className="cover-image" />
       </div>
 
-      <h2 className="pricing-title">GÓI THUÊ VÁY CƯỚI LỄ</h2>
-      <div className="pricing-grid">
-        <div className="pricing-item" onClick={() => openModal(imageRuby)}>
-          <img src={imageRuby} alt="Ruby" className="pricing-image" />
-          <div className="overlay">
-            <span className="overlay-text">RUBY</span>
+      <div className="pricing-content">
+        <div className="pricing-grid">
+          <div className="pricing-item" onClick={() => openModal(imageRuby)}>
+            <img src={imageRuby} alt="Ruby" className="pricing-image" />
+            <div className="overlay">
+              <span className="overlay-text">RUBY</span>
+            </div>
+          </div>
+          <div className="pricing-item" onClick={() => openModal(imageLuxury)}>
+            <img src={imageLuxury} alt="Luxury" className="pricing-image" />
+            <div className="overlay">
+              <span className="overlay-text">LUXURY</span>
+            </div>
+          </div>
+          <div className="pricing-item" onClick={() => openModal(imageLimited)}>
+            <img src={imageLimited} alt="Limited" className="pricing-image" />
+            <div className="overlay">
+              <span className="overlay-text">LIMITED</span>
+            </div>
+          </div>
+          <div className="pricing-item" onClick={() => openModal(weddingPremium)}>
+            <img src={weddingPremium} alt="Premium" className="pricing-image" />
+            <div className="overlay">
+              <span className="overlay-text">PREMIUM</span>
+            </div>
           </div>
         </div>
-        <div className="pricing-item" onClick={() => openModal(imageLuxury)}>
-          <img src={imageLuxury} alt="Luxury" className="pricing-image" />
-          <div className="overlay">
-            <span className="overlay-text">LUXURY</span>
-          </div>
-        </div>
-        <div className="pricing-item" onClick={() => openModal(imageLimited)}>
-          <img src={imageLimited} alt="Limited" className="pricing-image" />
-          <div className="overlay">
-            <span className="overlay-text">LIMITED</span>
-          </div>
-        </div>
-        <div className="pricing-item" onClick={() => openModal(weddingPremium)}>
-          <img src={weddingPremium} alt="Premium" className="pricing-image" />
-          <div className="overlay">
-            <span className="overlay-text">PREMIUM</span>
-          </div>
-        </div>
-      </div>
 
-      <h2 className="pricing-title">GÓI NGÀY CƯỚI</h2>
-      <div className="pricing-grid wedding-packages">
-        <div className="wedding-item" onClick={() => openModal(weddingPremium)}>
-          <img src={weddingPremium} alt="Premium Wedding" className="pricing-image" />
-          <div className="overlay">
-            <span className="overlay-text">PREMIUM</span>
+        <h2 className="pricing-title">GÓI NGÀY CƯỚI</h2>
+        <div className="pricing-grid wedding-packages">
+          <div className="wedding-item" onClick={() => openModal(weddingPremium)}>
+            <img src={weddingPremium} alt="Premium Wedding" className="pricing-image" />
+            <div className="overlay">
+              <span className="overlay-text">PREMIUM</span>
+            </div>
           </div>
-        </div>
-        <div className="wedding-item" onClick={() => openModal(weddingPricing)}>
-          <img src={weddingPricing} alt="Wedding Pricing" className="pricing-image" />
-          <div className="overlay">
-            <span className="overlay-text">BẢNG GIÁ NGÀY CƯỚI</span>
+          <div className="wedding-item" onClick={() => openModal(weddingPricing)}>
+            <img src={weddingPricing} alt="Wedding Pricing" className="pricing-image" />
+            <div className="overlay">
+              <span className="overlay-text">BẢNG GIÁ NGÀY CƯỚI</span>
+            </div>
           </div>
         </div>
       </div>
