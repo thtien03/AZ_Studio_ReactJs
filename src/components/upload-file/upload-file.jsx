@@ -1,10 +1,10 @@
-import * as UploadService from "@/services/upload.service";
 import { Image, Modal, message } from "antd";
 import Upload from "antd/es/upload";
 import Dragger from "antd/es/upload/Dragger";
 import imageCompression from "browser-image-compression";
 import { useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
+import { deleteFile, uploadFile } from "src/services/upload.service";
 
 const extractContentFromHTML = (s) => {
   var span = document.createElement("span");
@@ -39,21 +39,21 @@ const UploadFile = ({
       return Upload.LIST_IGNORE;
     }
     if (maxCount === 1 && files.length > 0) {
-      const match = files[0].match(/\/bp-system\/([^/.]+)\./);
+      const match = files[0].match(/\/AzStudio\/([^/.]+)\./);
       const publicId = match ? match[1] : null;
       if (!publicId) {
         messageApi.error("Invalid file format.");
         return Upload.LIST_IGNORE;
       }
-      await UploadService.deleteFile(publicId);
+      await deleteFile(publicId);
       setFiles([]);
     }
     try {
-      const res = await UploadService.uploadFile(formData);
-      if (res.data) {
-        onUpload?.(res.data.urls[0]);
-        setFiles((prevFiles) => [...prevFiles, res.data.urls[0]]);
-        onSuccess && onSuccess(res.data);
+      const res = await uploadFile(formData);
+      if (res) {
+        onUpload?.(res.urls[0]);
+        setFiles((prevFiles) => [...prevFiles, res.urls[0]]);
+        onSuccess && onSuccess(res);
       }
     } catch (err) {
       onError &&
@@ -101,9 +101,9 @@ const UploadFile = ({
   const handleRemove = async (info) => {
     if (info) {
       const imageUrl = info.response.urls[0];
-      const publicId = imageUrl.match(/\/bp-system\/([^/.]+)\./)[1];
+      const publicId = imageUrl.match(/\/AzStudio\/([^/.]+)\./)[1];
       try {
-        const resDeleteFile = await UploadService.deleteFile(publicId);
+        const resDeleteFile = await deleteFile(publicId);
         if (resDeleteFile) {
           messageApi.open({
             type: "success",
@@ -145,16 +145,16 @@ const UploadFile = ({
         className="drag-upload-file-custom"
         style={{ marginBottom: "10px" }}
       >
-        <p className="flex items-center justify-center">
+        <p>
           <SlCloudUpload />
         </p>
-        <p className="mb-[5px] text-[14px] leading-[20px] text-primary-gray-600">
-          <span className="font-semibold text-second-blue-800">
+        <p>
+          <span >
             Click to upload
           </span>{" "}
           or drag and drop
         </p>
-        <p className="mb-0 text-primary-gray-600">PNG, JPG</p>
+        <p >PNG, JPG</p>
       </Dragger>
       <Modal
         open={previewOpen}

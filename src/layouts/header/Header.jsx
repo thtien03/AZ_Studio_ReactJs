@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
 import { UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import "./Header.css";
@@ -8,59 +8,17 @@ import NotificationBell from "../../pages/admin/notification-management/Notifica
 
 function Header() {
   const navigate = useNavigate();
-  const [current, setCurrent] = useState("home");
+  const [currentMain, setCurrentMain] = useState("home");
+  const [currentRight, setCurrentRight] = useState("");
 
-  const roleAdmin = localStorage.getItem("isAdmin");
-  const accessToken = localStorage.getItem("accessToken");
+  // Utility functions to get values from localStorage
+  const getIsAdmin = () => localStorage.getItem("isAdmin") === "true";
+  const getAccessToken = () => localStorage.getItem("accessToken");
 
-  const handleItemClick = (e) => {
-    setCurrent(e.key);
-    switch (e.key) {
-      case "home":
-        navigate("/");
-        break;
-      case "price":
-        navigate("/service/pricing");
-        break;
-      case "weddingAlbum":
-        navigate("/service/album");
-        break;
-      case "photo":
-        navigate("/portfolio/photography");
-        break;
-      case "store":
-        navigate("/dress-style");
-        break;
-      case "story":
-        navigate("/story-tips");
-        break;
-      case "contact":
-        navigate("/contact");
-        break;
-      case "login":
-        navigate("/auth/login");
-        break;
-      case "logout":
-        navigate("/auth/login");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("isAdmin");
-        break;
-      case "control":
-        navigate("/admin/user-management");
-        break;
-      case "iconCart":
-        navigate("/shopping-cart/shoppingcart");
-        break;
-      case "notifications":
-        navigate("/admin/notifications");
-        break;
-      default:
-        if (e.key !== "iconUser" && e.key !== "notifications") {
-          navigate("/404");
-        }
-    }
-  };
+  const roleAdmin = getIsAdmin();
+  const accessToken = getAccessToken();
 
+  // Define mainMenuItems first
   const mainMenuItems = [
     {
       label: "Trang Chủ",
@@ -95,6 +53,10 @@ function Header() {
     },
   ];
 
+  // Define mainMenuKeys after mainMenuItems
+  const mainMenuKeys = mainMenuItems.map((item) => item.key);
+
+  // Define rightMenuItems
   const rightMenuItems = [
     ...(roleAdmin
       ? [
@@ -113,8 +75,8 @@ function Header() {
       key: "iconUser",
       children: [
         {
-          key: !!!accessToken ? "login" : "logout",
-          label: !!!accessToken ? "Đăng nhập" : "Đăng xuất",
+          key: !accessToken ? "login" : "logout",
+          label: !accessToken ? "Đăng nhập" : "Đăng xuất",
         },
         ...(roleAdmin
           ? [
@@ -128,6 +90,75 @@ function Header() {
     },
   ];
 
+  // Define mainMenuKeys and rightMenuKeys if necessary
+  // Mapping submenu keys to their parent keys
+  const submenuKeyToParentKey = {
+    price: "service",
+    weddingAlbum: "service",
+    photo: "portfolio",
+  };
+
+  const handleItemClick = (e) => {
+    if (submenuKeyToParentKey[e.key]) {
+      // Nếu là submenu, set selected key cho Main Menu là parent key
+      setCurrentMain(submenuKeyToParentKey[e.key]);
+      setCurrentRight(e.key);
+    } else if (mainMenuKeys.includes(e.key)) {
+      // Nếu là main menu, set selected key cho Main Menu
+      setCurrentMain(e.key);
+      setCurrentRight("");
+    } else {
+      // Nếu là right menu, set selected key cho Right Menu
+      setCurrentRight(e.key);
+    }
+
+    // Xử lý điều hướng dựa trên key
+    switch (e.key) {
+      case "home":
+        navigate("/");
+        break;
+      case "price":
+        navigate("/service/pricing");
+        break;
+      case "weddingAlbum":
+        navigate("/service/album");
+        break;
+      case "photo":
+        navigate("/portfolio/photography");
+        break;
+      case "store":
+        navigate("/dress-style");
+        break;
+      case "story":
+        navigate("/story-tips");
+        break;
+      case "contact":
+        navigate("/contact");
+        break;
+      case "login":
+        navigate("/auth/login");
+        break;
+      case "logout":
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("isAdmin");
+        navigate("/auth/login");
+        break;
+      case "control":
+        navigate("/admin/user-management");
+        break;
+      case "iconCart":
+        navigate("/shopping-cart/shoppingcart");
+        break;
+      case "notifications":
+        navigate("/admin/notifications");
+        break;
+      default:
+        if (e.key !== "iconUser" && e.key !== "notifications") {
+          navigate("/404");
+        }
+    }
+  };
+
   return (
     <div className="header-container">
       {/* Logo */}
@@ -137,19 +168,19 @@ function Header() {
 
       {/* Navbar */}
       <div className="navbar">
-        {/* Menu Chính */}
+        {/* Main Menu */}
         <Menu
           onClick={handleItemClick}
-          selectedKeys={[current]}
+          selectedKeys={[currentMain]}
           mode="horizontal"
           items={mainMenuItems}
           className="main-menu"
         />
 
-        {/* Menu Bên Phải */}
+        {/* Right Menu */}
         <Menu
           onClick={handleItemClick}
-          selectedKeys={[current]}
+          selectedKeys={[currentRight]}
           mode="horizontal"
           items={rightMenuItems}
           className="right-menu"

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Pagination, Tabs } from 'antd';
+import { Pagination, Tabs, Slider } from 'antd';
 import 'antd/dist/reset.css';
 import './DressStyle.css';
 
@@ -20,12 +20,20 @@ const dressStyles = [
   { id: 13, imgSrc: require('../../assets/images/VEST/BỘ VEST 6 CÚC ĐEN/BỘ VEST 6 CÚC ĐEN_1.png'), name: 'Vest Style 2', price: '2,300,000', category: 'vest' },
 ];
 
+// Hàm chuyển đổi giá từ chuỗi sang số
+const parsePrice = (priceStr) => {
+  return parseInt(priceStr.replace(/,/g, ''), 10);
+};
+
+// Đặt giá tối thiểu và tối đa cố định
+const MIN_PRICE = 1000000; // 1,000,000 VNĐ
+const MAX_PRICE = 100000000; // 200,000,000 VNĐ
+
 const DressStyle = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedStyle, setSelectedStyle] = useState('');
   const [selectedLine, setSelectedLine] = useState('Premium');
-  const [selectedColor, setSelectedColor] = useState('');
+  const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('all'); // Mặc định là "all" để hiển thị tất cả sản phẩm
 
@@ -48,10 +56,15 @@ const DressStyle = () => {
   const filteredByCategory =
     selectedCategory === 'all' ? dressStyles : dressStyles.filter((dress) => dress.category === selectedCategory);
 
-  // Logic lọc theo từ khóa tìm kiếm
-  const filteredDressStyles = filteredByCategory.filter((dress) =>
-    dress.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Logic lọc theo từ khóa tìm kiếm và khoảng giá
+  const filteredDressStyles = filteredByCategory
+    .filter((dress) =>
+      dress.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((dress) => {
+      const price = parsePrice(dress.price);
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = filteredDressStyles.slice(startIndex, startIndex + itemsPerPage);
@@ -78,6 +91,7 @@ const DressStyle = () => {
 
       <div className="dress-style-container">
         <div className="filter-section">
+          <h1>Tìm kiếm</h1>
           <div className="search-bar">
             <input
               type="text"
@@ -86,22 +100,13 @@ const DressStyle = () => {
               onChange={handleChange}
             />
           </div>
-          <h2>Bộ Lọc</h2>
-          <div className="filter-option">
-            <label>Dáng Váy:</label>
-            <select value={selectedStyle} onChange={(e) => setSelectedStyle(e.target.value)}>
-              <option value="">Chọn Dáng Váy</option>
-              <option value="A-line">A-line</option>
-              <option value="Ballgown">Ballgown</option>
-              <option value="Fit & Flare">Fit & Flare</option>
-            </select>
-          </div>
+          <h2>Bộ Lọc</h2> 
 
           <div className="filter-option">
             <label>Dòng Váy:</label>
             <select value={selectedLine} onChange={(e) => setSelectedLine(e.target.value)}>
               <option value="Premium">Premium</option>
-              <option value="Limited">Limited</option>
+              <option value="Limited">Limited</option>  
               <option value="Luxury">Luxury</option>
               <option value="Ruby">Ruby</option>
               <option value="Basic">Basic</option>
@@ -109,17 +114,25 @@ const DressStyle = () => {
             </select>
           </div>
 
+          {/* Thay thế Màu Sắc bằng Giá Tiền với Slider */}
           <div className="filter-option">
-            <label>Màu Sắc:</label>
-            <select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-              <option value="">Chọn Màu Sắc</option>
-              <option value="Trắng">Trắng</option>
-              <option value="Đỏ">Đỏ</option>
-              <option value="Đen">Đen</option>
-            </select>
+            <label>Giá Tiền:</label>
+            <Slider
+              range
+              min={MIN_PRICE}
+              max={MAX_PRICE}
+              value={priceRange}
+              onChange={setPriceRange}
+              step={100000}
+              tooltip={{ formatter: (value) => `${value.toLocaleString()} VNĐ` }}
+            />
+            <div className="price-range-label">
+              <span>{priceRange[0].toLocaleString()} VNĐ</span> - <span>{priceRange[1].toLocaleString()} VNĐ</span>
+            </div>
           </div>
 
-          <button className="apply-button">Áp Dụng</button>
+          {/* Bạn có thể giữ hoặc loại bỏ nút Áp Dụng tùy vào nhu cầu */}
+          {/* <button className="apply-button">Áp Dụng</button> */}
         </div>
 
         <div className="right-section">

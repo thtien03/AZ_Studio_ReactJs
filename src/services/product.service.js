@@ -1,4 +1,4 @@
-import axiosClient from "../api/axiosClient.js";
+import {axiosClient} from "../api/axiosClient.js";
 
 export const getListProductsService = async () => {
   const response = await axiosClient.get("/product");
@@ -20,7 +20,7 @@ export const createProductService = async ({
   name,
   description,
   images,
-  category,
+  categoryId,
   price,
   type,
   bannerImage,
@@ -29,7 +29,7 @@ export const createProductService = async ({
     name,
     description,
     images,
-    category,
+    categoryId,
     price,
     type,
     bannerImage,
@@ -37,7 +37,7 @@ export const createProductService = async ({
   return response;
 };
 
-export const updateCategoryService = async ({
+export const updateProductService = async (id,{
   name,
   description,
   images,
@@ -46,7 +46,7 @@ export const updateCategoryService = async ({
   type,
   bannerImage,
 }) => {
-  const response = await axiosClient.put("/product", {
+  const response = await axiosClient.put(`/product/${id}`, {
     name,
     description,
     images,

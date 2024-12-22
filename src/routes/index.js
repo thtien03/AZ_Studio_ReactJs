@@ -33,8 +33,6 @@ import AdminDiscount from "src/pages/admin/discount-management/discount";
 import AdminLayout from "src/layouts/AdminLayout/AdminLayout";
 
 
-
-
 const publicRoutes = [
   {
     path: "/",

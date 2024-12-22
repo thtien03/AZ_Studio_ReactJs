@@ -1,4 +1,4 @@
-import axiosClient from "../api/axiosClient.js";
+import {axiosClient} from "../api/axiosClient.js";
 
 export const loginService = async ({ username, password }) => {
   const response = await axiosClient.post("/user/login", {

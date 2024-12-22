@@ -53,12 +53,12 @@ const CategoryManagement = () => {
     },
     {
       title: "Loại danh mục",
-      dataIndex: "status",
+      dataIndex: "type",
       align: "center",
-      key: "status",
+      key: "type",
       render: (_, record) => (
         <>
-          {record?.status === "portfolio" ? (
+          {record?.type === "portfolio" ? (
             <Tag color="pink">Portfolio</Tag>
           ) : (
             <Tag color="blue">Sản phẩm</Tag>
@@ -89,6 +89,7 @@ const CategoryManagement = () => {
   ];
 
   const showModal = (record) => {
+    setEditingCategory(record)
     setIsModalVisible(true);
     form.setFieldsValue({
       ...record,
@@ -97,15 +98,15 @@ const CategoryManagement = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setEditingCategory(null)
     form.resetFields();
   };
 
   const handleSave = async (values) => {
-    const value = form.getFieldsValue();
     try {
       let res;
-      if (value) {
-        res = await updateCategoryService();
+      if (editingCategory) {
+        res = await updateCategoryService(editingCategory._id,values);
       } else {
         res = await createCategoryService(values);
       }
@@ -115,7 +116,7 @@ const CategoryManagement = () => {
         form.resetFields();
         messageApi.open({
           type: "success",
-          content: value
+          content: editingCategory
             ? "Cập nhật danh mục thành công"
             : "Tạo danh mục thành công",
         });
@@ -124,7 +125,7 @@ const CategoryManagement = () => {
       console.log("error", error);
       messageApi.open({
         type: "error",
-        content: value
+        content: editingCategory
           ? "Cập nhật danh mục thất bại, vui lòng thử lại!"
           : "Tạo danh mục thất bại, vui lòng thử lại!",
       });

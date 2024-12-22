@@ -1,4 +1,4 @@
-import axiosClient from "../api/axiosClient.js";
+import {axiosClient} from "../api/axiosClient.js";
 
 export const getListCategoriesService = async () => {
   const response = await axiosClient.get("/category");
@@ -20,8 +20,8 @@ export const createCategoryService = async ({ name, type }) => {
   return response;
 };
 
-export const updateCategoryService = async ({ name, type }) => {
-  const response = await axiosClient.put("/category", {
+export const updateCategoryService = async (id,{ name, type }) => {
+  const response = await axiosClient.put(`/category/${id}`, {
     name,
     description: "",
     type,

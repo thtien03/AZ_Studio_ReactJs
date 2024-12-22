@@ -1,14 +1,18 @@
 import { Carousel } from "antd";
 import ModalAppointment from "./components/ModalAppointment/ModalAppointment";
 import imgabout3 from "../../assets/images/card-about3.jpg";
-import imgabout2 from "../../assets/images/cardabout2.jpg";
-import imgService2 from "../../assets/images/dọc.jpg";
-import imgBackground from "../../assets/images/Nen-home.jpg";
-import imgHome1 from "../../assets/images/home1.png";
-import imgHome2 from "../../assets/images/home2.png";
-import imgHome3 from "../../assets/images/home6.jpg";
-import imgHome4 from "../../assets/images/home5.jpg";
-import imgService1 from "../../assets/images/ngang.jpg";
+import imgabout2 from "../../assets/images/A-line3.jpg";
+import imgService2 from "../../assets/images/Mau1.jpg";
+import imgService3 from "../../assets/images/53658997172_aef70ff91e_o.jpg";
+import imgService4 from "../../assets/images/ab8b227e-d912-4af4-a551-ef10885c8c65.jpg";
+import imgService5 from "../../assets/images/53660219479_576283f435_o.jpg";
+import imgService6 from "../../assets/images/home5.jpg";
+import imgBackground from "../../assets/images/slide5.png";
+import imgHome1 from "../../assets/images/slide1.png";
+import imgHome2 from "../../assets/images/slide2.png";
+import imgHome3 from "../../assets/images/slide3.png";
+import imgHome4 from "../../assets/images/slide4.png";
+import imgService1 from "../../assets/images/53659726977_5e8b973b0e_o.jpg";
 import imgabout1 from "../../assets/images/THT_6762.jpg";
 import "./Home.css";
 import { useState } from "react";
@@ -17,19 +21,37 @@ function MainContent() {
   // Mảng chứa các hình ảnh cho slider
   const backgroundImages = [
     imgBackground,
-    imgHome1,
     imgHome2,
     imgHome3,
+    imgHome1,
     imgHome4
   ];
 
-  // Thêm state để quản lý modal
+  // Thêm state để quản lý modal và danh mục sản phẩm đã chọn
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
 
   // Hàm xử lý mở modal
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
+
+  // Dữ liệu sản phẩm với danh mục
+  const products = [
+    { id: 1, image: imgService1, name: "Concept Tết", model: "Quỳnh Như", category: "PRE-WEDDING" },
+    { id: 3, image: imgService2, name: "Concept Tết", model: "Quỳnh Như", category: "FASHION" },
+    { id: 5, image: imgabout2, name: "Concept Tết", model: "Quỳnh Như", category: "SỰ KIỆN" },
+    { id: 7, image: imgService6, name: "Concept Tết", model: "Quỳnh Như", category: "KỶ YẾU" },
+    { id: 6, image: imgService3, name: "Concept Tết", model: "Quỳnh Như", category: "PRE-WEDDING" },
+    { id: 8, image: imgService4, name: "Concept Tết", model: "Quỳnh Như", category: "FASHION" },
+    { id: 9, image: imgabout3, name: "Concept Tết", model: "Quỳnh Như", category: "LỄ CƯỚI" },
+    { id: 9, image: imgService5, name: "Concept Tết", model: "Quỳnh Như", category: "LỄ CƯỚI" },
+  ];
+
+  // Lọc sản phẩm theo danh mục đã chọn
+  const filteredProducts = products.filter((product) => {
+    return selectedCategory === "ALL" || product.category === selectedCategory;
+  });
 
   return (
     <>
@@ -119,66 +141,66 @@ function MainContent() {
       </div>
 
       {/* =========================Sản Phẩm================================ */}
-
       <div className="product-gallery">
         <h2>Sản Phẩm</h2>
 
+        {/* Phần menu chọn filter danh mục */}
         <div className="category-menu">
-          <button className="category-button active">ALL</button>
-          <button className="category-button">PRE-WEDDING</button>
-          <button className="category-button">KỶ YẾU</button>
-          <button className="category-button">FASHION</button>
-          <button className="category-button">LỄ CƯỚI</button>
-          <button className="category-button">SỰ KIỆN</button>
-          <button className="category-button">CHÂN DUNG</button>
+          <button
+            className={`category-button ${selectedCategory === "ALL" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("ALL")}
+          >
+            Tất cả
+          </button>
+          <button
+            className={`category-button ${selectedCategory === "PRE-WEDDING" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("PRE-WEDDING")}
+          >
+            Pre-Wedding
+          </button>
+          <button
+            className={`category-button ${selectedCategory === "KỶ YẾU" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("KỶ YẾU")}
+          >
+            Kỷ Yếu
+          </button>
+          <button
+            className={`category-button ${selectedCategory === "FASHION" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("FASHION")}
+          >
+            Fashion
+          </button>
+          <button
+            className={`category-button ${selectedCategory === "LỄ CƯỚI" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("LỄ CƯỚI")}
+          >
+            Lễ Cưới
+          </button>
+          <button
+            className={`category-button ${selectedCategory === "SỰ KIỆN" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("SỰ KIỆN")}
+          >
+            Sự Kiện
+          </button>
+          <button
+            className={`category-button ${selectedCategory === "CHÂN DUNG" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("CHÂN DUNG")}
+          >
+            Chân Dung
+          </button>
         </div>
+
+        {/* Hiển thị các sản phẩm sau khi lọc */}
         <div className="product-grid">
-          <div className="product-card">
-            <img src={imgService1} alt="Product 1" className="product-image" />
-            <div className="product-overlay">
-              <p>Concept Tết</p>
-              <p>Model: Quỳnh Như</p>
+          {filteredProducts.map((product) => (
+            <div className="product-card" key={product.id}>
+              <img src={product.image} alt={product.name} className="product-image" />
+              <div className="product-overlay">
+                <p>{product.name}</p>
+                <p>Model: {product.model}</p>
+              </div>
             </div>
-          </div>
-          <div className="product-card">
-            <img src={imgService1} alt="Product 2" className="product-image" />
-            <div className="product-overlay">
-              <p>Concept Tết</p>
-              <p>Model: Quỳnh Như</p>
-            </div>
-          </div>
-          <div className="product-card">
-            <img src={imgService2} alt="Product 3" className="product-image" />
-            <div className="product-overlay">
-              <p>Concept Tết</p>
-              <p>Model: Quỳnh Như</p>
-            </div>
-          </div>
-          <div className="product-card">
-            <img src={imgService1} alt="Product 4" className="product-image" />
-            <div className="product-overlay">
-              <p>Concept Tết</p>
-              <p>Model: Quỳnh Như</p>
-            </div>
-          </div>
-          <div className="product-card">
-            <img src={imgabout2} alt="Product 5" className="product-image" />
-          </div>
-          <div className="product-card">
-            <img src={imgService1} alt="Product 4" className="product-image" />
-          </div>
-          <div className="product-card">
-            <img src={imgabout2} alt="Product 6" className="product-image" />
-          </div>
-          <div className="product-card">
-            <img src={imgabout2} alt="Product 6" className="product-image" />
-          </div>
-          <div className="product-card">
-            <img src={imgabout2} alt="Product 6" className="product-image" />
-          </div>
-          <div className="product-card">
-            <img src={imgService1} alt="Product 4" className="product-image" />
-          </div>
+          ))}
         </div>
       </div>
 

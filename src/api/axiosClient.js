@@ -21,6 +21,14 @@ const axiosClient = axios.create({
   },
 });
 
+const axiosFormData = axios.create({
+    baseURL,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "multipart/form-data",
+    },
+  })
+
 axiosClient.interceptors.request.use(async (config) => {
   config.headers.Authorization = `Bearer ${token}`;
   config.headers["x-refresh"] = token;
@@ -37,4 +45,20 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export default axiosClient;
+axiosFormData.interceptors.request.use(async (config) => {
+  config.headers.Authorization = `Bearer ${token}`;
+  config.headers["x-refresh"] = token;
+  return config;
+});
+
+axiosFormData.interceptors.response.use(
+  async (response) => {
+    if (response && response.data) return response.data;
+    return response;
+  },
+  (error) => {
+    throw error;
+  }
+);
+
+export {axiosClient, axiosFormData};
