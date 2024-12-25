@@ -11,78 +11,39 @@ import image7 from '../../assets/images/DL-ThuyenHoa.png';
 import image8 from '../../assets/images/Mau-az.jpg';
 import image9 from '../../assets/images/Mau1.jpg';
 
+const images = [
+  { id: 1, src: image1, alt: 'Đà Nẵng', title: 'ĐÀ NẴNG', detail: 'Mô tả về Đà Nẵng' },
+  { id: 2, src: image2, alt: 'NCSG', title: 'NCSG', detail: 'Mô tả về NCSG' },
+  { id: 3, src: image3, alt: 'Phú Quốc', title: 'PHÚ QUỐC', detail: 'Mô tả về Phú Quốc' },
+  { id: 4, src: image4, alt: 'Bảo Tàng Sài Gòn', title: 'BẢO TÀNG SÀI GÒN', detail: 'Mô tả về Bảo Tàng Sài Gòn' },
+  { id: 5, src: image5, alt: 'Studio', title: 'STUDIO', detail: 'Mô tả về Studio' },
+  { id: 6, src: image6, alt: 'Cần Thơ', title: 'CẦN THƠ', detail: 'Mô tả về Cần Thơ' },
+  { id: 7, src: image7, alt: 'Đà Lạt - Thuyền Hoa', title: 'ĐÀ LẠT - THUYỀN HOA', detail: 'Mô tả về Đà Lạt - Thuyền Hoa' },
+  { id: 8, src: image8, alt: 'Studio - Mẫu AZ', title: 'STUDIO - MẪU AZ', detail: 'Mô tả về Mẫu AZ' },
+  { id: 9, src: image9, alt: 'Studio - Mẫu Cưới AZ', title: 'STUDIO - MẪU CƯỚI AZ', detail: 'Mô tả về Mẫu Cưới AZ' },
+];
 
 const Album = () => {
   return (
     <div className="album-container">
-      {/* Ảnh bìa */}
       <div className="cover-image-container">
+        <h1 className="album-title">ALBUM A-Z</h1>
         <img src={coverImage} alt="Cover" className="cover-image" />
       </div>
 
       <div className="album-content">
-        <h2 className="album-title">PHOTO ALBUM</h2>
-        <p className="album-description">
-         A-Z Studio đề cao sự tự nhiên, màu sắc tươi tắn và lắng đọng trong từng bức ảnh. Không phải cặp đôi nào cũng có thể diễn tự nhiên trước ống kính, ekip A-Z chú trọng việc tạo bầu không khí thoải mái và vui vẻ để cho ra bộ ảnh Pre-wedding chân thật, mang đậm phong cách riêng của cô dâu – chú rể. Đặc biệt, chúng tôi có rất nhiều lựa chọn về địa điểm studio, phim trường và ngoại cảnh dành cho bạn.
-        </p>
         <hr className="album-divider" />
 
-        {/* Grid chứa các hình ảnh */}
         <div className="album-grid">
-          <div className="album-item">
-            <img src={image1} alt="Đà Lạt" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">ĐÀ LẠT <br /> CÂY THÔNG CÔ ĐƠN</span>
+          {images.map(image => (
+            <div key={image.id} className="album-item">
+              <img src={image.src} alt={image.alt} className="album-image" />
+              <div className="overlay">
+                <h2 className="overlay-title">{image.title}</h2>
+                <p className="overlay-detail">{image.detail}</p>
+              </div>
             </div>
-          </div>
-          <div className="album-item">
-            <img src={image2} alt="NCSG" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">NCSG</span>
-            </div>
-          </div>
-          <div className="album-item">
-            <img src={image3} alt="Phú Quốc" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">PHÚ QUỐC</span>
-            </div>
-          </div>
-          <div className="album-item">
-            <img src={image4} alt="Bảo Tàng Sài Gòn" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">BẢO TÀNG SÀI GÒN</span>
-            </div>
-          </div>
-          <div className="album-item">
-            <img src={image5} alt="Studio" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">STUDIO</span>
-            </div>
-          </div>
-          <div className="album-item">
-            <img src={image6} alt="Cần Thơ" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">CẦN THƠ</span>
-            </div>
-          </div>
-          <div className="album-item">
-            <img src={image7} alt="Đà Lạt - Thuyền Hoa" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">ĐÀ LẠT <br /> THUYỀN HOA</span>
-            </div>
-          </div>
-          <div className="album-item">
-            <img src={image8} alt="Studio - Mẫu AZ" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">STUDIO</span>
-            </div>
-          </div>
-          <div className="album-item">
-            <img src={image9} alt="Studio - Mẫu Cưới AZ" className="album-image" />
-            <div className="overlay">
-              <span className="overlay-text">STUDIO</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

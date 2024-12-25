@@ -9,6 +9,7 @@ import {
   Modal,
   Input,
   Radio,
+  Tabs,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -174,7 +175,7 @@ console.log("check cart",cartItems)
         <img
           src={record?.images[0]}
           alt="product"
-          style={{ width: "100px", height: "auto" }}
+          style={{ width: "200px", height: "150px", objectFit: "cover" }}
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = "/images/default-product.jpg";
@@ -227,65 +228,85 @@ console.log("check cart",cartItems)
     },
   ];
 
+  const handleTabChange = (key) => {
+    if (key === "cart") {
+      navigate("/shopping-cart");
+    } else if (key === "order-history") {
+      navigate("/Shopping-cart/OrderHistory");
+    }
+  };
   return (
-    <div className="cart-container">
-      <div className="cart-left">
-        <Title level={2}>Giỏ hàng của bạn</Title>
-        <Table
-          dataSource={cartItems}
-          columns={columns}
-          rowKey="id"
-          pagination={false}
-          bordered
-        />
-      </div>
+    <div>
+      {/* Tabs cho Giỏ hàng và Lịch sử mua hàng */}
+      <Tabs
+        defaultActiveKey="cart"
+        onChange={handleTabChange}
+        style={{ marginBottom: "20px" }}
+        items={[
+          { key: "cart", label: "Giỏ hàng" },
+          { key: "order-history", label: "Lịch sử mua hàng" },
+        ]}
+      />
 
-      <div className="cart-right">
-        <div className="delivery-method">
-          <Text strong>Phương thức giao hàng:</Text>
-          <Radio.Group
-            onChange={(e) => setDeliveryMethod(e.target.value)}
-            value={deliveryMethod}
-          >
-            <Radio value="SAVER">Giao hàng tiết kiệm</Radio>
-            <Radio value="FAST">Giao hàng nhanh</Radio>
-          </Radio.Group>
+      <div className="cart-container">
+        <div className="cart-left">
+          <Title level={2}>Giỏ hàng của bạn</Title>
+          <Table
+            dataSource={cartItems}
+            columns={columns}
+            rowKey="id"
+            pagination={false}
+            bordered
+          />
         </div>
 
-        <div className="discount-section">
-          <Text strong>Nhập mã giảm giá:</Text>
-          <Space>
-            <Input
-              placeholder="Nhập mã giảm giá"
-              value={discountCode}
-              onChange={(e) => setDiscountCode(e.target.value)}
-            />
-            <Button type="primary" onClick={handleApplyDiscount}>
-              Áp dụng
-            </Button>
-          </Space>
-          {discountValue > 0 && (
-            <Text type="success">
-              Bạn đã được giảm: {discountValue.toLocaleString()} VND
-            </Text>
-          )}
-        </div>
-
-        <div className="total-section">
-          <Text strong>Phí vận chuyển: {shippingFee.toLocaleString()} VND</Text>
-          <Text strong>Tổng cộng: {total.toLocaleString()} VND</Text>
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <Button
-              type="danger"
-              onClick={() =>
-                navigate("/shopping-cart/paymentpage", {
-                  state: { subtotal: totalWithoutDiscount, shippingFee, total },
-                })
-              }
+        <div className="cart-right">
+          <div className="delivery-method">
+            <Text strong>Phương thức giao hàng:</Text>
+            <Radio.Group
+              onChange={(e) => setDeliveryMethod(e.target.value)}
+              value={deliveryMethod}
             >
-              Thanh toán
-            </Button>
-          </Space>
+              <Radio value="SAVER">Giao hàng tiết kiệm</Radio>
+              <Radio value="FAST">Giao hàng nhanh</Radio>
+            </Radio.Group>
+          </div>
+
+          <div className="discount-section">
+            <Text strong>Nhập mã giảm giá:</Text>
+            <Space>
+              <Input
+                placeholder="Nhập mã giảm giá"
+                value={discountCode}
+                onChange={(e) => setDiscountCode(e.target.value)}
+              />
+              <Button type="primary" onClick={handleApplyDiscount}>
+                Áp dụng
+              </Button>
+            </Space>
+            {discountValue > 0 && (
+              <Text type="success">
+                Bạn đã được giảm: {discountValue.toLocaleString()} VND
+              </Text>
+            )}
+          </div>
+
+          <div className="total-section">
+            <Text strong>Phí vận chuyển: {shippingFee.toLocaleString()} VND</Text>
+            <Text strong>Tổng cộng: {total.toLocaleString()} VND</Text>
+            <Space direction="vertical" style={{ width: "100%" }}>
+              <Button
+                type="danger"
+                onClick={() =>
+                  navigate("/shopping-cart/paymentpage", {
+                    state: { subtotal: totalWithoutDiscount, shippingFee, total },
+                  })
+                }
+              >
+                Thanh toán
+              </Button>
+            </Space>
+          </div>
         </div>
       </div>
       <Modal

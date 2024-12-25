@@ -60,16 +60,17 @@
   
   /* Button thanh toán */
   .payment-button {
-    width: 100%;
+    width: 50%;
     background-color: #40a9ff;
     color: #fff;
     border: none;
-    padding: 12px 0;
-    font-size: 16px;
+    padding: 3px 1;
+    font-size: 18px;
     font-weight: bold;
     border-radius: 5px;
     transition: all 0.3s ease;
-    margin-top: 10px;
+    margin: 20px auto; /* Căn giữa nút */
+    display: block; /* Đảm bảo nút là block để margin auto hoạt động */
   }
   
   .payment-button:hover {

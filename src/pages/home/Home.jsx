@@ -2,9 +2,9 @@ import { Carousel } from "antd";
 import ModalAppointment from "./components/ModalAppointment/ModalAppointment";
 import imgabout3 from "../../assets/images/card-about3.jpg";
 import imgabout2 from "../../assets/images/A-line3.jpg";
-import imgService2 from "../../assets/images/Mau1.jpg";
-import imgService3 from "../../assets/images/53658997172_aef70ff91e_o.jpg";
-import imgService4 from "../../assets/images/ab8b227e-d912-4af4-a551-ef10885c8c65.jpg";
+import imgService2 from "../../assets/images/chandung.jpg";
+import imgService3 from "../../assets/images/kyyeu.jpg";
+import imgService4 from "../../assets/images/wedding.jpg";
 import imgService5 from "../../assets/images/53660219479_576283f435_o.jpg";
 import imgService6 from "../../assets/images/home5.jpg";
 import imgBackground from "../../assets/images/slide5.png";
@@ -14,6 +14,11 @@ import imgHome3 from "../../assets/images/slide3.png";
 import imgHome4 from "../../assets/images/slide4.png";
 import imgService1 from "../../assets/images/53659726977_5e8b973b0e_o.jpg";
 import imgabout1 from "../../assets/images/THT_6762.jpg";
+import imgChanDung from "../../assets/images/chandung.jpg";
+import imgEvent from "../../assets/images/event.jpg";
+import imgKyYeu from "../../assets/images/kyyeu.jpg";
+import imgTrangSuc from "../../assets/images/trangsuc.jpg";
+import imgWedding from "../../assets/images/wedding.jpg";
 import "./Home.css";
 import { useState } from "react";
 
@@ -34,6 +39,11 @@ function MainContent() {
   // Hàm xử lý mở modal
   const handleOpenModal = () => {
     setIsModalOpen(true);
+  };
+
+  // Hàm xử lý đóng modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   // Dữ liệu sản phẩm với danh mục
@@ -213,7 +223,7 @@ function MainContent() {
         </p>
         <div className="service-card-container">
           <div className="service-card">
-            <img src={imgService1} alt="Chân dung" className="service-image" />
+            <img src={imgChanDung} alt="Chân dung" className="service-image" />
             <h3 className="service-title">Chân dung</h3>
             <p className="service-price">Chỉ từ 1.500.000₫</p>
             <div className="service-buttons">
@@ -227,9 +237,9 @@ function MainContent() {
           </div>
 
           <div className="service-card">
-            <img src={imgService2} alt="Event" className="service-image" />
+            <img src={imgEvent} alt="Event" className="service-image" />
             <h3 className="service-title">Event</h3>
-            <p className="service-price">Chỉ từ 3.000.000₫</p>
+            <p className="service-price">Chỉ từ 5.000.000₫</p>
             <div className="service-buttons">
               <button 
                 className="service-button book-now"
@@ -241,9 +251,9 @@ function MainContent() {
           </div>
 
           <div className="service-card">
-            <img src={imgService2} alt="Lễ Hội" className="service-image" />
+            <img src={imgWedding} alt="PreWedding" className="service-image" />
             <h3 className="service-title">PreWedding</h3>
-            <p className="service-price">Chỉ từ 3.000.000₫</p>
+            <p className="service-price">Chỉ từ 2.000.000₫</p>
             <div className="service-buttons">
               <button 
                 className="service-button book-now"
@@ -255,9 +265,9 @@ function MainContent() {
           </div>
 
           <div className="service-card">
-            <img src={imgService2} alt="Lễ Hội" className="service-image" />
+            <img src={imgKyYeu} alt="Kỷ yếu" className="service-image" />
             <h3 className="service-title">Kỷ yếu</h3>
-            <p className="service-price">Chỉ từ 3.000.000₫</p>
+            <p className="service-price">Chỉ từ 10.000.000₫</p>
             <div className="service-buttons">
               <button 
                 className="service-button book-now"
@@ -269,9 +279,9 @@ function MainContent() {
           </div>
 
           <div className="service-card">
-            <img src={imgService2} alt="Lễ Hội" className="service-image" />
+            <img src={imgTrangSuc} alt="Sản phẩm" className="service-image" />
             <h3 className="service-title">Sản phẩm</h3>
-            <p className="service-price">Chỉ từ 3.000.000₫</p>
+            <p className="service-price">Chỉ từ 2.000.000₫</p>
             <div className="service-buttons">
               <button 
                 className="service-button book-now"
@@ -283,6 +293,9 @@ function MainContent() {
           </div>
         </div>
       </div>
+
+      {/* Modal Đặt Lịch */}
+      <ModalAppointment open={isModalOpen} onClose={handleCloseModal} />
     </>
   );
 }
