@@ -20,7 +20,10 @@ import imgKyYeu from "../../assets/images/kyyeu.jpg";
 import imgTrangSuc from "../../assets/images/trangsuc.jpg";
 import imgWedding from "../../assets/images/wedding.jpg";
 import "./Home.css";
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getListCategoriesService } from "src/services/category.service";
+import { getListProductsService } from "src/services/product.service";
 
 function MainContent() {
   // Mảng chứa các hình ảnh cho slider
@@ -35,6 +38,66 @@ function MainContent() {
   // Thêm state để quản lý modal và danh mục sản phẩm đã chọn
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("ALL");
+
+   const [photos, setPhotos] = useState([]);
+       const [categories, setCategories] = useState([]); // Tất cả danh mục
+       const [filteredCategories, setFilteredCategories] = useState([]); // Danh mục liên quan đến portfolio
+       const [loading, setLoading] = useState(true);
+       const [error, setError] = useState(null);
+       const navigate = useNavigate();
+   
+       useEffect(() => {
+           const fetchPhotos = async () => {
+               try {
+                   setLoading(true);
+                   // Lấy danh mục
+                   const categoryResponse = await getListCategoriesService();
+                   const categoryData = categoryResponse.data;
+                   setCategories(categoryData);
+   
+                   // Lấy sản phẩm loại "portfolio" với thông tin danh mục được populate
+                   const response = await getListProductsService();
+                   const data = response.data
+                       .filter(product => product.type === "portfolio")
+                       .map(item => ({
+                           id: item._id,
+                           banner: item.bannerImage || '',
+                           listImage: item.images || [],
+                           alt: item.name || 'Ảnh Portfolio',
+                           title: item.name || 'Không có tiêu đề',
+                           detail: item.detail || '',
+                           categoryId: item.categoryId?._id.toString() || "", // Chuyển đổi ObjectId sang string
+                           categoryName: item.categoryId?.name || "Không có danh mục"
+                       }));
+                   setPhotos(data);
+   
+                   // Lấy danh sách unique categoryIds từ các sản phẩm portfolio
+                   const portfolioCategoryIds = Array.from(new Set(data.map(photo => photo.categoryId)));
+   
+                   // Lọc danh mục chỉ bao gồm các danh mục liên quan đến portfolio
+                   const filteredCats = categoryData.filter(cat => portfolioCategoryIds.includes(cat._id.toString()));
+                   setFilteredCategories(filteredCats);
+   
+                   setLoading(false);
+               } catch (error) {
+                   console.error("Error fetching portfolio data:", error.message);
+                   setError("Đã có lỗi xảy ra khi tải dữ liệu.");
+                   setLoading(false);
+               }
+           };
+           fetchPhotos();
+       }, []);
+   
+       const handleImageClick = useCallback((photo) => {
+           navigate(`/portfolio/imagedetail`, { state: { photo } });
+       }, [navigate]);
+   
+       // Lọc photos dựa trên selectedCategory
+       const filteredPhotos = useMemo(() => {
+           return selectedCategory === "ALL"
+               ? photos
+               : photos.filter(photo => photo.categoryId === selectedCategory);
+       }, [photos, selectedCategory]);
 
   // Hàm xử lý mở modal
   const handleOpenModal = () => {
@@ -150,69 +213,53 @@ function MainContent() {
         </div>
       </div>
 
-      {/* =========================Sản Phẩm================================ */}
-      <div className="product-gallery">
-        <h2>Sản Phẩm</h2>
-
-        {/* Phần menu chọn filter danh mục */}
-        <div className="category-menu">
-          <button
-            className={`category-button ${selectedCategory === "ALL" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("ALL")}
-          >
-            Tất cả
-          </button>
-          <button
-            className={`category-button ${selectedCategory === "PRE-WEDDING" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("PRE-WEDDING")}
-          >
-            Pre-Wedding
-          </button>
-          <button
-            className={`category-button ${selectedCategory === "KỶ YẾU" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("KỶ YẾU")}
-          >
-            Kỷ Yếu
-          </button>
-          <button
-            className={`category-button ${selectedCategory === "FASHION" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("FASHION")}
-          >
-            Fashion
-          </button>
-          <button
-            className={`category-button ${selectedCategory === "LỄ CƯỚI" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("LỄ CƯỚI")}
-          >
-            Lễ Cưới
-          </button>
-          <button
-            className={`category-button ${selectedCategory === "SỰ KIỆN" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("SỰ KIỆN")}
-          >
-            Sự Kiện
-          </button>
-          <button
-            className={`category-button ${selectedCategory === "CHÂN DUNG" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("CHÂN DUNG")}
-          >
-            Chân Dung
-          </button>
-        </div>
-
-        {/* Hiển thị các sản phẩm sau khi lọc */}
-        <div className="product-grid">
-          {filteredProducts.map((product) => (
-            <div className="product-card" key={product.id}>
-              <img src={product.image} alt={product.name} className="product-image" />
-              <div className="product-overlay">
-                <p>{product.name}</p>
-                <p>Model: {product.model}</p>
-              </div>
+      <>
+      <div className="category-menu">
+                <button
+                    className={`category-button ${selectedCategory === "ALL" ? "active" : ""}`}
+                    onClick={() => setSelectedCategory("ALL")}
+                >
+                    Tất cả
+                </button>
+                {filteredCategories.map(category => (
+                    <button
+                        key={category._id}
+                        className={`category-button ${selectedCategory === category._id ? "active" : ""}`}
+                        onClick={() => setSelectedCategory(category._id)}
+                    >
+                        {category.name}
+                    </button>
+                ))}
             </div>
-          ))}
-        </div>
-      </div>
+
+            <div className="photography-grid">
+                {filteredPhotos.length > 0 ? (
+                    filteredPhotos.map(photo => (
+                        photo.banner && (
+                            <div 
+                                key={photo.id} 
+                                className="photography-item"
+                                onClick={() => handleImageClick(photo)}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') handleImageClick(photo);
+                                }}
+                                tabIndex={0}
+                            >
+                                <img src={photo.banner} alt={`Banner của ${photo.alt}`} />
+                                <div className="overlay">
+                                    <h2 className="overlay-title">{photo.title}</h2>
+                                    <p className="overlay-detail">{photo.categoryName}</p>
+                                </div>
+                            </div>
+                        )
+                    ))
+                ) : (
+                    <div className="no-photos-message">
+                        Không có portfolio nào thuộc danh mục này.
+                    </div>
+                )}
+            </div>
+      </>
 
       {/* Phần Dịch Vụ */}
       <div className="service-section">
