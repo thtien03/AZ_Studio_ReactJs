@@ -1,0 +1,28 @@
+/* OrderHistory.css */
+.order-history {
+    padding: 20px; /* Giảm padding để thu nhỏ không gian xung quanh */
+    font-size: 1.2em; /* Giảm kích thước font */
+    background-color: #f9f9f9; /* Màu nền nhẹ */
+    border-radius: 8px; /* Bo góc cho container */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Giảm bóng cho container */
+    margin: 10px auto; /* Giảm khoảng cách trên/bên dưới */
+    min-height: 300px; /* Giảm chiều cao tối thiểu để form nhỏ hơn */
+  }
+  
+  .order-history .ant-table {
+    font-size: 1.1em; /* Giảm kích thước font cho bảng */
+  }
+  
+  .order-history .ant-table th,
+  .order-history .ant-table td {
+    padding: 12px; /* Giảm padding cho các ô trong bảng */
+  }
+  
+  .order-history-container {
+    max-width: 1500px; /* Giới hạn chiều rộng tối đa */
+    margin: 0 auto; /* Căn giữa form */
+    padding: 20px; /* Thêm padding cho form */
+    background-color: #fff; /* Màu nền */
+    border-radius: 8px; /* Bo góc cho form */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Bóng cho form */
+  }

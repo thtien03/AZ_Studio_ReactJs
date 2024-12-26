@@ -1,4 +1,4 @@
-import axiosClient from "../api/axiosClient.js";
+import {axiosClient} from "../api/axiosClient.js";
 
 export const getListProductsService = async () => {
   const response = await axiosClient.get("/product");
@@ -20,40 +20,48 @@ export const createProductService = async ({
   name,
   description,
   images,
-  category,
+  categoryId,
   price,
   type,
   bannerImage,
+  size,
+  detail
 }) => {
   const response = await axiosClient.post("/product", {
     name,
     description,
     images,
-    category,
+    categoryId,
     price,
     type,
     bannerImage,
+    size,
+    detail
   });
   return response;
 };
 
-export const updateCategoryService = async ({
+export const updateProductService = async (id,{
   name,
   description,
   images,
-  category,
+  categoryId,
   price,
   type,
   bannerImage,
+  size,
+  detail
 }) => {
-  const response = await axiosClient.put("/product", {
+  const response = await axiosClient.put(`/product/${id}`, {
     name,
     description,
     images,
-    category,
+    categoryId,
     price,
     type,
     bannerImage,
+    size,
+    detail
   });
   return response;
 };

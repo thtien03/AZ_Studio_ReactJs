@@ -1,0 +1,91 @@
+
+  
+  /* Container chính */
+  .payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 40px auto;
+    max-width: 1200px;
+  }
+  
+  /* Cột trái và phải */
+  .payment-column {
+    flex: 1;
+  }
+  
+  /* Card */
+  .ant-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .ant-card h3 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Card thông tin */
+  .user-info-card {
+    margin-bottom: 20px;
+  }
+
+  .ant-input, .ant-input-textarea {
+    width: 600px; /* Chiều rộng mặc định */
+    max-width: 800px; /* Tối đa là 400px để tránh quá to */
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Phương thức giao hàng và thanh toán */
+  .delivery-method-card,
+  .payment-method-card {
+    margin-bottom: 20px;
+  }
+  
+  /* Tổng thanh toán */
+  .payment-summary h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e63946;
+  }
+  
+  .payment-summary p {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Button thanh toán */
+  .payment-button {
+    width: 50%;
+    background-color: #40a9ff;
+    color: #fff;
+    border: none;
+    padding: 3px 1;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    margin: 20px auto; /* Căn giữa nút */
+    display: block; /* Đảm bảo nút là block để margin auto hoạt động */
+  }
+  
+  .payment-button:hover {
+    background-color: #1d8ce0;
+  }
+  
+  /* Responsive thiết bị nhỏ */
+  @media (max-width: 768px) {
+    .payment-container {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .payment-column {
+      width: 100%;
+    }
+  }
+  

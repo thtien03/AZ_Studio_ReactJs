@@ -1,54 +1,130 @@
-/* Container chính của trang */
-.dress-style-container {
-  display: flex;
-  flex-direction: row-reverse; /* Đảo ngược vị trí của bộ lọc và gallery */
-  justify-content: space-between;
-  padding: 20px;
-}
-
-/* Phong cách cho gallery của các kiểu váy */
+/* Dress Gallery */
 .dress-gallery {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  width: 70%; /* Điều chỉnh chiều rộng */
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+.dress-style-container{
+  display: flex;
+
+}
+.right-section{
+  flex: 1;
 }
 
 .dress-item {
-  width: 30%; /* Điều chỉnh chiều rộng mỗi item váy */
+  position: relative; /* Để lớp overlay hiển thị */
+  width: 30%;
   text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  overflow: hidden; /* Ẩn phần dư */
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dress-image {
   width: 100%;
-  height: 450px; /* Chiều cao cố định để hình ảnh đều nhau */
-  object-fit: cover; /* Cắt ảnh để vừa khung mà không méo */
+  height: 600px;
+  object-fit: cover;
   border-radius: 8px;
   transition: transform 0.3s ease;
 }
 
-.dress-image:hover {
-  transform: scale(1.05);
+/* Hiệu ứng hover cho ảnh */
+.dress-item:hover .dress-image {
+  transform: scale(1.1); /* Phóng to ảnh khi hover */
 }
 
-.dress-name {
+/* Overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Lớp phủ mờ */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Ẩn overlay mặc định */
+  color: white;
+  text-align: center;
+  transition: opacity 0.3s ease;
+  
+}
+
+.dress-item:hover .overlay {
+  opacity: 1; /* Hiển thị overlay khi hover */
+}
+
+/* Giá sản phẩm (nổi bật) */
+.overlay-detail {
+  font-size: 1.5rem; /* Kích thước lớn hơn cho giá */
   font-weight: bold;
-  margin-top: 10px;
+  margin: 0 0 5px; /* Khoảng cách bên dưới để tạo sự tách biệt */
+  align-items: flex-end;
 }
 
-/* Phong cách cho phần bộ lọc */
+/* Tên váy */
+.overlay-title {
+  font-size: 1rem; /* Kích thước nhỏ hơn */
+  font-weight: normal;
+  margin: 5px 0 0; /* Cách giá một khoảng nhỏ */
+  align-items: flex-end;
+}
+
+/* Pagination Container */
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+
+}
+
+/* Tùy chỉnh Tabs (Ant Design) */
+.ant-tabs-nav .ant-tabs-tab {
+  border: none;                            /* Bỏ viền cũ */
+  border-radius: 8px;                      /* Bo góc mềm mại hơn */
+  margin-right: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+  padding: 10px 15px;                      /* Tăng padding cho cảm giác nút đầy đặn */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);   /* Đổ bóng nhẹ cho cảm giác nổi khối */
+}
+
+.ant-tabs-nav .ant-tabs-tab:hover {
+  background-color: #f7f7f7;               /* Màu nền nhạt hơn khi hover */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);  /* Tăng đổ bóng khi hover */
+}
+
+.ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active {
+  background-color: #e6f7ff;               /* Nền xanh nhạt cho tab active */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);   /* Đổ bóng đậm hơn cho tab active */
+  border: none;
+}
+
+.ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  font-weight: bold;
+  color: #a2a7ac; /* Màu xanh chủ đạo của Ant Design */
+}
+
+.ant-tabs {
+  margin: 0 auto;      
+  width: fit-content;  
+}
+
+/* Filter Section */
 .filter-section {
-  width: 20%; /* Điều chỉnh chiều rộng của phần bộ lọc */
+  width: 25%;
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.filter-section h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  text-align: center;
 }
 
 .filter-option {
@@ -65,20 +141,60 @@
   width: 100%;
   padding: 8px;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
+  background-color: #fff;
+}
+
+.filter-option select:focus {
+  border-color: #aaa;
+  outline: none;
 }
 
 .apply-button {
-  width: 30%;
+  width: 50%;
   padding: 10px;
-  background-color: #585656;
-  color: #fff;
-  border: none;
+  background-color: #fff;
+  color: #333;
+  border: 2px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .apply-button:hover {
-  background-color: #555;
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.search-bar {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.suggestions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+}
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
 }

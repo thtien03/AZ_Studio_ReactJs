@@ -1,0 +1,116 @@
+
+
+.ant-layout-content {
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-container {
+
+  width: 100vw;
+  height: 100vh;
+  max-width: unset;
+  overflow-y: auto; /* Kích hoạt cuộn nếu có nhiều ảnh */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.gallery-image-list {
+  column-count: 5;
+  column-gap: 15px;
+  height: auto; /* Điều chỉnh theo nội dung */
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+
+}
+
+.gallery-card {
+  margin-bottom: 20px;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-image {
+  cursor: pointer;
+  width: 100%;
+  
+  height: auto;
+}
+
+.gallery-image-container {
+  position: relative;
+}
+
+.gallery-hover-info {
+  position: absolute;
+
+  left: 50%; /* Căn giữa theo chiều ngang */
+  transform: translate(-50%, -50%); /* Đưa điểm giữa về chính giữa */
+  background: rgba(0, 0, 0, 0.6); /* Tăng độ đậm để nổi bật hơn */
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 10px; /* Tăng khoảng cách trong */
+  border-radius: 8px; /* Làm mềm góc cạnh */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Căn giữa nội dung */
+  text-align: center; /* Đảm bảo văn bản được căn giữa */
+  width: 80%; /* Tùy chỉnh độ rộng */
+  box-sizing: border-box;
+  bottom: 5px;
+}
+
+.gallery-card:hover .gallery-hover-info {
+  opacity: 1;
+}
+
+.gallery-hover-menu {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+.gallery-card-footer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.gallery-comments-section {
+  margin-top: 20px;
+}
+
+.comment-list {
+  margin-bottom: 20px;
+}
+
+.comment-form-item {
+  margin-top: 20px;
+}
+
+/* Màu xám mặc định cho sao chưa tick */
+.ant-rate-star {
+  color: #ffffff; /* Màu xám nhạt */
+}
+
+/* Màu vàng cho sao đã tick */
+.ant-rate-star-full {
+  color: #faad14 !important; /* Màu vàng nổi bật */
+}
+
+/* Màu xám nhạt cho sao chưa tick khi hover */
+.ant-rate-star-first,
+.ant-rate-star-second {
+  color: #a3a3a3 !important; /* Giữ màu xám khi hover */
+}

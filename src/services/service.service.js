@@ -1,4 +1,4 @@
-import axiosClient from "../api/axiosClient.js";
+import {axiosClient} from "../api/axiosClient.js";
 
 export const getListServices = async () => {
   const response = await axiosClient.get("/service");

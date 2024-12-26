@@ -1,0 +1,96 @@
+/* CSS for PaymentResult Component */
+
+.vnpay-result-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.result-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px 30px;
+  max-width: 400px;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.result-card.success {
+  border-top: 5px solid #4caf50;
+}
+
+.result-card.error {
+  border-top: 5px solid #f44336;
+}
+
+.result-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.result-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.result-title.success {
+  color: #4caf50;
+}
+
+.result-title.error {
+  color: #f44336;
+}
+
+.result-message {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.transaction-info {
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.transaction-info strong {
+  color: #333;
+}
+
+.return-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.return-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.return-button:active {
+  background-color: #004494;
+  transform: translateY(0);
+}

@@ -1,78 +1,136 @@
-// src/pages/DressStyle.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Pagination, Tabs, Slider } from 'antd';
+import 'antd/dist/reset.css';
 import './DressStyle.css';
+import { getListProductsService } from 'src/services/product.service'; // Import service để gọi API
 
-const dressStyles = [
-    { id: 1, imgSrc: require('../../assets/images/A-line1.jpg'), name: 'A-line 1' },
-    { id: 2, imgSrc: require('../../assets/images/A-line2.jpg'), name: 'A-line 2' },
-    { id: 3, imgSrc: require('../../assets/images/A-line3.jpg'), name: 'A-line 3' },
-    { id: 4, imgSrc: require('../../assets/images/ballgown1.jpg'), name: 'Ballgown 1' },
-    { id: 5, imgSrc: require('../../assets/images/ballgown2.jpg'), name: 'Ballgown 2' },
-    { id: 6, imgSrc: require('../../assets/images/ballgown3.jpg'), name: 'Ballgown 3' },
-    { id: 7, imgSrc: require('../../assets/images/Fit&Flare1.jpg'), name: 'Fit & Flare 1' },
-    { id: 8, imgSrc: require('../../assets/images/Fit&Flare2.jpg'), name: 'Fit & Flare 2' },
-    { id: 9, imgSrc: require('../../assets/images/Fit&Flare3.jpg'), name: 'Fit & Flare 3' },  
-    // Thêm các kiểu váy khác nếu cần
-];
+const MIN_PRICE = 1000000; // 1,000,000 VNĐ
+const MAX_PRICE = 100000000; // 100,000,000 VNĐ
 
 const DressStyle = () => {
-  const [selectedStyle, setSelectedStyle] = useState('');
-  const [selectedLine, setSelectedLine] = useState('Premium');
-  const [selectedColor, setSelectedColor] = useState('');
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState('all'); // Lọc theo danh mục
+
+  const itemsPerPage = 9;
+
+  // Fetch sản phẩm từ API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await getListProductsService();
+        setProducts(response.data|| []); // Lưu danh sách sản phẩm
+      } catch (error) {
+        console.error('Lỗi khi lấy danh sách sản phẩm:', error);
+      }
+    };
+    fetchProducts();
+  }, [currentPage]);
+
+  const handleDressClick = (product) => {
+    navigate(`/product-detail/${product._id}`);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset về trang đầu tiên khi tìm kiếm
+  };
+
+  const handleTabChange = (key) => {
+    setSelectedCategory(key);
+    setCurrentPage(1);
+  };
+
+  const filteredProducts = products?.filter((product) => 
+      selectedCategory === 'all' || product.categoryId?.name === selectedCategory
+    )
+    .filter((product) =>
+      product.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((product) => {
+      const price = product.price || 0;
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
 
   return (
-    <div className="dress-style-container">
-      <div className="dress-gallery">
-        {dressStyles.map((dress) => (
-          <div key={dress.id} className="dress-item">
-            <img src={dress.imgSrc} alt={dress.name} className="dress-image" />
-            <p className="dress-name">{dress.name}</p>
+    <div>
+      <Tabs
+        defaultActiveKey="all"
+        onChange={handleTabChange}
+        style={{ marginBottom: '20px', padding: '0 20px' }}
+        items={[
+          { key: 'all', label: 'Tất cả' },
+          { key: 'wedding-dress', label: 'Váy cưới' },
+          { key: 'aodai', label: 'Áo dài cưới' },
+          { key: 'vest', label: 'Vest' },
+        ]}
+      />
+
+      <div className="dress-style-container">
+        <div className="filter-section">
+          <h1>Tìm kiếm</h1>
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Tìm kiếm sản phẩm..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
           </div>
-        ))}
-      </div>
-
-      <div className="filter-section">
-        <h2>Bộ Lọc</h2>
-        <div className="filter-option">
-          <label>Dáng Váy:</label>
-          <select value={selectedStyle} onChange={(e) => setSelectedStyle(e.target.value)}>
-            <option value="">Chọn Dáng Váy</option>
-            <option value="A-line">A-line</option>
-            <option value="Ballgown">Ballgown</option>
-            <option value="Fit & Flare">Fit & Flare</option>
-            {/* Thêm các tùy chọn khác */}
-          </select>
+          <h2>Bộ Lọc</h2>
+          <div className="filter-option">
+            <label>Giá Tiền:</label>
+            <Slider
+              range
+              min={MIN_PRICE}
+              max={MAX_PRICE}
+              value={priceRange}
+              onChange={setPriceRange}
+              step={100000}
+              tooltip={{ formatter: (value) => `${value.toLocaleString()} VNĐ` }}
+            />
+            <div className="price-range-label">
+              <span>{priceRange[0].toLocaleString()} VNĐ</span> - <span>{priceRange[1].toLocaleString()} VNĐ</span>
+            </div>
+          </div>
         </div>
 
-        <div className="filter-option">
-          <label>Dòng Váy:</label>
-          <select value={selectedLine} onChange={(e) => setSelectedLine(e.target.value)}>
-            <option value="Premium">Premium</option>
-            <option value="Limited">Limited</option>
-            <option value="Luxury">Luxury</option>
-            <option value="Ruby">Ruby</option>
-            <option value="Basic">Basic</option>
-            <option value="Ao Dai">Áo Dài</option>
-          </select>
+        <div className="right-section">
+          <div className="dress-gallery">
+            {filteredProducts.map((product) => 
+            {console.log("product test",product)
+              return(
+                <div key={product._id} className="dress-item" onClick={() => handleDressClick(product)}>
+                  <img
+                    src={product.images[0] || 'https://via.placeholder.com/150'}
+                    alt={product.name}
+                    className="dress-image"
+                  />
+                  <div className="overlay">
+                    <p className="overlay-detail">{product.price?.toLocaleString('vi-VN')} VNĐ</p>
+                    <h2 className="overlay-title">{product.name}</h2>
+                  </div>
+                </div>
+              )
+            }
+            )}
+          </div>
+
+          <Pagination
+            current={currentPage}
+            total={products.length}
+            pageSize={itemsPerPage}
+            onChange={(page) => setCurrentPage(page)}
+            className="pagination-container"
+          />
         </div>
-
-        <div className="filter-option">
-          <label>Màu Sắc:</label>
-          <select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-            <option value="">Chọn Màu Sắc</option>
-            <option value="Trắng">Trắng</option>
-            <option value="Đỏ">Đỏ</option>
-            <option value="Đen">Đen</option>
-            {/* Thêm các tùy chọn màu sắc khác */}
-          </select>
-        </div>
-
-        <button className="apply-button">Áp Dụng</button>
-
       </div>
     </div>
   );
 };
 
 export default DressStyle;
-

@@ -1,25 +1,15 @@
-import axiosClient from "../api/axiosClient.js";
+import { axiosClient, axiosFormData } from "src/api/axiosClient";
 
-const serviceApi = {
-  getListServices: () => {
-    const url = "/service";
-    return axiosClient.get(url);
-  },
-
-  getService: (id) => {
-    const url = `/service/${id}`;
-    return axiosClient.delete(url);
-  },
-
-  createService: () => {
-    const url = "/service";
-    return axiosClient.post(url);
-  },
-
-  updateService: (id) => {
-    const url = `/category/${id}`;
-    return axiosClient.put(url);
-  },
+export const uploadFile = async (formData) => {
+  const response = await axiosFormData.post("/file/upload",
+    formData
+  );
+  return response;
 };
 
-export default serviceApi;
+export const deleteFile = async (fileId) => {
+  const response = await axiosClient.delete(
+   `/file/remove/${fileId}`
+  );
+  return response;
+};

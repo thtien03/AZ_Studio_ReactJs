@@ -1,18 +1,26 @@
 /* Container tổng cho toàn bộ nội dung */
 .container {
-  padding: 20px;
-  background-color: #f9f9f9;
+   padding: 20px; 
+   background-color: #f9f9f9; 
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Tạo bóng cho container */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);/* Tạo bóng cho container */
   max-width: 1400px;
-  margin: 20px auto; /* Căn giữa container */
+ margin: 20px auto; /*Căn giữa container */
 }
 
 .cover-image-container {
   width: 100%;
-  height: 500px; /* Adjust height as needed */
+  height: 600px; /* Adjust height as needed */
   overflow: hidden;
   position: relative; /* Đảm bảo các phần tử con (như cover-image) được căn chỉnh đúng */
+  background: url('../../assets/images/bg-contact.jpg') center/cover no-repeat; /* Thay đổi hình nền */
+  height: 900px; /* Chiều cao của phần hình nền */
+  position: relative; /* Đảm bảo các phần tử con được căn chỉnh đúng */
+  border-radius: 10px; /* Bo góc cho phần hình nền */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tạo bóng cho hình nền */
+  display: flex; /* Flexbox căn giữa nội dung */
+  justify-content: center; /* Căn giữa ngang */
+  align-items: center; /* Căn giữa dọc */
 }
 
 /* Hình ảnh cover */
@@ -23,15 +31,6 @@
   position: absolute; /* Đảm bảo hình ảnh được đặt chính xác trong container */
   top: 0;
   left: 0;
-}
-
-/* Tiêu đề của phần thông tin liên hệ */
-header h2 {
-  text-align: left;
-  font-size: 32px;
-  color: #1b1c1c;
-  margin-bottom: 20px;
-  margin-left: 150px;
 }
 
 /* Thiết lập bố cục flex cho phần contact và form */
@@ -49,17 +48,15 @@ header h2 {
   line-height: 1.5; /* Tăng khoảng cách giữa các dòng */
   margin-left: 150px;
 }
-.googlemap{
-  width: 339px;
+.googlemap {
+  width: 900px;
   height: auto;
-
 }
-.googlemap iframe{
-  width :100%;
+.googlemap iframe {
+  width: 100%;
   height: 100%;
   margin-left: 0px;
   text-align: left;
-  
 }
 
 /* Phần tử chứa từng mục liên hệ (icon và text) */
@@ -98,24 +95,15 @@ header h2 {
   width: 80%; /* Chiếm toàn bộ chiều rộng */
 }
 
-/* Định dạng cho các trường input và textarea */
-input, textarea {
-  width: 100%; /* Đảm bảo các trường chiếm toàn bộ chiều rộng form */
-  padding: 12px; /* Tạo không gian bên trong input */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: border-color 0.3s; /* Tạo hiệu ứng chuyển đổi màu biên khi focus */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Thêm bóng cho input */
-}
-
 /* Định dạng màu sắc cho placeholder */
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #aaa;
 }
 
 /* Hiệu ứng khi focus vào input và textarea */
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Tạo hiệu ứng bóng khi focus */
@@ -129,7 +117,7 @@ textarea {
 
 /* Nút submit của form */
 .submit-btn {
-  width:25%; /* Đặt nút submit rộng bằng form */
+  width: 25%; /* Đặt nút submit rộng bằng form */
   padding: 12px;
   background-color: #333;
   color: white;
@@ -142,4 +130,16 @@ textarea {
 
 .submit-btn:hover {
   background-color: #555; /* Màu sắc của nút khi hover */
+}
+
+/* Tiêu đề của phần liên hệ */
+.contact-title {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: 3rem; /* Kích thước chữ */
+    font-weight: bold; /* Đậm chữ */
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* Hiệu ứng bóng */
+    text-align: center; /* Căn giữa chữ */
 }

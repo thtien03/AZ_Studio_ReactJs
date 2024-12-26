@@ -20,6 +20,16 @@ import Pricing from "../pages/service/Pricing";
 import Service from "../pages/service/Service";
 import ShoppingCart from "../pages/shopping-cart/shoppingcart";
 import AlbumManagement from "../pages/admin/portfolio-management/PortfolioManagement";
+import { Component } from "react";
+import ProductDetail from '../pages/product-detail/ProductDetail';
+import DefaultLayout from "src/layouts/DefaultLayout/DefaultLayout";
+import Gallery from "src/pages/gallery/Gallery";
+import PaymentPage from "src/pages/shopping-cart/PaymentPage";
+import { Payment } from "@mui/icons-material";
+import PaymentResult from "src/pages/payment/payment-result";
+import AdminDiscount from "src/pages/admin/discount-management/discount";
+import AdminLayout from "src/layouts/AdminLayout/AdminLayout";
+import OrderHistory from 'src/pages/shopping-cart/OrderHistory';
 
 const publicRoutes = [
   {
@@ -109,6 +119,7 @@ const publicRoutes = [
   {
     path: "/admin/revenue-report",
     component: RevenueReport,
+    layout: "AdminLayout",
   },
   {
     path: "/admin/product-management",
@@ -133,9 +144,39 @@ const publicRoutes = [
     component: CategoryManagement,
     layout: "AdminLayout",
   },
+  {
+    path: "/product-detail/:id",
+    component: ProductDetail,layout:DefaultLayout
+  },
+  {
+    path: "/gallery/gallery",
+    component: Gallery,
+  },
+
+  {
+    path: "/shopping-cart/paymentpage",
+    component: PaymentPage,
+    layout:DefaultLayout
+  },
+
+
+  {
+    path: "/payment/payment-result",
+    component: PaymentResult,
+    layout:DefaultLayout
+  },
+
+  {
+    path: "/admin/discount",
+    component: AdminDiscount,
+    layout:"AdminLayout",
+  },
+  {
+    path: "/shopping-cart/OrderHistory",
+    component: OrderHistory,
+  }
 ];
 
 const privateRoutes = [];
 
 export { privateRoutes, publicRoutes };
-

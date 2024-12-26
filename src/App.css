@@ -4,8 +4,12 @@ body {
   background-color: #000;
   color: #fff;
   font-family: 'Serif', sans-serif;
+  height: auto;
+  overflow-y: auto;
 }
 
 .ant-layout {
   background-color: #000;
+  height: auto;
+  overflow-y: auto;
 }

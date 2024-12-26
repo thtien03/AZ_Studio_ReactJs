@@ -1,5 +1,5 @@
 import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
-import { Badge, Menu, Modal, List, Tag, Select } from "antd";
+import { Badge, List, Menu, Modal, Select, Tag } from "antd";
 import { useState } from "react";
 import { FaBell } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -37,60 +37,16 @@ function Header() {
   const [open, setOpen] = useState(false);
   console.log(!!accessToken);
   // Hàm xử lý sự kiện cho từng mục và chuyển hướng bằng navigate
-  const handleItemClick = (e) => {
-    setCurrent(e.key);
-    console.log("click ", e.key);
-    switch (e.key) {
-      case "home":
-        navigate("/"); // Trang chủ
-        break;
-      case "price":
-        navigate("/service/pricing"); // Bảng giá
-        break;
-      case "weddingAlbum":
-        navigate("/service/album"); // Chụp Album cưới
-        break;
-      case "photo":
-        navigate("/portfolio/photography"); // Photography
-        break;
-      case "video":
-        navigate("/portfolio/videography"); // Videography
-        break;
-      case "store":
-        navigate("/dress-style"); // Cửa hàng
-        break;
-      case "story":
-        navigate("/story-tips"); // Story & tips
-        break;
-      case "contact":
-        navigate("/contact"); // Liên hệ
-        break;
-      case "login":
-        navigate("/auth/login"); // Đăng nhập
-        break;
-      case "logout":
-        navigate("/auth/login"); // Đăng nhập
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("isAdmin");
-        break;
-      case "control":
-        navigate("/admin/user-management"); // Quản lý người dùng
-        break;
-      case "iconCart":
-        navigate("/shopping-cart/shoppingcart");
-        break;
-      case "notifications":
-        navigate("/admin/notifications");
-        break;
-      default:
-        if (e.key !== "iconUser" && e.key !== "notifications") {
-          navigate("/404");
-        }
-    }
-  };
 
-  // Tạo menu từ items và gắn sự kiện onClick trực tiếp
-  const items = [
+  const [currentMain, setCurrentMain] = useState("home");
+  const [currentRight, setCurrentRight] = useState("");
+
+  // Utility functions to get values from localStorage
+  const getIsAdmin = () => localStorage.getItem("isAdmin") === "true";
+  const getAccessToken = () => localStorage.getItem("accessToken");
+
+  // Define mainMenuItems first
+  const mainMenuItems = [
     {
       label: "Trang Chủ",
       key: "home",
@@ -122,8 +78,11 @@ function Header() {
     },
   ];
 
-  // Thêm các items bên phải
-  const rightItems = [
+  // Define mainMenuKeys after mainMenuItems
+  const mainMenuKeys = mainMenuItems.map((item) => item.key);
+
+  // Define rightMenuItems
+  const rightMenuItems = [
     ...(roleAdmin
       ? [
           {
@@ -141,8 +100,8 @@ function Header() {
       key: "iconUser",
       children: [
         {
-          key: !!!accessToken ? "login" : "logout",
-          label: !!!accessToken ? "Đăng nhập" : "Đăng xuất",
+          key: !accessToken ? "login" : "logout",
+          label: !accessToken ? "Đăng nhập" : "Đăng xuất",
         },
         ...(roleAdmin
           ? [
@@ -156,17 +115,90 @@ function Header() {
     },
   ];
 
+  // Define mainMenuKeys and rightMenuKeys if necessary
+  // Mapping submenu keys to their parent keys
+  const submenuKeyToParentKey = {
+    price: "service",
+    weddingAlbum: "service",
+    photo: "portfolio",
+  };
+
+  const handleItemClick = (e) => {
+    if (submenuKeyToParentKey[e.key]) {
+      // Nếu là submenu, set selected key cho Main Menu là parent key
+      setCurrentMain(submenuKeyToParentKey[e.key]);
+      setCurrentRight(e.key);
+    } else if (mainMenuKeys.includes(e.key)) {
+      // Nếu là main menu, set selected key cho Main Menu
+      setCurrentMain(e.key);
+      setCurrentRight("");
+    } else {
+      // Nếu là right menu, set selected key cho Right Menu
+      setCurrentRight(e.key);
+    }
+
+    // Xử lý điều hướng dựa trên key
+    switch (e.key) {
+      case "home":
+        navigate("/");
+        break;
+      case "price":
+        navigate("/service/pricing");
+        break;
+      case "weddingAlbum":
+        navigate("/service/album");
+        break;
+      case "photo":
+        navigate("/portfolio/photography");
+        break;
+      case "store":
+        navigate("/dress-style");
+        break;
+      case "story":
+        navigate("/story-tips");
+        break;
+      case "contact":
+        navigate("/contact");
+        break;
+      case "login":
+        navigate("/auth/login");
+        break;
+      case "logout":
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("isAdmin");
+        navigate("/auth/login");
+        break;
+      case "control":
+        navigate("/admin/user-management");
+        break;
+      case "iconCart":
+        navigate("/shopping-cart/shoppingcart");
+        break;
+      case "notifications":
+        navigate("/admin/notifications");
+        break;
+      default:
+        if (e.key !== "iconUser" && e.key !== "notifications") {
+          navigate("/404");
+        }
+    }
+  };
+
   return (
     <div className="header-container">
+      {/* Logo */}
       <div onClick={() => navigate("/")} className="logo">
         <img src={logoImage} alt="A-Z Studio" className="logo-image" />
       </div>
+
+      {/* Navbar */}
       <div className="navbar">
+        {/* Main Menu */}
         <Menu
           onClick={handleItemClick}
-          selectedKeys={[current]} // Hiển thị mục đang chọn
+          selectedKeys={[currentMain]}
           mode="horizontal"
-          items={[...items, ...rightItems]} // Kết hợp menu items chính và items bên phải
+          items={mainMenuItems}
           className="main-menu"
         />
         <Badge count={3}>
@@ -221,6 +253,15 @@ function Header() {
             />
           </div>
         </Modal>
+
+        {/* Right Menu */}
+        <Menu
+          onClick={handleItemClick}
+          selectedKeys={[currentRight]}
+          mode="horizontal"
+          items={rightMenuItems}
+          className="right-menu"
+        />
       </div>
     </div>
   );

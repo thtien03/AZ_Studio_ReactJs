@@ -185,27 +185,44 @@
     padding: 40px 20px;
 }
 
+/* Style cho phần menu filter category */
 .category-menu {
     display: flex;
+    gap: 10px;
+    margin: 20px 0;
     justify-content: center;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.category-button {
+  }
+  
+  .category-button {
+    background-color: #f0f0f0; /* Màu nền mặc định */
+    color: #333; /* Màu chữ mặc định */
+    border: 1px solid #ccc; /* Viền mờ */
     padding: 10px 20px;
-    cursor: pointer;
-    background-color: #f0f0f0;
-    border: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
-}
-
-.category-button.active {
-    background-color: #333;
-    color: #fff;
-}
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  /* Màu sắc khi nút được chọn */
+  .category-button.active {
+    background-color: #000000; /* Màu nền nổi bật khi chọn (màu cam tươi) */
+    color: white; /* Màu chữ khi chọn */
+    border-color: #989898; /* Viền cùng màu với nền */
+  }
+  
+  /* Hiệu ứng hover */
+  .category-button:hover {
+    background-color: #e0e0e0; /* Màu nền sáng hơn khi hover */
+    border-color: #bbb; /* Màu viền khi hover */
+  }
+  
+  /* Hiệu ứng khi hover vào nút đã chọn */
+  .category-button.active:hover {
+    background-color: #000000; /* Màu sắc sáng hơn khi hover vào nút đã chọn */
+    border-color: #ff6347;
+  }
+  
 
 .product-grid {
     column-count: 3;

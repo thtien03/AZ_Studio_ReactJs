@@ -1,39 +1,132 @@
-/* Thêm CSS cho giỏ hàng */
-.ant-table-thead > tr > th {
-    background-color: #f4f4f4;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .ant-table-tbody > tr > td {
-    vertical-align: middle;
-  }
-  
-  .ant-table-row {
-    cursor: pointer;
-  }
-  
-  .ant-btn-primary {
-    background-color: #4caf50;
-    border-color: #4caf50;
-  }
-  
-  .ant-btn-danger {
-    background-color: #f44336;
-    border-color: #f44336;
+/* Tổng thể */
+.cart-container {
+  display: flex; /* Tạo bố cục 2 cột */
+  flex-wrap: wrap; /* Đảm bảo bố cục linh hoạt */
+  gap: 20px; /* Khoảng cách giữa các cột */
+  max-width: 1500px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Cột bên trái */
+.cart-left {
+  flex: 3; /* Chiếm 3 phần không gian */
+  min-width: 65%; /* Đảm bảo tối thiểu chiều rộng */
+}
+
+/* Cột bên phải */
+.cart-right {
+  flex: 1; /* Chiếm 1 phần không gian */
+  min-width: 25%; /* Đảm bảo tối thiểu chiều rộng */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Khoảng cách giữa các thành phần */
+}
+
+.ant-table-row:hover {
+  background-color: #f5f5f5;
+}
+/* Nút bấm */
+.ant-btn-primary {
+ background-color: #0eabee;
+  border-color: #acacac;
+  color: rgb(224, 243, 242);
+  font-weight: bold;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.ant-btn-primary:hover {
+  background-color: #45a049;
+  border-color: #45a049;
+}
+
+.ant-btn-danger {
+  background-color: #45a049;
+  border-color: #45a049;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  justify-items: center;
+}
+
+.ant-btn-danger:hover {
+  background-color: #45e311;
+  border-color: #45e311;
+}
+
+/* Mã giảm giá */
+.discount-section {
+  padding: 20px;
+  background-color: hsl(0, 100%, 99%);
+  border: 1px solid #a5d4e5;
+  border-radius: 8px;
+}
+
+.discount-section .ant-input {
+  width: 230px; /* Đảm bảo input không vượt ra ngoài */
+  /* max-width: 800px; Đặt kích thước tối đa */
+  border-radius: 6px;
+}
+.discount-section .ant-btn {
+  width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+  max-width: 300px; /* Đặt kích thước tối đa */
+  border-radius: 6px;
+}
+
+/* Tổng cộng và hành động */
+.total-section {
+  padding: 20px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.total-section .ant-typography {
+  font-size: 1.5rem; /* Tăng kích thước chữ */
+  font-weight: bold; /* Tô đậm tổng giá tiền */
+  color: #4caf50;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+  .cart-container {
+    flex-direction: column;
   }
 
-  /* Tùy chỉnh thông báo */
-.ant-notification-notice {
-    background-color: #f1f1f1;
-    border-left: 4px solid #4caf50;
+  .cart-left,
+  .cart-right {
+    flex: none;
+    width: 100%;
   }
-  
-  .ant-notification-notice-message {
-    font-weight: bold;
+
+  .ant-btn-primary,
+  .ant-btn-danger {
+    width: 100%;
   }
-  
-  .ant-notification-notice-description {
-    font-size: 0.9rem;
-  }
-  
+}
+
+/* Nút bấm Xóa */
+.ant-btn-link {
+  font-size: 1rem; /* Giảm kích thước chữ */
+  padding: 0; /* Giảm padding */
+  line-height: 1; /* Giảm chiều cao dòng */
+  width: 100%;
+  color: #ff4d4f; /* Màu sắc cho nút xóa */
+}
+/* Các input trong bảng */
+.ant-input-number,
+.ant-input {
+  height: 90px; /* Giảm chiều cao của input */
+  font-size: 0.9rem; /* Giảm kích thước chữ */
+}
