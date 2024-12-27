@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Menu } from "antd";
+import React, { useState } from "react";
+import { Menu, message } from "antd";
 import { UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import "./Header.css";
 import logoImage from "../../assets/images/logo.png";
@@ -18,7 +18,7 @@ function Header() {
   const roleAdmin = getIsAdmin();
   const accessToken = getAccessToken();
 
-  // Define mainMenuItems first
+  // Define mainMenuItems
   const mainMenuItems = [
     {
       label: "Trang Chủ",
@@ -53,7 +53,6 @@ function Header() {
     },
   ];
 
-  // Define mainMenuKeys after mainMenuItems
   const mainMenuKeys = mainMenuItems.map((item) => item.key);
 
   // Define rightMenuItems
@@ -85,13 +84,16 @@ function Header() {
                 label: "Bảng điều khiển",
               },
             ]
-          : []),
+          : [
+              {
+                key: "gallery",
+                label: "Thư viện ảnh",
+              },
+            ]),
       ],
     },
   ];
 
-  // Define mainMenuKeys and rightMenuKeys if necessary
-  // Mapping submenu keys to their parent keys
   const submenuKeyToParentKey = {
     price: "service",
     weddingAlbum: "service",
@@ -100,19 +102,15 @@ function Header() {
 
   const handleItemClick = (e) => {
     if (submenuKeyToParentKey[e.key]) {
-      // Nếu là submenu, set selected key cho Main Menu là parent key
       setCurrentMain(submenuKeyToParentKey[e.key]);
       setCurrentRight(e.key);
     } else if (mainMenuKeys.includes(e.key)) {
-      // Nếu là main menu, set selected key cho Main Menu
       setCurrentMain(e.key);
       setCurrentRight("");
     } else {
-      // Nếu là right menu, set selected key cho Right Menu
       setCurrentRight(e.key);
     }
 
-    // Xử lý điều hướng dựa trên key
     switch (e.key) {
       case "home":
         navigate("/");
@@ -145,6 +143,14 @@ function Header() {
         break;
       case "control":
         navigate("/admin/user-management");
+        break;
+      case "gallery":
+        if (!accessToken) {
+          message.warning("Vui lòng đăng nhập để truy cập thư viện ảnh.", 2);
+          navigate("/auth/login");
+        } else {
+          navigate("/gallery/gallery");
+        }
         break;
       case "iconCart":
         navigate("/shopping-cart/shoppingcart");
