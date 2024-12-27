@@ -1,13 +1,8 @@
-// src/components/ModalAppointment.jsx
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, DatePicker, Select, Button, message, Upload } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import axios from "axios";
-import io from "socket.io-client";
+import { Modal, Form, Input, DatePicker, Select, Button, message } from "antd";
 import moment from "moment";
-
-// Khởi tạo kết nối Socket.io
-const socket = io("http://localhost:8080"); // Thay đổi URL này theo cấu hình server của bạn
+import { getListServices } from "src/services/service.service";
+import { createAppointmentService } from "src/services/appointment.service";
 
 const ModalAppointment = ({ open, onClose }) => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -17,8 +12,8 @@ const ModalAppointment = ({ open, onClose }) => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/services"); // Thay đổi endpoint nếu cần
-        setListServices(response.data.data);
+        const response = await getListServices(); // API lấy danh sách dịch vụ
+        setListServices(response.data);
       } catch (error) {
         console.error("Error fetching services:", error);
         messageApi.open({
@@ -32,29 +27,16 @@ const ModalAppointment = ({ open, onClose }) => {
 
   const handleSubmitAppointment = async (values) => {
     try {
-      // Chuẩn bị dữ liệu lịch hẹn
       const appointmentData = {
-        fullName: values.fullName,
-        phone: values.phone,
-        email: values.email,
-        appointmentDate: values.appointmentDate.format("YYYY-MM-DD"),
-        serviceId: values.serviceId,
-        // Thêm các trường khác nếu cần (ví dụ: appointmentTime)
+        ...values,
+        appointmentDate: values.appointmentDate.format("YYYY-MM-DD HH:mm"),
       };
-
-      // Gọi API tạo lịch hẹn
-      const response = await axios.post("http://localhost:8080/api/v1/appointments", appointmentData);
-
-      if (response.status === 201) {
-        const newAppointment = response.data.data;
-
-        // Emit sự kiện 'newAppointment' để thông báo tới admin
-        socket.emit("newAppointment", newAppointment);
-
+      const fetchAppointment = await createAppointmentService(appointmentData);
+      if (fetchAppointment) {
         onClose();
         messageApi.open({
           type: "success",
-          content: "Đặt lịch thành công!",
+          content: "Đặt lịch thành công",
         });
         form.resetFields();
       }
@@ -62,21 +44,9 @@ const ModalAppointment = ({ open, onClose }) => {
       console.error("Error creating appointment:", error);
       messageApi.open({
         type: "error",
-        content: error.response?.data?.message || "Lỗi hệ thống, vui lòng thử lại sau!",
+        content: "Lỗi hệ thống, vui lòng thử lại sau!",
       });
     }
-  };
-
-  const uploadProps = {
-    beforeUpload: (file) => {
-      const isImage = file.type.startsWith("image/");
-      if (!isImage) {
-        message.error("Bạn chỉ có thể tải lên hình ảnh!");
-      }
-      return isImage || Upload.LIST_IGNORE;
-    },
-    multiple: true,
-    maxCount: 5, // Giới hạn tối đa 5 hình ảnh (có thể điều chỉnh)
   };
 
   return (
@@ -120,14 +90,40 @@ const ModalAppointment = ({ open, onClose }) => {
             <Input placeholder="Email" />
           </Form.Item>
           <Form.Item
-            label="Ngày đặt lịch"
+            label="Ngày và giờ đặt lịch"
             name="appointmentDate"
-            rules={[{ required: true, message: "Vui lòng chọn ngày đặt lịch!" }]}
+            rules={[{ required: true, message: "Vui lòng chọn ngày và giờ!" }]}
           >
             <DatePicker
               style={{ width: "100%" }}
-              placeholder="Chọn ngày đặt lịch"
-              disabledDate={(current) => current && current < moment().startOf("day")}
+              showTime={{
+                format: "HH:mm",
+                defaultValue: moment().set({ hour: 8, minute: 0 }),
+              }}
+              format="YYYY-MM-DD HH:mm"
+              placeholder="Chọn ngày và giờ"
+              disabledDate={(current) =>
+                current && current < moment().startOf("day")
+              }
+              disabledTime={(date) => {
+                if (date && date.isSame(moment(), "day")) {
+                  const currentHour = moment().hour();
+                  const currentMinute = moment().minute();
+                  return {
+                    disabledHours: () =>
+                      Array.from({ length: 24 }, (_, i) => i).filter(
+                        (h) => h < currentHour
+                      ),
+                    disabledMinutes: (hour) =>
+                      hour === currentHour
+                        ? Array.from({ length: 60 }, (_, i) => i).filter(
+                            (m) => m < currentMinute
+                          )
+                        : [],
+                  };
+                }
+                return {};
+              }}
             />
           </Form.Item>
           <Form.Item
@@ -143,23 +139,6 @@ const ModalAppointment = ({ open, onClose }) => {
                 label: service.name,
               }))}
             />
-          </Form.Item>
-          {/* Bạn có thể thêm trường chọn giờ đặt lịch nếu cần */}
-          <Form.Item
-            label="Hình ảnh"
-            name="images"
-            valuePropName="fileList"
-            getValueFromEvent={(e) => {
-              if (Array.isArray(e)) {
-                return e;
-              }
-              return e && e.fileList;
-            }}
-            rules={[{ required: false }]} // Bạn có thể đặt required tùy theo nhu cầu
-          >
-            <Upload {...uploadProps} listType="picture">
-              <Button icon={<PlusOutlined />}>Chọn hình ảnh</Button>
-            </Upload>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" block>

@@ -3,7 +3,7 @@ import ImageDetail from "src/pages/portfolio/ImageDetail";
 import About from "../pages/about/About";
 import BookingManagement from "../pages/admin/booking-management/BookingManagement";
 import ImageStorage from "../pages/admin/image-storage/ImageStorage";
-import OrderManagement from "../pages/admin/OrderManagement";
+import OrderManagement from "../pages/admin/order-management/OrderManagement";
 import PortfolioManagement from "../pages/admin/portfolio-management/PortfolioManagement";
 import ProductManagement from "../pages/admin/product-management/ProductManagement";
 import RevenueReport from "../pages/admin/revenue-report/RevenueReport";

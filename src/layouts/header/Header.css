@@ -84,6 +84,11 @@
   right: 20px; /* Đảm bảo các icon ở bên phải của navbar */
 }
 
+.btnlogin{
+  text-align: center;
+  justify-items: center;
+}
+
 .navbar-icon {
   font-size: 20px;
   color: #000;

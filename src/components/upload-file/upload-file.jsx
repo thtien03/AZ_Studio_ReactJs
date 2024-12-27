@@ -149,12 +149,9 @@ const UploadFile = ({
           <SlCloudUpload />
         </p>
         <p>
-          <span >
-            Click to upload
-          </span>{" "}
-          or drag and drop
+          <span>Click to upload</span> or drag and drop
         </p>
-        <p >PNG, JPG</p>
+        <p>PNG, JPG</p>
       </Dragger>
       <Modal
         open={previewOpen}

@@ -94,8 +94,8 @@ const AdminDiscount = () => {
     { title: 'Mã giảm giá', dataIndex: 'code', key: 'code' },
     { title: 'Giá trị giảm (%)', dataIndex: 'value', key: 'value' },
     { title: 'Số tiền giảm tối đa (VND)', dataIndex: 'maxDiscount', key: 'maxDiscount' },
-    { title: 'Số lần được sử dụng', dataIndex: 'maxUses', key: 'maxUses' },
-    { title: 'Số lần đã sử dụng', dataIndex: 'usedCount', key: 'usedCount' },
+    { title: 'Còn lại', dataIndex: 'maxUses', key: 'maxUses' },
+    { title: 'Đã sử dụng', dataIndex: 'usedCount', key: 'usedCount' },
     {
       title: 'Thời gian bắt đầu',
       dataIndex: 'startDate',

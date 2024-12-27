@@ -25,7 +25,7 @@ const Contact = () => {
               </div>
               <div>
                 <strong>Phone</strong><br />
-                0123.322.222
+                036.2345.848
               </div>
             </div>
             <div className="contact-item">
@@ -43,7 +43,7 @@ const Contact = () => {
               </div>
               <div>
                 <strong>Địa chỉ</strong><br />
-                130 Hồ Văn Huế, Phường 9, Quận Phú Nhuận, TP. Hồ Chí Minh
+                HUTECH - Đại học Công nghệ TP.HCM,Khu Công nghệ cao XL Hà Nội, Hiệp Phú, Quận 9, Hồ Chí Minh, Việt Nam
               </div>
             </div>
             <div className="contact-item">

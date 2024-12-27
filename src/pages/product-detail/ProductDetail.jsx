@@ -1,38 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, notification } from 'antd';
+import { Button, notification, InputNumber } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import './ProductDetail.css';
-import { getListProductsService, getProductService } from 'src/services/product.service';
-
-// Danh sách sản phẩm giả lập (tương tự DressStyle)
-// const dressStyles = [
-//   { id: 1, imgSrc: require('../../assets/images/A-line1.jpg'), name: 'Áo dài Luxury', price: 1500000, description: 'Áo dài cao cấp với chất liệu thoáng mát.', category: 'aodai', colors: ['Red', 'Blue'], size: 'M', detailImages: [] },
-//   { id: 2, imgSrc: require('../../assets/images/A-line2.jpg'), name: 'Váy cưới Đuôi Cá', price: 1800000, category: 'wedding-dress' },
-// ];
+import { getProductService } from 'src/services/product.service';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Tìm sản phẩm theo ID từ danh sách giả lập
-  // const product = dressStyles.find((item) => item.id === parseInt(id)) || {};
-
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [dataDetail, setDataDetail] = useState(null)
+  const [dataDetail, setDataDetail] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
+  const swiperRef = useRef(null);
 
   const handleAddToCart = () => {
     try {
       const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
-      const existingProductIndex = currentCart.findIndex((item) => item.id ===id);
+      const existingProductIndex = currentCart.findIndex((item) => item.id === id);
 
       if (existingProductIndex !== -1) {
-        currentCart[existingProductIndex].quantity = (currentCart[existingProductIndex].quantity || 1) + 1;
+        currentCart[existingProductIndex].quantity += quantity;
       } else {
-        currentCart.push({ ...dataDetail, quantity: 1 });
+        currentCart.push({ ...dataDetail, quantity });
       }
 
       localStorage.setItem('cart', JSON.stringify(currentCart));
@@ -52,35 +46,34 @@ const ProductDetail = () => {
     }
   };
 
-  // Sử dụng nội dung mặc định nếu thuộc tính không tồn tại
-  // const mainImage = product.detailImages?.[selectedIndex] || product.imgSrc || 'https://via.placeholder.com/300';
-  // const productName = product.name || 'Sản phẩm không có tên';
-  // const productDescription = product.description || 'Chưa có mô tả sản phẩm.';
-  // const productPrice = product.price || 0;
-  // const productColors = product.colors || ['Không có màu'];
-  // const productSize = product.size || 'Free Size';
-
   const handleSlideClick = (index) => {
     setSelectedIndex(index);
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideToLoop(index); // Sử dụng slideToLoop để hoạt động với loop
+    }
   };
 
   useEffect(() => {
     const fetchDetailData = async () => {
-      const res = await getProductService(id)
-      console.log(res)
+      const res = await getProductService(id);
+      console.log(res);
       if (res) {
-        setDataDetail(res)
+        setDataDetail(res);
       }
-    }
-    fetchDetailData()
-  }, [])
+    };
+    fetchDetailData();
+  }, [id]);
 
   return (
     <div className="content">
       <div className="product-detail-container">
         <div className="gallery-container">
           <div className="main-image-wrapper">
-            <img src={dataDetail?.images[0]} alt="Main Product" className="main-image" style={{objectFit:"cover"}}/>
+            <img
+              src={dataDetail?.images[selectedIndex]}
+              alt="Main Product"
+              className="main-image"
+            />
           </div>
 
           {dataDetail && (
@@ -90,10 +83,14 @@ const ProductDetail = () => {
               spaceBetween={10}
               className="detail-swiper"
               autoplay={{
-                delay: 1500,
+                delay: 3000,
                 disableOnInteraction: false,
               }}
               loop={true}
+              onSlideChange={(swiper) => setSelectedIndex(swiper.realIndex)}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
             >
               {dataDetail?.images?.map((image, index) => (
                 <SwiperSlide key={index}>
@@ -114,12 +111,7 @@ const ProductDetail = () => {
           <p className="product-description">{dataDetail?.description}</p>
 
           <div className="product-options">
-            {/* <div className="product-colors">
-              <label>Màu Sắc:</label>
-              {productColors.map((color, index) => (
-                <span key={index} className="color-option">{color}</span>
-              ))}
-            </div> */}
+            {/* Nếu bạn muốn giữ lại các tùy chọn khác như màu sắc */}
             <div className="product-size">
               <label>Kích Thước:</label>
               <span>{dataDetail?.size || ""}</span>
@@ -131,8 +123,21 @@ const ProductDetail = () => {
               {dataDetail?.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
             </p>
           </div>
+          {/* Thêm lựa chọn số lượng */}
+          <div className="soluong" style={{ marginTop: '16px' }}>
+              <label>Số lượng:</label>
+              <InputNumber
+                min={1}
+                max={100}
+                value={quantity}
+                onChange={(value) => setQuantity(value)}
+                style={{ marginLeft: '8px' }}
+              />
+            </div>
 
-          <Button type="primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
+          <Button className='btnadd' type="primary" onClick={handleAddToCart}>
+            Thêm vào giỏ hàng
+          </Button>
         </div>
       </div>
     </div>

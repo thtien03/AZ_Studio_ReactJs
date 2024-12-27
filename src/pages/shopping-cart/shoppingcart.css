@@ -127,6 +127,6 @@
 /* Các input trong bảng */
 .ant-input-number,
 .ant-input {
-  height: 90px; /* Giảm chiều cao của input */
+  height: 100%; /* Giảm chiều cao của input */
   font-size: 0.9rem; /* Giảm kích thước chữ */
 }

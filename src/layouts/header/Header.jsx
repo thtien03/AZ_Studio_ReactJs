@@ -1,13 +1,43 @@
-import React, { useState } from "react";
-import { Menu, message } from "antd";
-import { UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import "./Header.css";
-import logoImage from "../../assets/images/logo.png";
+import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import { Badge, List, Menu, Modal, Select, Tag,message } from "antd";
+import { useState } from "react";
+import { FaBell } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import logoImage from "../../assets/images/logo.png";
 import NotificationBell from "../../pages/admin/notification-management/NotificationBell";
-
+import "./Header.css";
+const notifications = [
+  {
+    id: 1,
+    message: "Đơn hàng của bạn đã được xác nhận.",
+    status: "Đã xem",
+    time: "19/12/2024 08:00",
+    isRead: true,
+  },
+  {
+    id: 2,
+    message: "Đơn hàng của bạn đang được giao.",
+    status: "Chưa xem",
+    time: "19/12/2024 10:00",
+    isRead: false,
+  },
+  {
+    id: 3,
+    message: "Đơn hàng đã được giao thành công.",
+    status: "Chưa xem",
+    time: "18/12/2024 15:30",
+    isRead: false,
+  },
+];
 function Header() {
   const navigate = useNavigate();
+  const [current, setCurrent] = useState("home"); // Set giá trị mặc định cho current
+  const roleAdmin = localStorage.getItem("isAdmin");
+  const accessToken = localStorage.getItem("accessToken");
+  const [open, setOpen] = useState(false);
+  console.log(!!accessToken);
+  // Hàm xử lý sự kiện cho từng mục và chuyển hướng bằng navigate
+
   const [currentMain, setCurrentMain] = useState("home");
   const [currentRight, setCurrentRight] = useState("");
 
@@ -15,10 +45,7 @@ function Header() {
   const getIsAdmin = () => localStorage.getItem("isAdmin") === "true";
   const getAccessToken = () => localStorage.getItem("accessToken");
 
-  const roleAdmin = getIsAdmin();
-  const accessToken = getAccessToken();
-
-  // Define mainMenuItems
+  // Define mainMenuItems first
   const mainMenuItems = [
     {
       label: "Trang Chủ",
@@ -35,9 +62,7 @@ function Header() {
     {
       label: "Portfolio",
       key: "portfolio",
-      children: [
-        { label: "Photography", key: "photo" },
-      ],
+      children: [{ label: "Photography", key: "photo" }],
     },
     {
       label: "Cửa hàng",
@@ -70,7 +95,7 @@ function Header() {
       key: "iconCart",
     },
     {
-      label: <UserOutlined style={{ fontSize: "20px" }} />,
+      label: <UserOutlined style={{ fontSize: "20px" }} className="btnlogin" />,
       key: "iconUser",
       children: [
         {
@@ -182,6 +207,58 @@ function Header() {
           items={mainMenuItems}
           className="main-menu"
         />
+        {/* <Badge count={3}>
+          <FaBell
+            onClick={() => setOpen(true)}
+            size={20}
+            className="cursor-pointer"
+          />
+        </Badge> */}
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          onCancel={() => setOpen(false)}
+          onOk={() => setOpen(false)}
+          title="Thông báo"
+        >
+          <div className="p-4 max-w-md mx-auto">
+            <Select
+              defaultValue={"all"}
+              className="w-full"
+              placeholder="Filter"
+              options={[
+                {
+                  value: "all",
+                  label: "Tất cả",
+                },
+                {
+                  value: "isRead",
+                  label: "Đã xem",
+                },
+                {
+                  value: "isNotRead",
+                  label: "Chưa xem",
+                },
+              ]}
+            />
+            <List
+              dataSource={notifications}
+              renderItem={(item) => (
+                <List.Item className="border-b last:border-none w-full">
+                  <div className="flex flex-col w-full">
+                    <div className="flex justify-between items-center mb-2 justify-between w-full ">
+                      <span>{item.message}</span>
+                      <Tag color={item.isRead ? "green" : "red"}>
+                        {item.isRead ? "Đã xem" : "Chưa xem"}
+                      </Tag>
+                    </div>
+                    <div className="text-gray-500 text-sm">{item.time}</div>
+                  </div>
+                </List.Item>
+              )}
+            />
+          </div>
+        </Modal>
 
         {/* Right Menu */}
         <Menu

@@ -10,42 +10,80 @@ const BookingManagement = () => {
   const [editingBooking, setEditingBooking] = useState(null);
   const [form] = Form.useForm();
 
-  // Giả lập dữ liệu đặt lịch
+  // Danh sách dịch vụ (có thể được lấy từ API)
+  const services = [
+    {
+      _id: { $oid: "67644a4544736100109365db" },
+      name: "Chụp hình cưới Ngoại cảnh",
+    },
+    {
+      _id: { $oid: "67644ae044736100109365dd" },
+      name: "Chụp ảnh kỷ yếu",
+    },
+    {
+      _id: { $oid: "67644ae044736100109365de" },
+      name: "Chụp ảnh gia đình",
+    },
+  ];
+
+  // Fetch dữ liệu đặt lịch từ API và ánh xạ dịch vụ
   useEffect(() => {
-    const mockBookings = [
-      {
-        id: 1,
-        customerName: 'Nguyễn Văn A',
-        service: 'Chụp ảnh cưới',
-        date: '2024-02-20',
-        time: '09:00',
-        status: 'Đã xác nhận',
-        phone: '0123456789'
-      },
-      // Thêm dữ liệu mẫu khác...
-    ];
-    setBookings(mockBookings);
+    const fetchBookings = async () => {
+      try {
+        // Đây là dữ liệu API giả lập
+        const response = {
+          data: [
+            {
+              fullName: "Trần Hữu Tiến",
+              phone: "0823746291",
+              appointmentDate: "2024-12-30T17:00:00.000Z",
+              serviceId: "67644a4544736100109365db",
+              _id: "676ee0223ce6e042e6418f23",
+            },
+          ],
+        };
+
+        // Ánh xạ serviceId -> serviceName
+        const formattedData = response.data.map((booking) => {
+          const service = services.find(
+            (service) => service._id.$oid === booking.serviceId
+          );
+          return {
+            ...booking,
+            serviceName: service ? service.name : "Không rõ",
+            appointmentDate: moment(booking.appointmentDate).format('YYYY-MM-DD'),
+            time: moment(booking.appointmentDate).format('HH:mm'),
+          };
+        });
+
+        setBookings(formattedData);
+      } catch (error) {
+        message.error("Lỗi khi tải dữ liệu đặt lịch!");
+      }
+    };
+
+    fetchBookings();
   }, []);
 
   const columns = [
     {
       title: 'ID',
-      dataIndex: 'id',
+      dataIndex: '_id',
       key: 'id',
     },
     {
       title: 'Tên khách hàng',
-      dataIndex: 'customerName',
+      dataIndex: 'fullName',
       key: 'customerName',
     },
     {
       title: 'Dịch vụ',
-      dataIndex: 'service',
+      dataIndex: 'serviceName',
       key: 'service',
     },
     {
       title: 'Ngày',
-      dataIndex: 'date',
+      dataIndex: 'appointmentDate',
       key: 'date',
     },
     {
@@ -57,6 +95,7 @@ const BookingManagement = () => {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
+      render: (_, record) => record.status || "Chờ xác nhận",
     },
     {
       title: 'Thao tác',
@@ -64,10 +103,10 @@ const BookingManagement = () => {
       render: (_, record) => (
         <>
           <Button type="primary" onClick={() => handleEdit(record)} style={{ marginRight: 8 }}>
-            Sửa
+            Xác nhận
           </Button>
-          <Button type="primary" danger onClick={() => handleDelete(record.id)}>
-            Xóa
+          <Button type="primary" danger onClick={() => handleDelete(record._id)}>
+            Hủy
           </Button>
         </>
       ),
@@ -78,29 +117,30 @@ const BookingManagement = () => {
     setEditingBooking(booking);
     form.setFieldsValue({
       ...booking,
-      date: moment(booking.date)
+      date: moment(booking.appointmentDate),
     });
     setIsModalVisible(true);
   };
 
   const handleDelete = (id) => {
-    setBookings(bookings.filter(booking => booking.id !== id));
+    setBookings(bookings.filter(booking => booking._id !== id));
     message.success('Đã xóa đặt lịch thành công');
   };
 
   const handleModalOk = () => {
     form.validateFields().then(values => {
       const updatedBookings = bookings.map(booking => {
-        if (booking.id === editingBooking.id) {
+        if (booking._id === editingBooking._id) {
           return {
             ...booking,
             ...values,
-            date: values.date.format('YYYY-MM-DD')
+            appointmentDate: values.date.format('YYYY-MM-DD'),
+            time: values.date.format('HH:mm'),
           };
         }
         return booking;
       });
-      
+
       setBookings(updatedBookings);
       setIsModalVisible(false);
       form.resetFields();
@@ -113,7 +153,7 @@ const BookingManagement = () => {
     <div className="booking-management-container">
       <h2 className="booking-management-title">Quản Lý Đặt Lịch</h2>
       
-      <Table columns={columns} dataSource={bookings} />
+      <Table columns={columns} dataSource={bookings} rowKey="_id" />
 
       <Modal
         title="Chỉnh sửa thông tin đặt lịch"
@@ -127,21 +167,23 @@ const BookingManagement = () => {
       >
         <Form form={form} layout="vertical">
           <Form.Item
-            name="customerName"
+            name="fullName"
             label="Tên khách hàng"
             rules={[{ required: true, message: 'Vui lòng nhập tên khách hàng!' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name="service"
+            name="serviceId"
             label="Dịch vụ"
             rules={[{ required: true, message: 'Vui lòng chọn dịch vụ!' }]}
           >
             <Select>
-              <Select.Option value="Chụp ảnh cưới">Chụp ảnh cưới</Select.Option>
-              <Select.Option value="Chụp ảnh kỷ yếu">Chụp ảnh kỷ yếu</Select.Option>
-              <Select.Option value="Chụp ảnh gia đình">Chụp ảnh gia đình</Select.Option>
+              {services.map((service) => (
+                <Select.Option key={service._id.$oid} value={service._id.$oid}>
+                  {service.name}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
@@ -150,18 +192,6 @@ const BookingManagement = () => {
             rules={[{ required: true, message: 'Vui lòng chọn ngày!' }]}
           >
             <DatePicker format="YYYY-MM-DD" />
-          </Form.Item>
-          <Form.Item
-            name="time"
-            label="Giờ"
-            rules={[{ required: true, message: 'Vui lòng chọn giờ!' }]}
-          >
-            <Select>
-              <Select.Option value="09:00">09:00</Select.Option>
-              <Select.Option value="10:00">10:00</Select.Option>
-              <Select.Option value="14:00">14:00</Select.Option>
-              <Select.Option value="15:00">15:00</Select.Option>
-            </Select>
           </Form.Item>
           <Form.Item
             name="status"

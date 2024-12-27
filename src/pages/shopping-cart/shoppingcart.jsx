@@ -75,10 +75,17 @@ console.log("check cart",cartItems)
     });
   };
 
-  const handleDelete = (id) => {
-    setItemToDelete(id);
-    setIsModalVisible(true);
-  };
+  const handleDelete = (idToDelete) => { // Đổi tên biến thành idToDelete cho rõ ràng
+    const newCartItems = cartItems.filter((item) => item.id !== idToDelete);
+
+    setCartItems(newCartItems);
+    localStorage.setItem("cart", JSON.stringify(newCartItems));
+    notification.success({
+        message: "Xóa thành công",
+        description: "Sản phẩm đã được xóa khỏi giỏ hàng.",
+        duration: 2,
+    });
+};
 
   const handleConfirmDelete = () => {
     const newCartItems = cartItems.filter((item) => item.id !== itemToDelete);
