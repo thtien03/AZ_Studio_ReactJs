@@ -1,20 +1,36 @@
 import { useState } from "react";
 import LockIcon from "@mui/icons-material/Lock";
 import UploadIcon from "@mui/icons-material/Upload";
-import { Popconfirm, Table, Tag, Tooltip, Modal, Form, Input, Upload, Button, message } from "antd";
+import {
+  Popconfirm,
+  Table,
+  Tag,
+  Tooltip,
+  Modal,
+  Form,
+  Input,
+  Upload,
+  Button,
+  message,
+} from "antd";
+import EyeIcon from "@mui/icons-material/Visibility";
 import { PlusOutlined } from "@ant-design/icons";
 import "./UserManagement.css";
 import { usePagination } from "src/hook/usePagination.hook";
 import { getListUsers, lockUserService } from "src/services/user.service";
-import UploadFile from 'src/components/upload-file/upload-file';
+import UploadFile from "src/components/upload-file/upload-file";
+import { useNavigate } from "react-router-dom";
+import { createLibrary } from "src/services/library.service";
 
 const UserManagement = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [form] = Form.useForm();
   const [filesDetail, setFilesDetail] = useState([]); // Hình ảnh khách hàng
+  const [files, setFiles] = useState([]);
 
   const {
     data: listUsers,
@@ -28,8 +44,6 @@ const UserManagement = () => {
     },
     getListUsers
   );
-
-  console.log(listUsers);
 
   const columns = [
     {
@@ -86,26 +100,25 @@ const UserManagement = () => {
     setCurrentUser(null);
   };
 
-  const handleFinish = (values) => {
-    // Xử lý dữ liệu từ form tại đây
-    console.log("Thông tin tải lên:", values);
-    message.success("Tải lên thành công!");
-    handleCancel();
-  };
-
-  const uploadProps = {
-    beforeUpload: (file) => {
-      const isImage = file.type.startsWith('image/');
-      if (!isImage) {
-        message.error("Bạn chỉ có thể tải lên hình ảnh!");
+  const handleFinish = async (values) => {
+    // // Xử lý dữ liệu từ form tại đây
+    // console.log("Thông tin tải lên:", values);
+    // message.success("Tải lên thành công!");
+    try {
+      const res = await createLibrary(
+        currentUser?.name,
+        values?.category,
+        currentUser?.name,
+        files
+      );
+      if (res) {
+        message.success("Thêm thư mục hình ảnh khách hàng thành công!");
+        handleCancel();
       }
-      return isImage || Upload.LIST_IGNORE;
-    },
-    // Cho phép tải lên nhiều hình ảnh
-    multiple: true,
-    // Loại bỏ giới hạn số lượng hình ảnh hoặc đặt giới hạn tùy ý
-    // maxCount: 5, // Ví dụ: giới hạn tối đa 5 hình ảnh
-    // Nếu bạn muốn không giới hạn số lượng, hãy bỏ qua maxCount
+    } catch (error) {
+      console.log("error", error);
+      message.error("Thêm thư mục hình ảnh khách hàng thất bại!");
+    }
   };
 
   return (
@@ -166,6 +179,20 @@ const UserManagement = () => {
                     onClick={() => handleUpload(record)}
                   />
                 </Tooltip>
+                {/* Biểu tượng Xem chi tiết */}
+                <Tooltip title="Xem chi tiết">
+                  <EyeIcon
+                    style={{
+                      cursor: "pointer",
+                      width: 20,
+                      height: 20,
+                      color: "#52c41a",
+                    }}
+                    onClick={() => {
+                      window.open(`/gallery/${record.username}`, "_blank");
+                    }}
+                  />
+                </Tooltip>
               </div>
             ),
             width: 150,
@@ -193,30 +220,16 @@ const UserManagement = () => {
         footer={null}
         destroyOnClose
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleFinish}
-        >
+        <Form form={form} layout="vertical" onFinish={handleFinish}>
           <Form.Item
-            name="title"
-            label="Tiêu đề"
-            rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
+            name="category"
+            label="Danh mục"
+            rules={[{ required: true, message: "Vui lòng nhập danh mục!" }]}
           >
-            <Input placeholder="Nhập tiêu đề" />
+            <Input placeholder="Nhập danh mục" />
           </Form.Item>
 
-          <Form.Item
-            name="description"
-            label="Mô tả"
-            rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
-          >
-            <Input.TextArea rows={4} placeholder="Nhập mô tả" />
-          </Form.Item>
-
-          <UploadFile
-              setFiles={setFilesDetail}
-            />
+          <UploadFile setFiles={setFiles} files={files} />
           <Form.Item>
             <Button type="primary" htmlType="submit" block>
               Tải lên

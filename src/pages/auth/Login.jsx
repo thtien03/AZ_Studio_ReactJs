@@ -13,11 +13,13 @@ const Login = () => {
   const onFinish = async (values) => {
     try {
       const fetchLogin = await loginService(values);
+      console.log(fetchLogin);
       if (fetchLogin) {
         form.resetFields();
         navigate("/");
         localStorage.setItem("accessToken", fetchLogin.accessToken);
         localStorage.setItem("isAdmin", fetchLogin.isAdmin);
+        localStorage.setItem("username", fetchLogin?.username);
         messageApi.open({
           type: "success",
           content: "Đăng nhập thành công",

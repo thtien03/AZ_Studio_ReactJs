@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
-import { UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import "./Header.css";
-import logoImage from "../../assets/images/logo.png";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logoImage from "../../assets/images/logo.png";
 import NotificationBell from "../../pages/admin/notification-management/NotificationBell";
+import "./Header.css";
 
 function Header() {
+  const username = localStorage.getItem("username");
   const navigate = useNavigate();
   const [currentMain, setCurrentMain] = useState("home");
   const [currentRight, setCurrentRight] = useState("");
@@ -35,9 +36,7 @@ function Header() {
     {
       label: "Portfolio",
       key: "portfolio",
-      children: [
-        { label: "Photography", key: "photo" },
-      ],
+      children: [{ label: "Photography", key: "photo" }],
     },
     {
       label: "Cửa hàng",
@@ -145,7 +144,7 @@ function Header() {
         navigate("/admin/user-management");
         break;
       case "gallery":
-        navigate("/gallery/gallery");
+        navigate(`/gallery/${username}`);
         break;
       case "iconCart":
         navigate("/shopping-cart/shoppingcart");
