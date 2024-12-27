@@ -1,4 +1,3 @@
-// src/pages/admin/BookingManagement.jsx
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, Select, DatePicker, message } from 'antd';
 import moment from 'moment';
@@ -10,7 +9,6 @@ const BookingManagement = () => {
   const [editingBooking, setEditingBooking] = useState(null);
   const [form] = Form.useForm();
 
-  // Danh sách dịch vụ (có thể được lấy từ API)
   const services = [
     {
       _id: { $oid: "67644a4544736100109365db" },
@@ -26,16 +24,15 @@ const BookingManagement = () => {
     },
   ];
 
-  // Fetch dữ liệu đặt lịch từ API và ánh xạ dịch vụ
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        // Đây là dữ liệu API giả lập
         const response = {
           data: [
             {
               fullName: "Trần Hữu Tiến",
               phone: "0823746291",
+              email: "tranhuutien@gmail.com",
               appointmentDate: "2024-12-30T17:00:00.000Z",
               serviceId: "67644a4544736100109365db",
               _id: "676ee0223ce6e042e6418f23",
@@ -43,7 +40,6 @@ const BookingManagement = () => {
           ],
         };
 
-        // Ánh xạ serviceId -> serviceName
         const formattedData = response.data.map((booking) => {
           const service = services.find(
             (service) => service._id.$oid === booking.serviceId
@@ -66,31 +62,13 @@ const BookingManagement = () => {
   }, []);
 
   const columns = [
-    {
-      title: 'ID',
-      dataIndex: '_id',
-      key: 'id',
-    },
-    {
-      title: 'Tên khách hàng',
-      dataIndex: 'fullName',
-      key: 'customerName',
-    },
-    {
-      title: 'Dịch vụ',
-      dataIndex: 'serviceName',
-      key: 'service',
-    },
-    {
-      title: 'Ngày',
-      dataIndex: 'appointmentDate',
-      key: 'date',
-    },
-    {
-      title: 'Giờ',
-      dataIndex: 'time',
-      key: 'time',
-    },
+    { title: 'ID', dataIndex: '_id', key: 'id' },
+    { title: 'Tên khách hàng', dataIndex: 'fullName', key: 'customerName' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Số điện thoại', dataIndex: 'phone', key: 'phone' },
+    { title: 'Dịch vụ', dataIndex: 'serviceName', key: 'service' },
+    { title: 'Ngày', dataIndex: 'appointmentDate', key: 'date' },
+    { title: 'Giờ', dataIndex: 'time', key: 'time' },
     {
       title: 'Trạng thái',
       dataIndex: 'status',
@@ -117,25 +95,24 @@ const BookingManagement = () => {
     setEditingBooking(booking);
     form.setFieldsValue({
       ...booking,
-      date: moment(booking.appointmentDate),
+      date: moment(booking.appointmentDate, 'YYYY-MM-DD HH:mm'),
     });
     setIsModalVisible(true);
   };
 
   const handleDelete = (id) => {
-    setBookings(bookings.filter(booking => booking._id !== id));
+    setBookings(bookings.filter((booking) => booking._id !== id));
     message.success('Đã xóa đặt lịch thành công');
   };
 
   const handleModalOk = () => {
-    form.validateFields().then(values => {
-      const updatedBookings = bookings.map(booking => {
+    form.validateFields().then((values) => {
+      const updatedBookings = bookings.map((booking) => {
         if (booking._id === editingBooking._id) {
           return {
             ...booking,
             ...values,
-            appointmentDate: values.date.format('YYYY-MM-DD'),
-            time: values.date.format('HH:mm'),
+            appointmentDate: values.date.format('YYYY-MM-DD HH:mm'),
           };
         }
         return booking;
@@ -152,7 +129,7 @@ const BookingManagement = () => {
   return (
     <div className="booking-management-container">
       <h2 className="booking-management-title">Quản Lý Đặt Lịch</h2>
-      
+
       <Table columns={columns} dataSource={bookings} rowKey="_id" />
 
       <Modal
@@ -174,6 +151,20 @@ const BookingManagement = () => {
             <Input />
           </Form.Item>
           <Form.Item
+            name="email"
+            label="Email"
+            rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="phone"
+            label="Số điện thoại"
+            rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
             name="serviceId"
             label="Dịch vụ"
             rules={[{ required: true, message: 'Vui lòng chọn dịch vụ!' }]}
@@ -188,10 +179,32 @@ const BookingManagement = () => {
           </Form.Item>
           <Form.Item
             name="date"
-            label="Ngày"
-            rules={[{ required: true, message: 'Vui lòng chọn ngày!' }]}
+            label="Ngày và giờ"
+            rules={[{ required: true, message: 'Vui lòng chọn ngày và giờ!' }]}
           >
-            <DatePicker format="YYYY-MM-DD" />
+            <DatePicker
+              showTime={{ format: 'HH:mm' }}
+              format="YYYY-MM-DD HH:mm"
+              placeholder="Chọn ngày và giờ"
+              disabledDate={(current) =>
+                current && current < moment().startOf('day')
+              }
+              disabledTime={(current) => {
+                if (current && current.isSame(moment(), 'day')) {
+                  const currentHour = moment().hour();
+                  const currentMinute = moment().minute();
+                  return {
+                    disabledHours: () =>
+                      Array.from({ length: 24 }, (_, i) => i).filter((h) => h < currentHour),
+                    disabledMinutes: (hour) =>
+                      hour === currentHour
+                        ? Array.from({ length: 60 }, (_, i) => i).filter((m) => m < currentMinute)
+                        : [],
+                  };
+                }
+                return {};
+              }}
+            />
           </Form.Item>
           <Form.Item
             name="status"

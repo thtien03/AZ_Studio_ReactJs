@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Badge } from "antd";
+import { Badge, Modal, List, Select, Tag } from "antd";
 import { BellOutlined } from "@ant-design/icons";
-import { Modal, List, Select, Tag } from "antd";
 import "./NotificationBell.css";
-import NotificationDetail from "./NotificationDetail"; // Import detail component
+import NotificationDetail from "./NotificationDetail"; // Component hiển thị chi tiết thông báo
 
 const { Option } = Select;
 
@@ -12,13 +11,13 @@ const NotificationBell = () => {
   const [filter, setFilter] = useState("all");
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [notifications, setNotifications] = useState([
-    { id: 1, message: "Thông báo 1: Đơn hàng của bạn đã được xác nhận.", isRead: true, time: "2024-12-19T08:00:00" },
-    { id: 2, message: "Thông báo 2: Đơn hàng của bạn đang được giao.", isRead: false, time: "2024-12-19T10:00:00" },
-    { id: 3, message: "Thông báo 3: Đơn hàng đã được giao thành công.", isRead: false, time: "2024-12-18T15:30:00" },
+    { id: 1, message: "Đơn hàng của bạn đã được xác nhận.", isRead: true, time: "2024-12-19T08:00:00" },
+    { id: 2, message: "Đơn hàng của bạn đang được giao.", isRead: false, time: "2024-12-19T10:00:00" },
+    { id: 3, message: "Đơn hàng đã được giao thành công.", isRead: false, time: "2024-12-18T15:30:00" },
   ]);
 
   const handleOpenModal = (e) => {
-    e.stopPropagation(); // Ngăn chặn sự kiện click lan rộng
+    e.stopPropagation(); // Ngăn chặn click event ảnh hưởng bên ngoài
     setIsModalVisible(true);
   };
 
@@ -31,24 +30,24 @@ const NotificationBell = () => {
   };
 
   const handleNotificationClick = (notification) => {
-    // Mark notification as read
+    // Đánh dấu thông báo là đã đọc
     setNotifications((prevNotifications) =>
       prevNotifications.map((n) =>
         n.id === notification.id ? { ...n, isRead: true } : n
       )
     );
-    setSelectedNotification(notification); // Set the selected notification
+    setSelectedNotification(notification); // Gán thông báo được chọn
   };
 
   const handleCloseDetail = () => {
-    setSelectedNotification(null); // Clear selected notification
+    setSelectedNotification(null);
   };
 
-  const unreadCount = notifications.filter((notification) => !notification.isRead).length;
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
-  const filteredNotifications = notifications.filter((notification) => {
+  const filteredNotifications = notifications.filter((n) => {
     if (filter === "all") return true;
-    return filter === "read" ? notification.isRead : !notification.isRead;
+    return filter === "read" ? n.isRead : !n.isRead;
   });
 
   const formatDateTime = (dateTime) => {
@@ -63,28 +62,29 @@ const NotificationBell = () => {
 
   return (
     <div
-      onClick={(e) => {
-        e.stopPropagation(); // Ngăn chặn sự kiện click dẫn tới điều hướng
-      }}
+      onClick={(e) => e.stopPropagation()} // Ngăn chặn click ảnh hưởng parent
     >
+      {/* Badge hiển thị số thông báo chưa đọc */}
       <Badge count={unreadCount} offset={[10, 0]}>
         <BellOutlined
           style={{ fontSize: "20px", cursor: "pointer" }}
           onClick={handleOpenModal}
         />
       </Badge>
+
+      {/* Modal hiển thị danh sách thông báo */}
       <Modal
         title="Thông Báo"
         visible={isModalVisible}
         onCancel={handleCloseModal}
         footer={null}
         className="notification-modal"
-        onClick={(e) => e.stopPropagation()} // Ngăn chặn click trên modal lan rộng
       >
+        {/* Bộ lọc thông báo */}
         <div className="filter-container">
           <Select
             defaultValue="all"
-            onChange={(value) => handleFilterChange(value)}
+            onChange={handleFilterChange}
             style={{ width: "100%", marginBottom: "10px" }}
           >
             <Option value="all">Tất cả</Option>
@@ -92,6 +92,8 @@ const NotificationBell = () => {
             <Option value="unread">Chưa xem</Option>
           </Select>
         </div>
+
+        {/* Danh sách thông báo */}
         <List
           dataSource={filteredNotifications}
           renderItem={(item) => (
@@ -114,6 +116,8 @@ const NotificationBell = () => {
           )}
         />
       </Modal>
+
+      {/* Hiển thị chi tiết thông báo */}
       {selectedNotification && (
         <NotificationDetail
           notification={selectedNotification}

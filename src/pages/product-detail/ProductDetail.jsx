@@ -20,22 +20,57 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     try {
+      // Lấy giỏ hàng hiện tại từ localStorage hoặc khởi tạo một mảng rỗng
       const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
-      const existingProductIndex = currentCart.findIndex((item) => item.id === id);
 
-      if (existingProductIndex !== -1) {
-        currentCart[existingProductIndex].quantity += quantity;
-      } else {
-        currentCart.push({ ...dataDetail, quantity });
+      // Đảm bảo rằng dataDetail đã được tải trước khi thực hiện
+      if (!dataDetail) {
+        notification.error({
+          message: 'Lỗi',
+          description: 'Thông tin sản phẩm chưa được tải. Vui lòng thử lại sau.',
+        });
+        return;
       }
 
+      // Lấy id và type của sản phẩm hiện tại
+      const productId = dataDetail._id || dataDetail.id; // Tùy thuộc vào cách bạn lưu trữ id
+      const productType = dataDetail.type;
+
+      // Kiểm tra xem sản phẩm với cùng id và type đã tồn tại trong giỏ hàng chưa
+      const existingProductIndex = currentCart.findIndex(
+        (item) => item._id === productId && item.type === productType
+      );
+
+      if (existingProductIndex !== -1) {
+        // Nếu sản phẩm đã tồn tại, tăng số lượng
+        currentCart[existingProductIndex].quantity += quantity;
+      } else {
+        // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+        currentCart.push({
+          _id: productId,
+          type: productType,
+          name: dataDetail.name,
+          description: dataDetail.description,
+          images: dataDetail.images,
+          categoryId: dataDetail.categoryId,
+          price: dataDetail.price,
+          size: dataDetail.size,
+          detail: dataDetail.detail,
+          quantity: quantity,
+          // Bạn có thể thêm các trường khác nếu cần
+        });
+      }
+
+      // Lưu lại giỏ hàng vào localStorage
       localStorage.setItem('cart', JSON.stringify(currentCart));
 
+      // Hiển thị thông báo thành công
       notification.success({
         message: 'Thành công',
         description: 'Đã thêm sản phẩm vào giỏ hàng',
       });
 
+      // Chuyển hướng đến trang giỏ hàng
       navigate('/shopping-cart/shoppingcart');
     } catch (error) {
       console.error('Lỗi khi thêm vào giỏ hàng:', error);
@@ -55,10 +90,23 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchDetailData = async () => {
-      const res = await getProductService(id);
-      console.log(res);
-      if (res) {
-        setDataDetail(res);
+      try {
+        const res = await getProductService(id);
+        console.log(res);
+        if (res) {
+          setDataDetail(res);
+        } else {
+          notification.error({
+            message: 'Lỗi',
+            description: 'Không tìm thấy thông tin sản phẩm',
+          });
+        }
+      } catch (error) {
+        console.error('Lỗi khi lấy thông tin sản phẩm:', error);
+        notification.error({
+          message: 'Lỗi',
+          description: 'Không thể tải thông tin sản phẩm',
+        });
       }
     };
     fetchDetailData();
@@ -123,17 +171,18 @@ const ProductDetail = () => {
               {dataDetail?.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
             </p>
           </div>
-          {/* Thêm lựa chọn số lượng */}
+
+          {/* Lựa chọn số lượng */}
           <div className="soluong" style={{ marginTop: '16px' }}>
-              <label>Số lượng:</label>
-              <InputNumber
-                min={1}
-                max={100}
-                value={quantity}
-                onChange={(value) => setQuantity(value)}
-                style={{ marginLeft: '8px' }}
-              />
-            </div>
+            <label>Số lượng:</label>
+            <InputNumber
+              min={1}
+              max={100}
+              value={quantity}
+              onChange={(value) => setQuantity(value)}
+              style={{ marginLeft: '8px' }}
+            />
+          </div>
 
           <Button className='btnadd' type="primary" onClick={handleAddToCart}>
             Thêm vào giỏ hàng
