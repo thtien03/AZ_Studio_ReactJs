@@ -1,0 +1,105 @@
+/* Container chính */
+.story-tips-container {
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  background: white; /* Nền trắng cho nội dung phía dưới */
+  overflow: hidden;
+}
+
+/* Phần header với background */
+.story-header {
+  position: relative;
+  text-align: center;
+  background: url('../../assets/images/story.jpg') center/cover no-repeat;
+  height: 500px; /* Chiều cao của phần background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-header h1 {
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 20px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+/* Blog List */
+.blog-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 2 cột cố định */
+  gap: 40px; /* Khoảng cách giữa các mục */
+  padding: 40px;
+}
+
+/* Blog Item */
+.blog-item {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Blog Item Image */
+.blog-item img {
+  width: 100%; /* Chiếm toàn bộ chiều rộng của khung */
+  height: 400px; /* Chiều cao cố định cho ảnh */
+  object-fit: cover; /* Cắt ảnh nếu cần để khớp khung */
+  object-position: center; /* Đặt ảnh hiển thị giữa khung */
+  display: block;
+}
+
+/* Blog Item Content */
+.blog-item-content {
+  padding: 20px;
+  text-align: left;
+}
+
+.blog-item-category {
+  font-size: 0.9rem;
+  color: #999;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.blog-item-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0;
+}
+
+/* Tabs */
+.tabs {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.tabs a {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: #f5f5f5;
+  transition: background 0.3s ease;
+}
+
+.tabs a.active {
+  background: #333;
+  color: white;
+}
+
+.tabs a:hover {
+  background: #ddd;
+}

@@ -30,6 +30,8 @@ import PaymentResult from "src/pages/payment/payment-result";
 import AdminDiscount from "src/pages/admin/discount-management/discount";
 import AdminLayout from "src/layouts/AdminLayout/AdminLayout";
 import OrderHistory from 'src/pages/shopping-cart/OrderHistory';
+import StoryTips from "src/pages/story-tips/StoryTips";
+import BlogDetail from "src/pages/blog-detail/BlogDetail";
 
 const publicRoutes = [
   {
@@ -174,6 +176,14 @@ const publicRoutes = [
   {
     path: "/shopping-cart/OrderHistory",
     component: OrderHistory,
+  },
+  {
+    path: "/story-tips/StoryTips",
+    component: StoryTips,
+  },
+  {
+    path: "/blog/:id",
+    component: BlogDetail,
   }
 ];
 

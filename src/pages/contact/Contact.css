@@ -13,8 +13,8 @@
   height: 600px; /* Adjust height as needed */
   overflow: hidden;
   position: relative; /* Đảm bảo các phần tử con (như cover-image) được căn chỉnh đúng */
-  background: url('../../assets/images/bg-contact.jpg') center/cover no-repeat; /* Thay đổi hình nền */
-  height: 900px; /* Chiều cao của phần hình nền */
+  background: url('../../assets/images/contact1.jpg') center/cover no-repeat; /* Thay đổi hình nền */
+  height: 600px; /* Chiều cao của phần hình nền */
   position: relative; /* Đảm bảo các phần tử con được căn chỉnh đúng */
   border-radius: 10px; /* Bo góc cho phần hình nền */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tạo bóng cho hình nền */

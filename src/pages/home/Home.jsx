@@ -5,7 +5,7 @@ import imgabout2 from "../../assets/images/A-line3.jpg";
 import imgService2 from "../../assets/images/chandung.jpg";
 import imgService3 from "../../assets/images/kyyeu.jpg";
 import imgService4 from "../../assets/images/wedding.jpg";
-import imgService5 from "../../assets/images/53660219479_576283f435_o.jpg";
+import imgService5 from "../../assets/images/2h.jpg";
 import imgService6 from "../../assets/images/home5.jpg";
 import imgBackground from "../../assets/images/slide5.png";
 import imgHome1 from "../../assets/images/slide1.png";

@@ -130,7 +130,7 @@ function Header() {
         navigate("/dress-style");
         break;
       case "story":
-        navigate("/story-tips");
+        navigate("/story-tips/StoryTips");
         break;
       case "contact":
         navigate("/contact");
