@@ -29,12 +29,26 @@ const Cart = () => {
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(savedCart);
-  }, []);
+  
+    // Hợp nhất các sản phẩm có cùng id
+    const mergedCart = savedCart.reduce((acc, item) => {
+      const existingItem = acc.find((i) => i.id === item.id);
+      if (existingItem) {
+        existingItem.quantity += item.quantity;
+      } else {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+  
+    setCartItems(mergedCart);
+    localStorage.setItem("cart", JSON.stringify(mergedCart)); // Lưu lại giỏ hàng đã hợp nhất
+  }, []);  
 
+  // Tính phí vận chuyển
   const calculateShippingFee = (items, method) => {
     const totalWeight = items.reduce(
-      (sum, item) => sum + item.weight * item.quantity,
+      (sum, item) => sum + (item.weight || 1) * item.quantity, // Nếu không có `weight`, mặc định là 1
       0
     );
     const baseFee = calculateShippingByWeight(totalWeight);
@@ -46,7 +60,7 @@ const Cart = () => {
     if (weight <= 1) return 15000;
     else if (weight <= 5) return 30000;
     else if (weight <= 10) return 50000;
-    else return 100000;
+    return 100000;
   };
 
   const calculateShippingByMethod = (method) => {
@@ -60,21 +74,30 @@ const Cart = () => {
     }
   };
 
+  // Xử lý thay đổi số lượng sản phẩm
   const handleQuantityChange = (value, id) => {
+    if (value <= 0) {
+      notification.warning({
+        message: "Cảnh báo",
+        description: "Số lượng không thể nhỏ hơn 1.",
+      });
+      return;
+    }
+
     const newCartItems = cartItems.map((item) =>
       item.id === id ? { ...item, quantity: value } : item
     );
+
     setCartItems(newCartItems);
     localStorage.setItem("cart", JSON.stringify(newCartItems));
+
     notification.success({
       message: "Cập nhật thành công",
-      description: `Số lượng của sản phẩm "${newCartItems.find(
-        (item) => item.id === id
-      ).name}" đã được thay đổi.`,
-      duration: 2,
+      description: `Số lượng sản phẩm "${newCartItems.find((item) => item.id === id).name}" đã được thay đổi.`,
     });
   };
 
+  // Xử lý xóa sản phẩm
   const handleDelete = (id) => {
     setItemToDelete(id);
     setIsModalVisible(true);
@@ -85,22 +108,20 @@ const Cart = () => {
     setCartItems(newCartItems);
     localStorage.setItem("cart", JSON.stringify(newCartItems));
     setIsModalVisible(false);
+
     notification.success({
       message: "Xóa thành công",
       description: "Sản phẩm đã được xóa khỏi giỏ hàng.",
-      duration: 2,
     });
   };
 
+  // Áp dụng mã giảm giá
   const handleApplyDiscount = async () => {
     try {
-      console.log("Applying discount with code:", discountCode);
-
-      if (!discountCode) {
+      if (!discountCode.trim()) {
         notification.warning({
           message: "Mã giảm giá trống",
           description: "Vui lòng nhập mã giảm giá trước khi áp dụng.",
-          duration: 2,
         });
         return;
       }
@@ -116,49 +137,32 @@ const Cart = () => {
 
       const result = await response.json();
 
-      console.log("Discount API response:", result);
-
-      if (!response.ok) {
-        throw new Error(result.message || "Lỗi khi áp dụng mã giảm giá");
+      if (!response.ok || !result.discount) {
+        throw new Error(result.message || "Mã giảm giá không hợp lệ");
       }
 
-      if (result.discount) {
-        const discountPercentage = result.discount.value;
-        const maxDiscount = result.discount.maxDiscount;
+      const { value: discountPercentage, maxDiscount } = result.discount;
 
-        // Tính giá trị giảm dựa trên phần trăm
-        let discountAmount = totalWithoutDiscount * (discountPercentage / 100);
-
-        // Giới hạn bởi giảm tối đa (nếu có)
-        if (maxDiscount && discountAmount > maxDiscount) {
-          discountAmount = maxDiscount;
-        }
-
-        setDiscountValue(discountAmount);
-
-        notification.success({
-          message: "Áp dụng thành công",
-          description: `Bạn đã được giảm ${discountPercentage}% trên tổng giá trị đơn hàng, tối đa ${maxDiscount.toLocaleString()} VND.`,
-          duration: 2,
-        });
-      } else {
-        setDiscountValue(0);
-        notification.error({
-          message: "Mã giảm giá không hợp lệ",
-          description: result.message || "Vui lòng thử mã khác.",
-          duration: 2,
-        });
+      let discountAmount = totalWithoutDiscount * (discountPercentage / 100);
+      if (maxDiscount && discountAmount > maxDiscount) {
+        discountAmount = maxDiscount;
       }
+
+      setDiscountValue(discountAmount);
+
+      notification.success({
+        message: "Áp dụng thành công",
+        description: `Giảm giá ${discountPercentage}% đã được áp dụng.`,
+      });
     } catch (error) {
-      console.error("Error applying discount:", error.message);
       notification.error({
         message: "Lỗi khi áp dụng mã giảm giá",
-        description: error.message || "Vui lòng thử lại sau.",
-        duration: 2,
+        description: error.message || "Vui lòng thử lại.",
       });
     }
   };
 
+  // Tính tổng tiền
   const totalWithoutDiscount = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -166,6 +170,7 @@ const Cart = () => {
   const shippingFee = calculateShippingFee(cartItems, deliveryMethod);
   const total = totalWithoutDiscount - discountValue + shippingFee;
 
+  // Cột hiển thị bảng sản phẩm
   const columns = [
     {
       title: "Hình ảnh",
@@ -175,7 +180,7 @@ const Cart = () => {
         <img
           src={image}
           alt="product"
-          style={{ width: "200px", height: "150px", objectFit: "cover" }}
+          style={{ width: "100px", height: "100px", objectFit: "cover" }}
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = "/images/default-product.jpg";
@@ -197,7 +202,6 @@ const Cart = () => {
           min={1}
           value={quantity}
           onChange={(value) => handleQuantityChange(value, record.id)}
-          style={{ width: "100px" }}
         />
       ),
     },
@@ -228,20 +232,15 @@ const Cart = () => {
     },
   ];
 
-  const handleTabChange = (key) => {
-    if (key === "cart") {
-      navigate("/shopping-cart");
-    } else if (key === "order-history") {
-      navigate("/Shopping-cart/OrderHistory");
-    }
-  };
   return (
     <div>
-      {/* Tabs cho Giỏ hàng và Lịch sử mua hàng */}
       <Tabs
         defaultActiveKey="cart"
-        onChange={handleTabChange}
-        style={{ marginBottom: "20px" }}
+        onChange={(key) =>
+          key === "cart"
+            ? navigate("/shopping-cart")
+            : navigate("/shopping-cart/order-history")
+        }
         items={[
           { key: "cart", label: "Giỏ hàng" },
           { key: "order-history", label: "Lịch sử mua hàng" },
@@ -264,8 +263,8 @@ const Cart = () => {
           <div className="delivery-method">
             <Text strong>Phương thức giao hàng:</Text>
             <Radio.Group
-              onChange={(e) => setDeliveryMethod(e.target.value)}
               value={deliveryMethod}
+              onChange={(e) => setDeliveryMethod(e.target.value)}
             >
               <Radio value="SAVER">Giao hàng tiết kiệm</Radio>
               <Radio value="FAST">Giao hàng nhanh</Radio>
@@ -309,6 +308,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
+
       <Modal
         title="Xác nhận xóa"
         visible={isModalVisible}

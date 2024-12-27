@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, notification } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules'; // Nếu dùng Swiper v9+, import từ 'swiper/modules'
+import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 
@@ -44,7 +44,7 @@ phù hợp để đi làm, dự tiệc, hoặc đi dạo phố. Hãy lựa chọ
       const existingProductIndex = currentCart.findIndex(item => item.id === product.id);
 
       if (existingProductIndex !== -1) {
-        currentCart[existingProductIndex].quantity = (currentCart[existingProductIndex].quantity || 1) + 1;
+        currentCart[existingProductIndex].quantity += 1;
       } else {
         currentCart.push({ ...product, quantity: 1 });
       }
@@ -83,11 +83,9 @@ phù hợp để đi làm, dự tiệc, hoặc đi dạo phố. Hãy lựa chọ
           <div className="main-image-wrapper">
             <img src={mainImage} alt="Main Product" className="main-image" />
           </div>
-
-          {/* Slider sử dụng Swiper với autoplay */}
           <Swiper
             modules={[Autoplay]}
-            slidesPerView={3} 
+            slidesPerView={3}
             spaceBetween={10}
             onSlideChange={handleSlideChange}
             className="detail-swiper"
@@ -95,7 +93,7 @@ phù hợp để đi làm, dự tiệc, hoặc đi dạo phố. Hãy lựa chọ
               delay: 1500,
               disableOnInteraction: false,
             }}
-            loop={true} /* Lặp vô hạn để slider cuộn liên tục */
+            loop={true}
           >
             {product.detailImages.map((image, index) => (
               <SwiperSlide key={index}>
@@ -109,11 +107,9 @@ phù hợp để đi làm, dự tiệc, hoặc đi dạo phố. Hãy lựa chọ
             ))}
           </Swiper>
         </div>
-
         <div className="product-info">
           <h1 className="product-name">{product.name}</h1>
           <p className="product-description">{product.description}</p>
-
           <div className="product-options">
             <div className="product-colors">
               <label>Màu Sắc:</label>
@@ -126,7 +122,6 @@ phù hợp để đi làm, dự tiệc, hoặc đi dạo phố. Hãy lựa chọ
               <span>{product.size}</span>
             </div>
           </div>
-
           <div className="product-pricing">
             <p className="product-price">
               {product.price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
@@ -135,9 +130,7 @@ phù hợp để đi làm, dự tiệc, hoặc đi dạo phố. Hãy lựa chọ
               {product.originalPrice?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
             </p>
           </div>
-
           <Button type="primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
-
           <div className="product-detail-description">
             <h2>Chi Tiết Sản Phẩm</h2>
             <p>{product.detailDescription}</p>
