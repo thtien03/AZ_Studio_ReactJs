@@ -76,7 +76,7 @@ console.log("check cart",cartItems)
   };
 
   const handleDelete = (idToDelete) => { // Đổi tên biến thành idToDelete cho rõ ràng
-    const newCartItems = cartItems.filter((item) => item.id !== idToDelete);
+    const newCartItems = cartItems.filter((item) => item._id !== idToDelete);
 
     setCartItems(newCartItems);
     localStorage.setItem("cart", JSON.stringify(newCartItems));
@@ -88,7 +88,7 @@ console.log("check cart",cartItems)
 };
 
   const handleConfirmDelete = () => {
-    const newCartItems = cartItems.filter((item) => item.id !== itemToDelete);
+    const newCartItems = cartItems.filter((item) => item._id !== itemToDelete);
     setCartItems(newCartItems);
     localStorage.setItem("cart", JSON.stringify(newCartItems));
     setIsModalVisible(false);

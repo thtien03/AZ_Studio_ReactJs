@@ -1,22 +1,63 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom"; // Để lấy state từ ShoppingCart
+import { useLocation, useNavigate } from "react-router-dom"; // Sử dụng navigate để chuyển hướng
 import { Card, Radio, Input, Button, Form, notification } from "antd";
 import "./PaymentPage.css";
 
 const PaymentPage = () => {
-  const location = useLocation(); // Lấy state từ React Router
+  const location = useLocation();
+  const navigate = useNavigate(); // Điều hướng người dùng sau khi thanh toán
   const [deliveryMethod, setDeliveryMethod] = useState(location.state?.deliveryMethod || "FAST");
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [form] = Form.useForm();
 
-  // Nhận các giá trị từ ShoppingCart
-  const subtotal = location.state?.subtotal || 0; // Tổng tạm tính
-  const shippingFee = location.state?.shippingFee || 0; // Phí vận chuyển
-  const discount = location.state?.discount || 0; // Giảm giá
-  const total = location.state?.total || subtotal + shippingFee - discount; // Tổng thanh toán
+  const subtotal = location.state?.subtotal || 0;
+  const shippingFee = location.state?.shippingFee || 0;
+  const discountValue = location.state?.discount || 0;
+  const total = location.state?.total || subtotal + shippingFee - discountValue;
+
+  const createOrderService = async (orderDetails) => {
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/orders/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderDetails),
+      });
+
+      if (!response.ok) {
+        throw new Error("Không thể tạo đơn hàng. Vui lòng thử lại.");
+      }
+
+      notification.success({
+        message: "Đơn hàng đã được tạo thành công!",
+      });
+
+      // Điều hướng tới trang quản lý đơn hàng
+      navigate("/admin/orders");
+    } catch (error) {
+      console.error("Lỗi tạo đơn hàng:", error);
+      notification.error({
+        message: "Lỗi khi tạo đơn hàng",
+        description: error.message || "Đã xảy ra lỗi trong quá trình tạo đơn hàng.",
+      });
+    }
+  };
 
   const onFinish = async (values) => {
     console.log("User Information:", values);
+
+    const orderDetails = {
+      customerName: values.name,
+      phone: values.phone,
+      address: values.address,
+      note: values.note,
+      subtotal,
+      shippingFee,
+      discount: discountValue,
+      total,
+      paymentMethod,
+      deliveryMethod,
+      status: "Đang xử lý",
+    };
 
     if (paymentMethod === "vnpay") {
       try {
@@ -36,6 +77,8 @@ const PaymentPage = () => {
         const data = await response.json();
 
         if (data.paymentUrl) {
+          // Gửi thông tin đơn hàng trước khi điều hướng VNPay
+          await createOrderService(orderDetails);
           // Chuyển hướng đến cổng thanh toán VNPay
           window.location.href = data.paymentUrl;
         } else {
@@ -52,18 +95,14 @@ const PaymentPage = () => {
         });
       }
     } else {
-      // Xử lý đặt hàng thông thường
-      notification.success({
-        message: "Đặt hàng thành công!",
-        description: "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.",
-      });
+      // Nếu không sử dụng VNPay, tạo đơn hàng trực tiếp
+      await createOrderService(orderDetails);
     }
   };
 
   return (
     <div className="payment-container">
       <div className="payment-column payment-left">
-        {/* User Information */}
         <Card title="Nhập thông tin người nhận" className="user-info-card">
           <Form layout="vertical" form={form} onFinish={onFinish}>
             <Form.Item
@@ -97,7 +136,6 @@ const PaymentPage = () => {
       </div>
 
       <div className="payment-column payment-right">
-        {/* Delivery Method */}
         <Card title="Chọn phương thức giao hàng" className="delivery-method-card">
           <Radio.Group
             onChange={(e) => setDeliveryMethod(e.target.value)}
@@ -108,7 +146,6 @@ const PaymentPage = () => {
           </Radio.Group>
         </Card>
 
-        {/* Payment Method */}
         <Card title="Chọn phương thức thanh toán" className="payment-method-card">
           <Radio.Group
             onChange={(e) => setPaymentMethod(e.target.value)}
@@ -124,11 +161,10 @@ const PaymentPage = () => {
           )}
         </Card>
 
-        {/* Order Summary */}
         <Card className="payment-summary">
           <p>Tạm tính: {subtotal.toLocaleString()} VND</p>
           <p>Phí vận chuyển: {shippingFee.toLocaleString()} VND</p>
-          <p>Giảm giá: {discount.toLocaleString()} VND</p>
+          <p>Giảm giá: {discountValue.toLocaleString()} VND</p>
           <h3>
             Tổng thanh toán: <span>{total.toLocaleString()} VND</span>
           </h3>
@@ -137,7 +173,7 @@ const PaymentPage = () => {
         <Button
           type="primary"
           className="payment-button"
-          onClick={() => form.submit()} // Kích hoạt form
+          onClick={() => form.submit()}
         >
           Tiến hành thanh toán
         </Button>
