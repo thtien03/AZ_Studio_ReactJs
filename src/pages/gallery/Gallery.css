@@ -1,12 +1,9 @@
-
-
 .ant-layout-content {
   width: 100%;
   height: 100%;
 }
 
 .gallery-container {
-
   width: 100vw;
   height: 100vh;
   max-width: unset;
@@ -24,7 +21,6 @@
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-
 }
 
 .gallery-card {
@@ -41,7 +37,7 @@
 .gallery-image {
   cursor: pointer;
   width: 100%;
-  
+
   height: auto;
 }
 
@@ -113,4 +109,8 @@
 .ant-rate-star-first,
 .ant-rate-star-second {
   color: #a3a3a3 !important; /* Giữ màu xám khi hover */
+}
+
+.folder-item:hover {
+  background-color: #e0e3e8 !important;
 }
